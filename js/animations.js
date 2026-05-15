@@ -963,6 +963,13 @@
     });
   }
 
+  function normalizeTeamCardsForAllModes() {
+    each('#team .team-card', function (card) {
+      unwrapTiltInner(card);
+      ensureTeamCardScene(card);
+    });
+  }
+
   function initMobileTeamScrollTilt() {
     if (motionReduced()) return;
     var coarse =
@@ -1130,6 +1137,7 @@
     classifyShowcase();
     classifyTimeline();
     initDocCards();
+    normalizeTeamCardsForAllModes();
 
     animateTechCards();
     animateTeamCards();
