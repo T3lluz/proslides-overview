@@ -513,12 +513,12 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
 }
 @media (max-width: 768px) {
   .tl-track, .tl-fill {
-    left: 1.05rem;
+    left: 1.15rem;
     display: block;
   }
 
   #timeline .tl-row {
-    padding-left: 2.25rem;
+    padding-left: 3.4rem;
   }
 
   #timeline .tl-row:not(:last-child) {
@@ -545,12 +545,18 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
   }
 
   .tl-dot {
-    left: 1.05rem;
+    display: flex !important;
+    left: 1.15rem;
     top: 2.25rem;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 1.7rem;
+    height: 1.7rem;
     font-size: 0.62rem;
     border-width: 2px;
+  }
+
+  #timeline .tl-card {
+    width: calc(100% - 0.15rem);
+    margin-left: 0.05rem;
   }
 
   .tl-dot.is-reached {
@@ -1135,7 +1141,7 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
   }
 
   .arch-svg {
-    touch-action: pan-y;
+    touch-action: none;
   }
 }
 
@@ -1161,6 +1167,139 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
   body > footer .flex {
     flex-wrap: wrap;
     row-gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #team .team-grid {
+    gap: 1rem;
+    perspective: none;
+  }
+
+  #team .team-card {
+    min-height: 0;
+    transform: none;
+    transition: transform 0.16s ease, box-shadow 0.22s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+    overflow: hidden;
+    border-radius: 0.9rem;
+    box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.25);
+  }
+
+  #team .team-card::before,
+  #team .team-card::after,
+  #team .team-card__scene::after,
+  #team .team-card__badge::after,
+  #team .team-card__link::before,
+  #team .team-card__photo-frame::after {
+    display: none !important;
+  }
+
+  #team .team-card__scene {
+    min-height: 0;
+    padding: 1rem;
+    border-radius: inherit;
+    border: 1px solid color-mix(in oklch, var(--border) 88%, transparent);
+    background: var(--card);
+    box-shadow: none;
+  }
+
+  #team .team-card__scene::before {
+    border-color: color-mix(in oklch, var(--border) 90%, transparent);
+    background: var(--card);
+    box-shadow: none;
+  }
+
+  #team .team-card__profile {
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding-bottom: 0.8rem;
+  }
+
+  #team .team-card__photo-frame {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 0.72rem;
+  }
+
+  #team .team-card__name {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  #team .team-card__badge {
+    margin-top: 0.32rem;
+    font-size: 0.64rem;
+  }
+
+  #team .team-card__body {
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
+  #team .team-card__spec {
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  #team .team-card__focus {
+    padding: 0.72rem 0.85rem;
+  }
+
+  #team .team-card__list {
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  #team .team-card__actions {
+    margin-top: 0.75rem;
+    padding-top: 0.8rem;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  #team .team-card__link {
+    width: 100%;
+    padding: 0.62rem 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  #team .team-card.is-mobile-tilting {
+    box-shadow:
+      0 20px 36px -20px rgba(0, 0, 0, 0.35),
+      0 0 0 1px color-mix(in oklch, var(--primary) 16%, transparent);
+    z-index: 12;
+  }
+
+  #team .team-card__handle {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.55rem;
+    z-index: 4;
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in oklch, var(--border) 78%, transparent);
+    border-radius: 0.6rem;
+    background: color-mix(in oklch, var(--card) 88%, var(--muted));
+    color: var(--muted-foreground);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  #team .team-card__handle:active {
+    color: var(--foreground);
+    border-color: color-mix(in oklch, var(--primary) 40%, var(--border));
+    background: color-mix(in oklch, var(--accent) 88%, transparent);
+  }
+
+  #team .team-card__handle svg {
+    width: 1rem;
+    height: 1rem;
   }
 }
 

@@ -14,6 +14,8 @@
 
   var canHover =
     window.matchMedia && window.matchMedia('(hover: hover)').matches;
+  var hasCoarsePointer =
+    window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
   function each(sel, cb) {
     document.querySelectorAll(sel).forEach(cb);
@@ -700,6 +702,8 @@
 
     var activeIndex = -1;
     var inTimeline  = false;
+    var MOBILE_FOCUS_ANCHOR = 0.5;
+    var MOBILE_FOCUS_ZONE = 0.2;
 
     var tlAppearObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -715,6 +719,9 @@
 
     function isInTimelineView() {
       var r = section.getBoundingClientRect();
+      if (window.innerWidth <= 768) {
+        return r.top < window.innerHeight * 0.85 && r.bottom > window.innerHeight * 0.15;
+      }
       return r.top < window.innerHeight * 0.72 && r.bottom > window.innerHeight * 0.28;
     }
 
@@ -742,6 +749,32 @@
     }
 
     function focusCandidateIndex() {
+      if (window.innerWidth <= 768) {
+        var centerMobile = window.innerHeight * MOBILE_FOCUS_ANCHOR;
+        var zoneMobile = window.innerHeight * MOBILE_FOCUS_ZONE;
+        var bestMobile = 0;
+        var bestDistMobile = Infinity;
+
+        dots.forEach(function (dot, i) {
+          var r = dot.getBoundingClientRect();
+          var dotCenter = r.top + r.height * 0.5;
+          var dist = Math.abs(dotCenter - centerMobile);
+          if (dist <= zoneMobile && dist < bestDistMobile) {
+            bestDistMobile = dist;
+            bestMobile = i;
+          }
+        });
+
+        if (bestDistMobile !== Infinity) return bestMobile;
+
+        dots.forEach(function (dot, i) {
+          var r = dot.getBoundingClientRect();
+          var dotCenter = r.top + r.height * 0.5;
+          if (dotCenter <= centerMobile) bestMobile = i;
+        });
+        return clamp(bestMobile, 0, rows.length - 1);
+      }
+
       var center = window.innerHeight * 0.5;
       var zonePx = window.innerHeight * FOCUS_ZONE;
       var inZone = [];
@@ -801,11 +834,12 @@
       if (lastDotY <= 0) return;
 
       var fillPx;
-      if (inTimeline && activeIndex >= 0 && dots[activeIndex]) {
+      if (activeIndex >= 0 && dots[activeIndex]) {
         var dRect = dots[activeIndex].getBoundingClientRect();
         fillPx = dRect.top + dRect.height * 0.5 - wRect.top;
       } else {
-        fillPx = window.innerHeight * 0.5 - wRect.top;
+        var anchor = window.innerWidth <= 768 ? window.innerHeight * MOBILE_FOCUS_ANCHOR : window.innerHeight * 0.5;
+        fillPx = anchor - wRect.top;
       }
 
       fill.style.height = clamp(fillPx, 0, lastDotY) + 'px';
@@ -931,6 +965,70 @@
     });
   }
 
+  function initMobileTeamHandles() {
+    if (!hasCoarsePointer) return;
+
+    each('#team .team-card', function (card) {
+      if (card.querySelector('.team-card__handle')) return;
+
+      var handle = document.createElement('button');
+      handle.type = 'button';
+      handle.className = 'team-card__handle';
+      handle.setAttribute('aria-label', 'Dra for 3D-visning');
+      handle.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">' +
+        '<path stroke-linecap="round" stroke-linejoin="round" d="M9 6l-3 3 3 3M15 6l3 3-3 3M9 18l-3-3 3-3M15 18l3-3-3-3"/>' +
+        '</svg>';
+      card.appendChild(handle);
+
+      var active = false;
+      var rect = null;
+      var pointerId = null;
+      var startX = 0;
+      var startY = 0;
+
+      function applyTilt(clientX, clientY) {
+        if (!rect) return;
+        var dx = clamp((clientX - startX) / (rect.width * 0.45), -1, 1);
+        var dy = clamp((clientY - startY) / (rect.height * 0.45), -1, 1);
+        card.style.transform =
+          'perspective(900px) rotateX(' + (-dy * 7) + 'deg) rotateY(' + (dx * 9) + 'deg) translateY(-2px)';
+      }
+
+      function endTilt() {
+        if (!active) return;
+        active = false;
+        card.classList.remove('is-mobile-tilting');
+        card.style.transform = '';
+        try {
+          if (pointerId !== null) handle.releasePointerCapture(pointerId);
+        } catch (_) {}
+        pointerId = null;
+      }
+
+      handle.addEventListener('pointerdown', function (e) {
+        if (e.button && e.button !== 0) return;
+        e.preventDefault();
+        active = true;
+        pointerId = e.pointerId;
+        rect = card.getBoundingClientRect();
+        startX = e.clientX;
+        startY = e.clientY;
+        card.classList.add('is-mobile-tilting');
+        try { handle.setPointerCapture(pointerId); } catch (_) {}
+      });
+
+      handle.addEventListener('pointermove', function (e) {
+        if (!active) return;
+        applyTilt(e.clientX, e.clientY);
+      });
+
+      handle.addEventListener('pointerup', endTilt);
+      handle.addEventListener('pointercancel', endTilt);
+      handle.addEventListener('lostpointercapture', endTilt);
+    });
+  }
+
   /* ─────────────────────────────────────────────────────────────────
      8. Nav active-section highlight
      ───────────────────────────────────────────────────────────────── */
@@ -1005,6 +1103,7 @@
     initSectionParallax();
     initInViewExpandEffects();
     initHoverEffects();
+    initMobileTeamHandles();
     initNavHighlight();
     initMobileNav();
   });

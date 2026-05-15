@@ -213,6 +213,8 @@
     var moved  = false;
     var startX = 0, startY = 0, startTx = 0, startTy = 0;
     var ptrId  = null;
+    var activePointers = new Map();
+    var pinchStart = null;
 
     function px2user(dx, dy) {
       var rect = svg.getBoundingClientRect();
@@ -221,9 +223,69 @@
       return [dx * vb.width / rect.width, dy * vb.height / rect.height];
     }
 
+    function clientToUser(clientX, clientY) {
+      var rect = svg.getBoundingClientRect();
+      var vb   = svg.viewBox.baseVal;
+      if (!rect.width || !rect.height || !vb.width || !vb.height) {
+        return { x: 0, y: 0 };
+      }
+      return {
+        x: (clientX - rect.left) * vb.width / rect.width,
+        y: (clientY - rect.top) * vb.height / rect.height
+      };
+    }
+
+    function startPinchIfReady() {
+      if (activePointers.size < 2) return;
+      var pts = Array.from(activePointers.values());
+      var p1 = pts[0], p2 = pts[1];
+      var dx = p2.x - p1.x, dy = p2.y - p1.y;
+      var dist = Math.hypot(dx, dy);
+      if (!dist) return;
+      var centerX = (p1.x + p2.x) * 0.5;
+      var centerY = (p1.y + p2.y) * 0.5;
+      pinchStart = {
+        distance: dist,
+        centerX: centerX,
+        centerY: centerY,
+        scale: state.scale,
+        tx: state.tx,
+        ty: state.ty,
+        centerUser: clientToUser(centerX, centerY)
+      };
+      drag = false;
+      moved = true;
+      svg.classList.add('is-panning');
+      if (hint) hint.classList.add('is-dismissed');
+    }
+
+    function updatePinch() {
+      if (!pinchStart || activePointers.size < 2) return;
+      var pts = Array.from(activePointers.values());
+      var p1 = pts[0], p2 = pts[1];
+      var dx = p2.x - p1.x, dy = p2.y - p1.y;
+      var dist = Math.hypot(dx, dy);
+      if (!dist) return;
+
+      var centerX = (p1.x + p2.x) * 0.5;
+      var centerY = (p1.y + p2.y) * 0.5;
+      var newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, pinchStart.scale * (dist / pinchStart.distance)));
+      var ratio = newScale / pinchStart.scale;
+      var anchor = pinchStart.centerUser;
+      var baseTx = anchor.x - (anchor.x - pinchStart.tx) * ratio;
+      var baseTy = anchor.y - (anchor.y - pinchStart.ty) * ratio;
+      var panDelta = px2user(centerX - pinchStart.centerX, centerY - pinchStart.centerY);
+
+      state.scale = newScale;
+      state.tx = baseTx + panDelta[0];
+      state.ty = baseTy + panDelta[1];
+      applyTransform(panel);
+    }
+
     svg.addEventListener('pointerdown', function (e) {
       if (e.button && e.button !== 0) return;
       if (e.target.closest('.diagram-node')) return;
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       drag  = true; moved = false;
       startX = e.clientX; startY = e.clientY;
       startTx = state.tx; startTy = state.ty;
@@ -231,9 +293,17 @@
       svg.classList.add('is-panning');
       if (hint) hint.classList.add('is-dismissed');
       try { svg.setPointerCapture(ptrId); } catch (_) {}
+      startPinchIfReady();
     });
 
     svg.addEventListener('pointermove', function (e) {
+      if (activePointers.has(e.pointerId)) {
+        activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      }
+      if (activePointers.size >= 2) {
+        updatePinch();
+        return;
+      }
       if (!drag) return;
       var dx = e.clientX - startX, dy = e.clientY - startY;
       if (!moved && Math.abs(dx) + Math.abs(dy) > 4) moved = true;
@@ -244,19 +314,28 @@
     });
 
     function endDrag(e) {
-      if (!drag) return;
-      drag = false;
-      svg.classList.remove('is-panning');
+      activePointers.delete(e.pointerId);
+      if (activePointers.size >= 2) {
+        startPinchIfReady();
+        return;
+      }
+      pinchStart = null;
+      if (drag) {
+        drag = false;
+        if (moved) {
+          var t = e.target.closest('.diagram-node');
+          if (t) t._suppressClick = true;
+        }
+      }
+      if (!activePointers.size) svg.classList.remove('is-panning');
       try { if (ptrId !== null) svg.releasePointerCapture(ptrId); } catch (_) {}
       ptrId = null;
-      if (moved) {
-        var t = e.target.closest('.diagram-node');
-        if (t) t._suppressClick = true;
-      }
     }
     svg.addEventListener('pointerup',     endDrag);
     svg.addEventListener('pointercancel', endDrag);
-    svg.addEventListener('pointerleave',  function (e) { if (drag) endDrag(e); });
+    svg.addEventListener('pointerleave',  function (e) {
+      if (drag || activePointers.has(e.pointerId)) endDrag(e);
+    });
 
     svg.addEventListener('wheel', function (e) {
       e.preventDefault();
