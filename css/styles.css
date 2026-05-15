@@ -6,59 +6,65 @@
 @property --background {
   syntax: '<color>';
   inherits: true;
-  initial-value: oklch(0.985 0 0);
+  initial-value: #f4f4f5;
 }
 @property --foreground {
   syntax: '<color>';
   inherits: true;
-  initial-value: oklch(0.13 0 0);
+  initial-value: #111113;
 }
 
-/* Light: pure white/gray neutral. Dark: near-black gray neutral. */
+/*
+  Light: cool neutral gray page (#f4f4f5) + pure white cards — stark
+  contrast against the ProSlides app's warm beige (#ede8e0) screenshots.
+
+  Dark: medium-dark charcoal (#1c1c1e) + slightly lighter cards (#282828)
+  — clearly different from the app's dark blue-navy (#0d1117) dark mode.
+*/
 :root {
   color-scheme: light;
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.13 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.13 0 0);
-  --primary: oklch(0.55 0.21 277);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.95 0 0);
-  --secondary-foreground: oklch(0.22 0 0);
-  --muted: oklch(0.94 0 0);
-  --muted-foreground: oklch(0.46 0 0);
-  --accent: oklch(0.95 0 0);
-  --accent-foreground: oklch(0.22 0 0);
-  --destructive: oklch(0.58 0.22 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.88 0 0);
-  --input: oklch(0.88 0 0);
+  --background: #f4f4f5;          /* cool neutral gray page */
+  --foreground: #111113;          /* near-black text */
+  --card: #ffffff;                /* pure white panels */
+  --card-foreground: #111113;
+  --popover: #ffffff;
+  --popover-foreground: #111113;
+  --primary: oklch(0.55 0.21 277); /* purple accent */
+  --primary-foreground: #ffffff;
+  --secondary: #ebebec;
+  --secondary-foreground: #2a2a2d;
+  --muted: #ebebec;
+  --muted-foreground: #6b6b72;
+  --accent: #ebebec;
+  --accent-foreground: #2a2a2d;
+  --destructive: oklch(0.57 0.22 25);
+  --destructive-foreground: #ffffff;
+  --border: #d9d9db;              /* clearly visible divider */
+  --input: #d9d9db;
   --ring: oklch(0.55 0.21 277);
   --radius: 0.875rem;
 }
 
 .dark {
   color-scheme: dark;
-  --background: oklch(0.10 0 0);
-  --foreground: oklch(0.93 0 0);
-  --card: oklch(0.15 0 0);
-  --card-foreground: oklch(0.93 0 0);
-  --popover: oklch(0.15 0 0);
-  --popover-foreground: oklch(0.93 0 0);
+  --background: #1c1c1e;          /* medium-dark charcoal — not navy, not black */
+  --foreground: #f0f0f1;          /* off-white text */
+  --card: #28282a;                /* dark gray panels, visible against bg */
+  --card-foreground: #f0f0f1;
+  --popover: #28282a;
+  --popover-foreground: #f0f0f1;
   --primary: oklch(0.55 0.21 277);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.22 0 0);
-  --secondary-foreground: oklch(0.93 0 0);
-  --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.57 0 0);
-  --accent: oklch(0.26 0 0);
-  --accent-foreground: oklch(0.93 0 0);
+  --primary-foreground: #ffffff;
+  --secondary: #323235;
+  --secondary-foreground: #f0f0f1;
+  --muted: #323235;
+  --muted-foreground: #909096;
+  --accent: #3a3a3d;
+  --accent-foreground: #f0f0f1;
   --destructive: oklch(0.68 0.19 22);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 9%);
-  --input: oklch(1 0 0 / 14%);
+  --destructive-foreground: #ffffff;
+  --border: rgba(255,255,255,0.10);
+  --input: rgba(255,255,255,0.14);
   --ring: oklch(0.55 0.21 277);
   --radius: 0.875rem;
 }
@@ -887,6 +893,20 @@ body {
 
 /* Label activity */
 .showcase-lbl--active { color: var(--foreground) !important; }
+
+/* ---- Showcase carousel: ensure it visually pops from the page bg ---- */
+#showcase-wrap {
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 8px 32px rgba(0,0,0,0.10),
+    0 2px 8px rgba(0,0,0,0.06);
+}
+.dark #showcase-wrap {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.12),
+    0 8px 48px rgba(0,0,0,0.55),
+    0 2px 12px rgba(0,0,0,0.4);
+}
 
 /* ---- Focus rings ---- */
 .arch-tab-btn:focus-visible,
