@@ -4,6 +4,7 @@
   if (!explorer) return;
 
   var tabButtons  = Array.prototype.slice.call(explorer.querySelectorAll('[data-arch-tab]'));
+  var tabSelect   = explorer.querySelector('[data-arch-tab-select]');
   var panels      = Array.prototype.slice.call(explorer.querySelectorAll('[data-arch-panel]'));
   var toolbar     = explorer.querySelector('.arch-toolbar');
   var hint        = explorer.querySelector('[data-arch-hint]');
@@ -108,11 +109,13 @@
   }
 
   function activateTab(tabName) {
+    if (!tabName) return;
     tabButtons.forEach(function (btn) {
       var active = btn.getAttribute('data-arch-tab') === tabName;
       btn.classList.toggle('is-active', active);
       btn.setAttribute('aria-selected', active ? 'true' : 'false');
     });
+    if (tabSelect && tabSelect.value !== tabName) tabSelect.value = tabName;
     panels.forEach(function (panel) {
       panel.classList.toggle('is-active', panel.getAttribute('data-arch-panel') === tabName);
     });
@@ -141,6 +144,12 @@
       activateTab(tabButtons[next].getAttribute('data-arch-tab'));
     });
   });
+
+  if (tabSelect) {
+    tabSelect.addEventListener('change', function () {
+      activateTab(tabSelect.value);
+    });
+  }
 
   /* Wire interactive elements */
   explorer.querySelectorAll('.diagram-node, .tree-row, .api-row').forEach(function (el) {

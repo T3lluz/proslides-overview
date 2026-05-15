@@ -330,6 +330,36 @@ body > footer::after {
   .tl-inner > * { opacity: 1 !important; transform: none !important; }
 }
 
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .tl-row-left .tl-card,
+  .tl-row-right .tl-card {
+    transform: translateY(20px);
+    transform-origin: center;
+  }
+
+  .tl-row.is-visible .tl-card {
+    transform: translateY(0);
+  }
+
+  #timeline.tl-is-active .tl-row.is-visible:not(.is-focused) .tl-card {
+    opacity: 0.92;
+    transform: none;
+    filter: none;
+  }
+
+  #timeline.tl-is-active .tl-row.is-focused .tl-card {
+    transform: none;
+    box-shadow:
+      0 16px 34px -14px rgba(0, 0, 0, 0.2),
+      0 0 0 1px color-mix(in oklch, var(--primary) 12%, transparent);
+  }
+
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner > p,
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner .tl-details {
+    transform-origin: left top;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tl-fill { transition: none !important; }
   .tl-dot.is-active { animation: none !important; }

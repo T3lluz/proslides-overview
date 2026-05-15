@@ -60,8 +60,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=37" />
-  <link rel="stylesheet" href="css/animations.css?v=13" />
+  <link rel="stylesheet" href="css/styles.css?v=38" />
+  <link rel="stylesheet" href="css/animations.css?v=14" />
   <!-- Preload first-visible showcase images for instant display -->
   <link rel="preload" as="image" href="assets/image-a51f2bef-9624-4586-8928-54ce81f924f8.png" />
   <link rel="preload" as="image" href="assets/image-bd873ee1-95ed-4925-b331-af84cf3fac3c.png" />
@@ -487,8 +487,18 @@
         </div>
 
         <!-- Tabs -->
-        <div class="px-5 sm:px-6 pt-4 pb-4 border-b border-[color:var(--border)] overflow-x-auto">
-          <div class="flex gap-2 w-max sm:w-auto" role="tablist" aria-label="Arkitekturmeny">
+        <div class="px-5 sm:px-6 pt-4 pb-4 border-b border-[color:var(--border)]">
+          <div class="arch-tab-select-wrap sm:hidden">
+            <label for="arch-tab-select" class="arch-tab-select-label">Visning</label>
+            <select id="arch-tab-select" class="arch-tab-select" data-arch-tab-select aria-label="Velg arkitekturvisning">
+              <option value="system">System</option>
+              <option value="flow">Live-flyt</option>
+              <option value="er">Datamodell</option>
+              <option value="structure">Filstruktur</option>
+              <option value="api">API og ruter</option>
+            </select>
+          </div>
+          <div class="hidden sm:flex gap-2 w-max sm:w-auto" role="tablist" aria-label="Arkitekturmeny">
             <button class="arch-tab-btn is-active" id="tab-system" data-arch-tab="system" role="tab" aria-selected="true" type="button">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9-4 9 4-9 4-9-4z M3 12l9 4 9-4 M3 17l9 4 9-4"/></svg>
               System
@@ -2097,8 +2107,8 @@
       </header>
 
       <div class="relative">
-        <div class="tl-track hidden md:block"></div>
-        <div class="tl-fill hidden md:block"></div>
+        <div class="tl-track"></div>
+        <div class="tl-fill"></div>
 
         <!-- Sprint 1 -->
         <div class="tl-row relative md:flex md:items-center group">
@@ -2121,14 +2131,14 @@
               </div>
             </div>
           </div>
-          <div class="tl-dot hidden md:flex" data-label="1"></div>
+          <div class="tl-dot flex" data-label="1"></div>
           <div class="md:w-1/2 md:pl-14"></div>
         </div>
 
         <!-- Sprint 2 -->
         <div class="tl-row relative md:flex md:items-center group">
           <div class="md:w-1/2 md:pr-14"></div>
-          <div class="tl-dot hidden md:flex" data-label="2"></div>
+          <div class="tl-dot flex" data-label="2"></div>
           <div class="md:w-1/2 md:pl-14">
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
@@ -2173,14 +2183,14 @@
               </div>
             </div>
           </div>
-          <div class="tl-dot hidden md:flex" data-label="3"></div>
+          <div class="tl-dot flex" data-label="3"></div>
           <div class="md:w-1/2 md:pl-14"></div>
         </div>
 
         <!-- Sprint 4 -->
         <div class="tl-row relative md:flex md:items-center group">
           <div class="md:w-1/2 md:pr-14"></div>
-          <div class="tl-dot hidden md:flex" data-label="4"></div>
+          <div class="tl-dot flex" data-label="4"></div>
           <div class="md:w-1/2 md:pl-14">
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
@@ -2216,14 +2226,14 @@
               </div>
             </div>
           </div>
-          <div class="tl-dot tl-dot--muted hidden md:flex" data-label="R"></div>
+          <div class="tl-dot tl-dot--muted flex" data-label="R"></div>
           <div class="md:w-1/2 md:pl-14"></div>
         </div>
 
         <!-- Levering -->
         <div class="tl-row relative md:flex md:items-center group">
           <div class="md:w-1/2 md:pr-14"></div>
-          <div class="tl-dot tl-dot--green hidden md:flex" data-label="&#10003;"></div>
+          <div class="tl-dot tl-dot--green flex" data-label="&#10003;"></div>
           <div class="md:w-1/2 md:pl-14">
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:color-mix(in_oklch,#22c55e_40%,var(--border))] p-6 md:p-8">
               <div class="tl-inner">
@@ -2292,7 +2302,7 @@
     </div>
   </footer>
 
-  <script src="js/arch-explorer.js?v=2"></script>
+  <script src="js/arch-explorer.js?v=3"></script>
   <script src="js/motion-toggle.js?v=5"></script>
   <script src="js/showcase.js?v=9"></script>
   <script src="js/animations.js?v=29"></script>
