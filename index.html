@@ -17,7 +17,7 @@
   <title>ProSlides – Prosjektoversikt</title>
   <meta name="description" content="ProSlides – en webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering. Bachelorprosjekt (BOP3000) ved USN Bø, 2026. Utviklet for RubyNor." />
   <meta property="og:title" content="ProSlides – Interaktiv Presentasjonsplattform" />
-  <meta property="og:description" content="WYSIWYG slide-editor med sanntids polls, ordskyer og live-resultater. Bachelorprosjekt ved USN i samarbeid med RubyNor, 2026." />
+  <meta property="og:description" content="WYSIWYG slide-editor med sanntids polls, publikumsspørsmål og live-resultater. Bachelorprosjekt ved USN i samarbeid med RubyNor, 2026." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="ProSlides" />
   <meta property="og:url" content="https://t3lluz.github.io/proslides-overview/" />
@@ -25,7 +25,7 @@
   <meta property="og:locale" content="nb_NO" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ProSlides – Interaktiv Presentasjonsplattform" />
-  <meta name="twitter:description" content="WYSIWYG slide-editor med sanntids polls, ordskyer og live-resultater. Bachelorprosjekt USN 2026." />
+  <meta name="twitter:description" content="WYSIWYG slide-editor med sanntids polls, publikumsspørsmål og live-resultater. Bachelorprosjekt USN 2026." />
   <meta name="twitter:image" content="https://opengraph.githubassets.com/1/Baitedr/Bachelor_Gruppe1" />
   <link rel="canonical" href="https://t3lluz.github.io/proslides-overview/" />
   <script type="application/ld+json">
@@ -33,7 +33,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "ProSlides",
-    "description": "En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, ordskyer, spørsmål og live-resultater.",
+    "description": "En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, publikumsspørsmål og live-resultater.",
     "url": "https://slides.rubynor.com/",
     "applicationCategory": "Presentation Software",
     "operatingSystem": "Web",
@@ -63,7 +63,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="stylesheet" href="css/styles.css?v=9" />
+  <link rel="stylesheet" href="css/animations.css?v=10" />
   <!-- Preload first-visible showcase images for instant display -->
   <link rel="preload" as="image" href="assets/image-a51f2bef-9624-4586-8928-54ce81f924f8.png" />
   <link rel="preload" as="image" href="assets/image-bd873ee1-95ed-4925-b331-af84cf3fac3c.png" />
@@ -95,14 +96,14 @@
   <!-- Hero -->
   <section id="hero" class="pt-32 pb-20 px-6 bg-[var(--background)]">
     <div class="max-w-3xl mx-auto text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)] text-[color:var(--primary)] text-sm font-medium mb-6 border border-[color:var(--border)]">
+      <div class="hero-anim-badge inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)] text-[color:var(--primary)] text-sm font-medium mb-6 border border-[color:var(--border)]">
         <span>Bachelorprosjekt 2026</span>
       </div>
-      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-[color:var(--foreground)] mb-6">ProSlides</h1>
-      <p class="text-lg text-[color:var(--muted-foreground)] max-w-2xl mx-auto leading-relaxed mb-8">
-        En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, ordskyer, spørsmål og live-resultater. Bygget som bachelorprosjekt (BOP3000) ved USN Bø, våren 2026.
+      <h1 class="hero-anim-title text-5xl sm:text-6xl font-bold tracking-tight text-[color:var(--foreground)] mb-6">ProSlides</h1>
+      <p class="hero-anim-sub text-lg text-[color:var(--muted-foreground)] max-w-2xl mx-auto leading-relaxed mb-8">
+        En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, publikumsspørsmål og live-resultater. Bygget som bachelorprosjekt (BOP3000) ved USN Bø, våren 2026.
       </p>
-      <div class="flex flex-wrap justify-center gap-3">
+      <div class="hero-anim-btns flex flex-wrap justify-center gap-3">
         <a href="https://slides.rubynor.com/" target="_blank" rel="noopener"
            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--primary)] text-[var(--primary-foreground)]">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
@@ -153,7 +154,7 @@
         aria-label="Skjermbilder av ProSlides"
       >
         <!-- Single sliding track -->
-        <div id="sc-track" class="sc-track flex">
+        <div id="sc-track" class="sc-track">
 
           <!-- Item 0: Dashboard -->
           <div class="sc-item" data-item="0">
@@ -204,7 +205,7 @@
         </button>
 
         <!-- Slide label -->
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
           <span id="showcase-label" class="px-3 py-1 rounded-full text-xs font-medium bg-[color:color-mix(in_oklch,var(--background)_88%,transparent)] border border-[color:var(--border)] backdrop-blur-sm text-[color:var(--foreground)] shadow-sm">Dashboard</span>
         </div>
       </div>
@@ -235,9 +236,14 @@
       <p class="text-[color:var(--muted-foreground)] max-w-3xl leading-relaxed mb-4">
         RubyNor har i dag løsningen <a href="https://app.spleiselaget.no" target="_blank" class="text-[color:var(--primary)] hover:underline">spleiselaget.no</a> for interaktive presentasjoner, men den er bygget på rigide, forhåndsdefinerte maler. Oppgaven var å utvikle en mer fleksibel WYSIWYG-editor der brukeren fritt kan utforme slides visuelt, samtidig som publikum involveres i sanntid via nettleser eller mobil – uten behov for apper eller brukerkonto.
       </p>
-      <div class="rounded-lg bg-[var(--accent)] border border-[color:var(--border)] p-4 mb-8">
-        <p class="text-sm font-medium text-[color:var(--accent-foreground)] mb-1">Problemstilling</p>
-        <p class="text-sm text-[color:var(--muted-foreground)] italic">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
+      <div class="rounded-xl p-5 mb-8 relative overflow-hidden" style="background: color-mix(in oklch, #ef4444 7%, var(--card)); border: 1px solid color-mix(in oklch, #ef4444 28%, var(--border)); border-left: 4px solid color-mix(in oklch, #ef4444 58%, transparent);">
+        <!-- Decorative quote mark -->
+        <svg class="absolute bottom-2 right-4 w-14 h-14 pointer-events-none select-none" style="color: color-mix(in oklch, #ef4444 18%, transparent);" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>
+        <div class="flex items-center gap-1.5 mb-3">
+          <svg class="w-3.5 h-3.5 shrink-0" style="color: color-mix(in oklch, #ef4444 72%, var(--muted-foreground));" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <p class="text-[0.65rem] font-bold uppercase tracking-[0.12em]" style="color: color-mix(in oklch, #ef4444 68%, var(--muted-foreground));">Problemstilling</p>
+        </div>
+        <p class="text-sm leading-relaxed italic" style="color: color-mix(in oklch, var(--foreground) 85%, var(--muted-foreground));">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
       </div>
       <div class="grid sm:grid-cols-2 gap-4 mb-8">
         <div class="rounded-lg border border-[color:var(--border)] bg-[var(--muted)] p-4 flex items-start gap-3">
@@ -260,10 +266,10 @@
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-6">
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6">
+        <div class="about-card rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6">
           <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Monorepo-struktur</h3>
           <p class="text-sm text-[color:var(--muted-foreground)] mb-4">Prosjektet er organisert som en monorepo med to hovedmapper:</p>
-          <div class="font-mono text-sm bg-[var(--muted)] rounded-lg p-4 text-[color:var(--muted-foreground)] border border-[color:var(--border)] space-y-1">
+          <div class="about-card-inner font-mono text-sm bg-[var(--muted)] rounded-lg p-4 text-[color:var(--muted-foreground)] border border-[color:var(--border)] space-y-1">
             <div>Bachelor_Gruppe1/</div>
             <div class="pl-4">├── <span class="text-red-600 dark:text-red-400 font-medium">backend/</span>  &nbsp;Rails 8.1 API</div>
             <div class="pl-4">├── <span class="text-blue-600 dark:text-blue-400 font-medium">frontend/</span> React + Vite SPA</div>
@@ -271,7 +277,7 @@
             <div class="pl-4">└── README.md</div>
           </div>
         </div>
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6">
+        <div class="about-card rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6">
           <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Krav fra oppdragsgiver</h3>
           <ul class="space-y-2 text-sm text-[color:var(--muted-foreground)]">
             <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Webbasert WYSIWYG-editor for slides</li>
@@ -295,81 +301,107 @@
       <p class="text-[color:var(--muted-foreground)] mb-10">Språk, rammeverk og verktøy brukt i prosjektet.</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         <!-- Ruby on Rails -->
-        <a href="https://rubyonrails.org/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/ruby.svg" alt="Ruby on Rails" class="w-10 h-10 mb-2" />
+        <a href="https://rubyonrails.org/" target="_blank" rel="noopener" style="--tc: #CC0000" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/ruby.svg" alt="Ruby on Rails" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Ruby on Rails 8.1</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Backend API</div>
         </a>
         <!-- React -->
-        <a href="https://react.dev/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/react_dark.svg" alt="" class="w-10 h-10 mb-2 dark:hidden" />
-          <img src="https://svgl.app/library/react_light.svg" alt="React" class="w-10 h-10 mb-2 hidden dark:block" />
+        <a href="https://react.dev/" target="_blank" rel="noopener" style="--tc: #61DAFB" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/react_dark.svg" alt="" class="w-7 h-7 dark:hidden" />
+            <img src="https://svgl.app/library/react_light.svg" alt="React" class="w-7 h-7 hidden dark:block" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">React 18</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Frontend UI</div>
         </a>
         <!-- TypeScript -->
-        <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/typescript.svg" alt="TypeScript" class="w-10 h-10 mb-2" />
+        <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener" style="--tc: #3178C6" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/typescript.svg" alt="TypeScript" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">TypeScript</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Type-sikkerhet</div>
         </a>
         <!-- PostgreSQL -->
-        <a href="https://www.postgresql.org/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/postgresql.svg" alt="PostgreSQL" class="w-10 h-10 mb-2" />
+        <a href="https://www.postgresql.org/" target="_blank" rel="noopener" style="--tc: #336791" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/postgresql.svg" alt="PostgreSQL" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">PostgreSQL</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Database</div>
         </a>
         <!-- Action Cable -->
-        <a href="https://guides.rubyonrails.org/action_cable_overview.html" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <svg class="w-10 h-10 mb-2 text-[color:var(--destructive)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2C5.5 3.5 2 8 2 12s3.5 8.5 6.5 10"/><path d="M15.5 2c3 1.5 6.5 6 6.5 10s-3.5 8.5-6.5 10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
+        <a href="https://guides.rubyonrails.org/action_cable_overview.html" target="_blank" rel="noopener" style="--tc: #DC2626" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <svg class="w-7 h-7 text-[#DC2626]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2C5.5 3.5 2 8 2 12s3.5 8.5 6.5 10"/><path d="M15.5 2c3 1.5 6.5 6 6.5 10s-3.5 8.5-6.5 10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Action Cable</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">WebSockets / sanntid</div>
         </a>
         <!-- Vite -->
-        <a href="https://vitejs.dev/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/vite.svg" alt="Vite" class="w-10 h-10 mb-2" />
+        <a href="https://vitejs.dev/" target="_blank" rel="noopener" style="--tc: #646CFF" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/vite.svg" alt="Vite" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Vite</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Build-verktøy</div>
         </a>
         <!-- Tailwind CSS -->
-        <a href="https://tailwindcss.com/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/tailwindcss.svg" alt="Tailwind CSS" class="w-10 h-10 mb-2" />
+        <a href="https://tailwindcss.com/" target="_blank" rel="noopener" style="--tc: #06B6D4" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/tailwindcss.svg" alt="Tailwind CSS" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Tailwind CSS</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Styling</div>
         </a>
         <!-- Playwright -->
-        <a href="https://playwright.dev/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/playwright.svg" alt="Playwright" class="w-10 h-10 mb-2" />
+        <a href="https://playwright.dev/" target="_blank" rel="noopener" style="--tc: #45BA4B" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/playwright.svg" alt="Playwright" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Playwright</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">E2E-testing</div>
         </a>
         <!-- JWT + OAuth2 -->
-        <a href="https://github.com/jwt/ruby-jwt" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <svg class="w-10 h-10 mb-2 text-[color:var(--primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/><path d="M12 17v2"/></svg>
+        <a href="https://github.com/jwt/ruby-jwt" target="_blank" rel="noopener" style="--tc: #7c3aed" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <svg class="w-7 h-7 text-[#7c3aed]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/><path d="M12 17v2"/></svg>
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">JWT + OAuth2</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Autentisering</div>
         </a>
         <!-- Redis -->
-        <a href="https://redis.io/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/redis.svg" alt="Redis" class="w-10 h-10 mb-2" />
+        <a href="https://redis.io/" target="_blank" rel="noopener" style="--tc: #DC382D" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/redis.svg" alt="Redis" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Redis</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Cache / pub-sub</div>
         </a>
         <!-- Docker -->
-        <a href="https://kamal-deploy.org/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/docker.svg" alt="Docker" class="w-10 h-10 mb-2" />
+        <a href="https://kamal-deploy.org/" target="_blank" rel="noopener" style="--tc: #2496ED" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/docker.svg" alt="Docker" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Docker + Kamal</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Deploy</div>
         </a>
         <!-- Fabric.js -->
-        <a href="https://fabricjs.com/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <svg class="w-10 h-10 mb-2 text-orange-600 dark:text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M2 15l5-5 4 4 3-3 8 8"/><circle cx="15.5" cy="7.5" r="2"/></svg>
+        <a href="https://fabricjs.com/" target="_blank" rel="noopener" style="--tc: #ea580c" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <svg class="w-7 h-7 text-[#ea580c]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M2 15l5-5 4 4 3-3 8 8"/><circle cx="15.5" cy="7.5" r="2"/></svg>
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Fabric.js</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Canvas / tegning</div>
         </a>
         <!-- Ruby -->
-        <a href="https://www.ruby-lang.org/" target="_blank" rel="noopener" class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col items-center text-inherit no-underline">
-          <img src="https://svgl.app/library/ruby.svg" alt="Ruby" class="w-10 h-10 mb-2" />
+        <a href="https://www.ruby-lang.org/" target="_blank" rel="noopener" style="--tc: #CC0000" class="tech-card bg-[var(--card)] rounded-xl border p-4 text-center flex flex-col items-center text-inherit no-underline">
+          <div class="tech-card-icon">
+            <img src="https://svgl.app/library/ruby.svg" alt="Ruby" class="w-7 h-7" />
+          </div>
           <div class="font-medium text-sm text-[color:var(--foreground)]">Ruby 3.4</div>
           <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Språk (backend)</div>
         </a>
@@ -440,7 +472,7 @@
             <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>WebSocket via Action Cable for live-oppdateringer</li>
             <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Publikum kobler til via QR-kode, kode eller lenke</li>
             <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Polls og spørsmål aktiveres i sanntid fra presentatør</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Resultater visualiseres live (stolpediagram, ordsky)</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Resultater visualiseres live (stolpediagram via recharts)</li>
           </ul>
         </div>
         <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
@@ -567,7 +599,7 @@
                   </g>
 
                   <g class="diagram-node" data-node-title="Join-side (publikum)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/JoinPage.tsx"
-                     data-node-desc="Publikum kobler seg til via lenke, 6-sifret kode eller QR-skanning. Ingen innlogging eller app påkrevd."
+                     data-node-desc="Publikum kobler seg til via lenke, LIVE-kode (4 tegn) eller QR-skanning. Ingen innlogging eller app påkrevd."
                      data-node-meta='{"Fil":"features/live/JoinPage.tsx","Endepunkt":"POST /api/v1/sessions/join_by_code","Mobil":"hooks/useIsMobileDevice"}'>
                     <rect class="diagram-node-bg" x="64" y="412" width="232" height="76" rx="12"/>
                     <text class="diagram-node-title" x="80" y="442">Join-side</text>
@@ -576,12 +608,12 @@
                   </g>
 
                   <g class="diagram-node" data-node-title="Polls-UI" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/polls"
-                     data-node-desc="Lager og administrerer polls. Resultater visualiseres live (stolpediagram, ordsky)."
+                     data-node-desc="Lager og administrerer polls. Resultater visualiseres live som stolpediagram (recharts)."
                      data-node-meta='{"Sti":"features/polls/PollsPage.tsx","Komponenter":"features/polls/components/","Endepunkter":"/polls, /polls/:id/vote, /results"}'>
                     <rect class="diagram-node-bg" x="64" y="508" width="232" height="76" rx="12"/>
                     <text class="diagram-node-title" x="80" y="538">Polls-UI</text>
                     <text class="diagram-node-sub" x="80" y="560">Sanntidsresultater</text>
-                    <text class="diagram-node-sub" x="80" y="576">Stolpediagram · ordsky</text>
+                    <text class="diagram-node-sub" x="80" y="576">Flervalg · recharts</text>
                   </g>
 
                   <!-- RAILS -->
@@ -774,7 +806,7 @@
                   </g>
 
                   <g class="diagram-node" data-node-title="3. Subscribe (host)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
-                     data-node-desc="Presentatør abonnerer på PresentationChannel for samme presentation_id og lytter på slide_changed / poll_results."
+                     data-node-desc="Presentatør abonnerer på PresentationChannel for samme presentation_id og lytter på slide_change, poll_results, question_activated m.m."
                      data-node-meta='{"Kanal":"PresentationChannel","Param":"presentation_id","Klient":"@rails/actioncable"}'>
                     <rect class="diagram-node-bg" x="64" y="320" width="280" height="76" rx="12"/>
                     <text class="diagram-node-title" x="80" y="350">3. Subscribe</text>
@@ -801,12 +833,12 @@
                     <text class="diagram-node-sub" x="740" y="188">+ SlidePayloadNormalizer</text>
                   </g>
 
-                  <g class="diagram-node" data-node-title="Broadcast slide_changed" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
-                     data-node-desc="Servicen broadcaster slide_changed-eventet på PresentationChannel sammen med oppdatert payload."
-                     data-node-meta='{"Kanal":"PresentationChannel","Event":"slide_changed","Adapter":"Redis (prod) · async (dev)"}'>
+                  <g class="diagram-node" data-node-title="Broadcast slide_change" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
+                     data-node-desc="Servicen broadcaster slide_change-eventet på PresentationChannel sammen med oppdatert payload."
+                     data-node-meta='{"Kanal":"PresentationChannel","Event":"slide_change","Adapter":"Redis (prod) · async (dev)"}'>
                     <rect class="diagram-node-bg" x="724" y="220" width="262" height="76" rx="12"/>
                     <text class="diagram-node-title" x="740" y="250">Broadcast</text>
-                    <text class="diagram-node-sub" x="740" y="272">slide_changed event</text>
+                    <text class="diagram-node-sub" x="740" y="272">slide_change event</text>
                     <text class="diagram-node-sub" x="740" y="288">Redis pub/sub (prod)</text>
                   </g>
 
@@ -821,11 +853,11 @@
 
                   <g class="diagram-node" data-node-title="PostgreSQL · slides" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/slide.rb"
                      data-node-desc="Slide-rekkene erstattes i én transaksjon. Innholdet ligger som JSONB-payload."
-                     data-node-meta='{"Tabell":"slides","Felt":"payload jsonb · position","FK":"presentation_id","Indeks":"presentation_id+position"}'>
+                     data-node-meta='{"Tabell":"slides","Felt":"background (jsonb) · slide_index · notes","FK":"presentation_id","Indeks":"presentation_id"}'>
                     <rect class="diagram-node-bg" x="724" y="420" width="262" height="76" rx="12"/>
                     <text class="diagram-node-title" x="740" y="450">PostgreSQL · slides</text>
-                    <text class="diagram-node-sub" x="740" y="472">JSONB payload</text>
-                    <text class="diagram-node-sub" x="740" y="488">position-index</text>
+                    <text class="diagram-node-sub" x="740" y="472">background (jsonb)</text>
+                    <text class="diagram-node-sub" x="740" y="488">slide_index</text>
                   </g>
 
                   <g class="diagram-node" data-node-title="PollResponse" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/poll_response.rb"
@@ -839,8 +871,8 @@
 
                   <!-- Audience -->
                   <g class="diagram-node" data-node-title="Join via kode/QR" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb"
-                     data-node-desc="Publikum kobler seg til via QR-kode eller 6-sifret join-kode. Ingen innlogging eller app."
-                     data-node-meta='{"Komponent":"features/live/JoinPage.tsx","Endepunkt":"POST /api/v1/sessions/join_by_code","Param":"code, display_name"}'>
+                     data-node-desc="Publikum kobler seg til via QR-kode eller LIVE-kode (4 tegn, LIVE-XXXX). Ingen innlogging eller app."
+                     data-node-meta='{"Komponent":"features/live/JoinPage.tsx","Endepunkt":"POST /api/v1/sessions/join_by_code","Param":"code (LIVE-XXXX)"}'>
                     <rect class="diagram-node-bg" x="1064" y="120" width="280" height="76" rx="12"/>
                     <text class="diagram-node-title" x="1080" y="150">Join via kode/QR</text>
                     <text class="diagram-node-sub" x="1080" y="172">JoinPage.tsx</text>
@@ -848,12 +880,12 @@
                   </g>
 
                   <g class="diagram-node" data-node-title="Live-visning" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/live"
-                     data-node-desc="LivePresentationAudience.tsx mottar slide_changed-events og rendrer ny slide umiddelbart."
+                     data-node-desc="LivePresentationAudience.tsx mottar slide_change-events og rendrer ny slide umiddelbart."
                      data-node-meta='{"Komponent":"features/live/LivePresentationAudience.tsx","Klient":"@rails/actioncable","Hook":"usePresentation"}'>
                     <rect class="diagram-node-bg" x="1064" y="320" width="280" height="76" rx="12"/>
                     <text class="diagram-node-title" x="1080" y="350">Live-visning</text>
                     <text class="diagram-node-sub" x="1080" y="372">LivePresentationAudience</text>
-                    <text class="diagram-node-sub" x="1080" y="388">Mottar slide_changed</text>
+                    <text class="diagram-node-sub" x="1080" y="388">Mottar slide_change</text>
                   </g>
 
                   <g class="diagram-node" data-node-title="Avgi stemme" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/polls_controller.rb"
@@ -879,7 +911,7 @@
                   </g>
                   <text class="diagram-edge-label" x="362" y="216">PUT slides</text>
                   <text class="diagram-edge-label" x="362" y="352">WS subscribe</text>
-                  <text class="diagram-edge-label" x="996" y="352">slide_changed</text>
+                  <text class="diagram-edge-label" x="996" y="352">slide_change</text>
                   <text class="diagram-edge-label" x="996" y="450">vote</text>
                   <text class="diagram-edge-label" x="996" y="222">join_by_code</text>
                 </g>
@@ -906,12 +938,12 @@
                   <!-- Row 1 -->
                   <g class="diagram-node" data-node-title="users" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/user.rb"
                      data-node-desc="Brukerkontoer med e-post, passord-hash og OAuth-identitet. Eier presentasjoner."
-                     data-node-meta='{"Migration":"db/migrate/*_create_users.rb","Auth":"bcrypt + OmniAuth","PK":"id (bigint)","Indekser":"unique email · provider+uid"}'>
+                     data-node-meta='{"Migration":"db/migrate/*_create_users.rb","Auth":"bcrypt + OmniAuth","PK":"id (uuid)","Indekser":"unique email · provider+uid"}'>
                     <rect class="diagram-node-bg" x="60" y="68" width="380" height="172" rx="12"/>
                     <text class="diagram-node-title" x="80" y="96">users</text>
                     <line class="diagram-node-row" x1="60" y1="108" x2="440" y2="108"/>
                     <text class="diagram-key" x="80" y="128">PK</text>
-                    <text class="diagram-node-sub is-mono" x="116" y="128">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="116" y="128">id : uuid</text>
                     <text class="diagram-node-sub is-mono" x="80" y="148">email · password_digest</text>
                     <text class="diagram-node-sub is-mono" x="80" y="166">name · provider · uid</text>
                     <text class="diagram-node-sub is-mono" x="80" y="184">created_at · updated_at</text>
@@ -926,7 +958,7 @@
                     <text class="diagram-node-title" x="550" y="96">presentations</text>
                     <line class="diagram-node-row" x1="530" y1="108" x2="910" y2="108"/>
                     <text class="diagram-key" x="550" y="128">PK</text>
-                    <text class="diagram-node-sub is-mono" x="586" y="128">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="586" y="128">id : uuid</text>
                     <text class="diagram-key" x="550" y="148">FK</text>
                     <text class="diagram-node-sub is-mono" x="586" y="148">user_id → users.id</text>
                     <text class="diagram-node-sub is-mono" x="550" y="166">title · theme · status</text>
@@ -937,100 +969,98 @@
 
                   <g class="diagram-node" data-node-title="slides" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/slide.rb"
                      data-node-desc="Slides for én presentasjon. Innholdet (canvas-objekter, embeds, poll-referanser) lagres som JSONB."
-                     data-node-meta='{"FK":"presentation_id","Felt":"position · payload (jsonb)","Normalizer":"SlidePayloadNormalizer","Indeks":"presentation_id+position"}'>
+                     data-node-meta='{"FK":"presentation_id","Felt":"slide_index · background (jsonb) · notes","Normalizer":"SlidePayloadNormalizer","Indeks":"presentation_id"}'>
                     <rect class="diagram-node-bg" x="1000" y="68" width="380" height="172" rx="12"/>
                     <text class="diagram-node-title" x="1020" y="96">slides</text>
                     <line class="diagram-node-row" x1="1000" y1="108" x2="1380" y2="108"/>
                     <text class="diagram-key" x="1020" y="128">PK</text>
-                    <text class="diagram-node-sub is-mono" x="1056" y="128">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="1056" y="128">id : uuid</text>
                     <text class="diagram-key" x="1020" y="148">FK</text>
                     <text class="diagram-node-sub is-mono" x="1056" y="148">presentation_id</text>
-                    <text class="diagram-node-sub is-mono" x="1020" y="166">position · payload (jsonb)</text>
-                    <text class="diagram-node-sub is-mono" x="1020" y="184">created_at · updated_at</text>
+                    <text class="diagram-node-sub is-mono" x="1020" y="166">slide_index · background (jsonb)</text>
+                    <text class="diagram-node-sub is-mono" x="1020" y="184">notes · created_at</text>
                     <text class="diagram-key" x="1020" y="208">IDX</text>
-                    <text class="diagram-node-sub is-mono" x="1056" y="208">(presentation_id, position)</text>
+                    <text class="diagram-node-sub is-mono" x="1056" y="208">presentation_id</text>
                   </g>
 
                   <!-- Row 2: polls -->
                   <g class="diagram-node" data-node-title="polls" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/poll.rb"
-                     data-node-desc="Spørsmål knyttet til en presentasjon. Hver poll har poll_options og samler poll_responses."
-                     data-node-meta='{"FK":"presentation_id","Felt":"question · poll_type (single/multi/wordcloud) · active","Relasjoner":"has_many :poll_options, :poll_responses"}'>
+                     data-node-desc="Flervalgspørsmål knyttet til en slide. Hver poll har poll_options og samler poll_responses."
+                     data-node-meta='{"FK":"slide_id · owner_id","Felt":"question · poll_type (multiple_choice) · is_active","Relasjoner":"has_many :poll_options, :poll_responses"}'>
                     <rect class="diagram-node-bg" x="60" y="328" width="380" height="172" rx="12"/>
                     <text class="diagram-node-title" x="80" y="356">polls</text>
                     <line class="diagram-node-row" x1="60" y1="368" x2="440" y2="368"/>
                     <text class="diagram-key" x="80" y="388">PK</text>
-                    <text class="diagram-node-sub is-mono" x="116" y="388">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="116" y="388">id : uuid</text>
                     <text class="diagram-key" x="80" y="408">FK</text>
-                    <text class="diagram-node-sub is-mono" x="116" y="408">presentation_id</text>
-                    <text class="diagram-node-sub is-mono" x="80" y="426">question : text</text>
-                    <text class="diagram-node-sub is-mono" x="80" y="444">poll_type : enum</text>
-                    <text class="diagram-node-sub is-mono" x="80" y="462">active : boolean</text>
+                    <text class="diagram-node-sub is-mono" x="116" y="408">slide_id · owner_id</text>
+                    <text class="diagram-node-sub is-mono" x="80" y="426">question : string</text>
+                    <text class="diagram-node-sub is-mono" x="80" y="444">poll_type : string</text>
+                    <text class="diagram-node-sub is-mono" x="80" y="462">is_active : boolean</text>
                     <text class="diagram-node-sub is-mono" x="80" y="480">created_at · updated_at</text>
                   </g>
 
                   <g class="diagram-node" data-node-title="poll_options" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/poll_option.rb"
-                     data-node-desc="Svaralternativer for en poll. Ordnes via position."
-                     data-node-meta='{"FK":"poll_id","Felt":"label · position","Relasjoner":"has_many :poll_responses"}'>
+                     data-node-desc="Svaralternativer for en poll (tekst per alternativ)."
+                     data-node-meta='{"FK":"poll_id","Felt":"text","Relasjon":"belongs_to :poll"}'>
                     <rect class="diagram-node-bg" x="530" y="328" width="380" height="172" rx="12"/>
                     <text class="diagram-node-title" x="550" y="356">poll_options</text>
                     <line class="diagram-node-row" x1="530" y1="368" x2="910" y2="368"/>
                     <text class="diagram-key" x="550" y="388">PK</text>
-                    <text class="diagram-node-sub is-mono" x="586" y="388">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="586" y="388">id : uuid</text>
                     <text class="diagram-key" x="550" y="408">FK</text>
                     <text class="diagram-node-sub is-mono" x="586" y="408">poll_id → polls.id</text>
-                    <text class="diagram-node-sub is-mono" x="550" y="426">label : string</text>
-                    <text class="diagram-node-sub is-mono" x="550" y="444">position : integer</text>
-                    <text class="diagram-key" x="550" y="468">IDX</text>
-                    <text class="diagram-node-sub is-mono" x="586" y="468">(poll_id, position)</text>
+                    <text class="diagram-node-sub is-mono" x="550" y="426">text : string</text>
+                    <text class="diagram-node-sub is-mono" x="550" y="444">created_at · updated_at</text>
                   </g>
 
                   <g class="diagram-node" data-node-title="poll_responses" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/poll_response.rb"
-                     data-node-desc="Enkeltstemme/respons - knyttet til poll-option og session-deltaker. Brukes også til ordskyer (value_text)."
-                     data-node-meta='{"FK1":"poll_option_id","FK2":"session_participant_id","Felt":"value_text (ordsky) · created_at","Indekser":"unique participant+option"}'>
+                     data-node-desc="Enkeltstemme per bruker. Lagrer valgt alternativ som answer-tekst."
+                     data-node-meta='{"FK":"poll_id · user_id · presentation_session_id?","Felt":"answer · created_at","Indeks":"unique (poll_id, user_id, presentation_session_id)"}'>
                     <rect class="diagram-node-bg" x="1000" y="328" width="380" height="172" rx="12"/>
                     <text class="diagram-node-title" x="1020" y="356">poll_responses</text>
                     <line class="diagram-node-row" x1="1000" y1="368" x2="1380" y2="368"/>
                     <text class="diagram-key" x="1020" y="388">PK</text>
-                    <text class="diagram-node-sub is-mono" x="1056" y="388">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="1056" y="388">id : uuid</text>
                     <text class="diagram-key" x="1020" y="408">FK</text>
-                    <text class="diagram-node-sub is-mono" x="1056" y="408">poll_option_id</text>
-                    <text class="diagram-key" x="1020" y="426">FK</text>
-                    <text class="diagram-node-sub is-mono" x="1056" y="426">session_participant_id</text>
-                    <text class="diagram-node-sub is-mono" x="1020" y="446">value_text (wordcloud)</text>
-                    <text class="diagram-node-sub is-mono" x="1020" y="464">created_at</text>
+                    <text class="diagram-node-sub is-mono" x="1056" y="408">poll_id · user_id</text>
+                    <text class="diagram-key" x="1020" y="426">FK?</text>
+                    <text class="diagram-node-sub is-mono" x="1056" y="426">presentation_session_id</text>
+                    <text class="diagram-node-sub is-mono" x="1020" y="446">answer : string</text>
+                    <text class="diagram-node-sub is-mono" x="1020" y="464">created_at · updated_at</text>
                     <text class="diagram-key" x="1020" y="486">IDX</text>
-                    <text class="diagram-node-sub is-mono" x="1056" y="486">unique participant+option</text>
+                    <text class="diagram-node-sub is-mono" x="1056" y="486">unique poll+user+session</text>
                   </g>
 
                   <!-- Row 3: live sessions -->
                   <g class="diagram-node" data-node-title="presentation_sessions" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/presentation_session.rb"
-                     data-node-desc="Live-økter for en presentasjon med 6-sifret join_code, start-/slutt-tid og status."
-                     data-node-meta='{"FK":"presentation_id","Felt":"join_code · status · started_at · ended_at","Indeks":"unique join_code"}'>
+                     data-node-desc="Live-økter for en presentasjon. join_code genereres som LIVE-XXXX (4 tegn). Aktiv økt når ended_at er null."
+                     data-node-meta='{"FK":"presentation_id","Felt":"join_code · started · started_at · ended_at","Indeks":"unique join_code"}'>
                     <rect class="diagram-node-bg" x="60" y="588" width="600" height="152" rx="12"/>
                     <text class="diagram-node-title" x="80" y="616">presentation_sessions</text>
                     <line class="diagram-node-row" x1="60" y1="628" x2="660" y2="628"/>
                     <text class="diagram-key" x="80" y="648">PK</text>
-                    <text class="diagram-node-sub is-mono" x="116" y="648">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="116" y="648">id : uuid</text>
                     <text class="diagram-key" x="80" y="668">FK</text>
                     <text class="diagram-node-sub is-mono" x="116" y="668">presentation_id → presentations.id</text>
-                    <text class="diagram-node-sub is-mono" x="80" y="688">join_code : string(6) · status : enum</text>
+                    <text class="diagram-node-sub is-mono" x="80" y="688">join_code : string · started : bool</text>
                     <text class="diagram-node-sub is-mono" x="80" y="706">started_at · ended_at</text>
                     <text class="diagram-key" x="80" y="728">IDX</text>
                     <text class="diagram-node-sub is-mono" x="116" y="728">unique join_code</text>
                   </g>
 
                   <g class="diagram-node" data-node-title="session_participants" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/session_participant.rb"
-                     data-node-desc="Gjestedeltakere i en live-økt. Identifiseres med display_name + cookie-token."
-                     data-node-meta='{"FK":"presentation_session_id","Felt":"display_name · token · joined_at","Relasjoner":"has_many :poll_responses"}'>
+                     data-node-desc="Kobling mellom bruker og live-økt. Gjester opprettes som User med JWT; navn hentes fra users.name."
+                     data-node-meta='{"PK":"session_id + user_id","Felt":"joined_at","FK":"session_id · user_id"}'>
                     <rect class="diagram-node-bg" x="780" y="588" width="600" height="152" rx="12"/>
                     <text class="diagram-node-title" x="800" y="616">session_participants</text>
                     <line class="diagram-node-row" x1="780" y1="628" x2="1380" y2="628"/>
                     <text class="diagram-key" x="800" y="648">PK</text>
-                    <text class="diagram-node-sub is-mono" x="836" y="648">id : bigint</text>
+                    <text class="diagram-node-sub is-mono" x="836" y="648">session_id + user_id</text>
                     <text class="diagram-key" x="800" y="668">FK</text>
-                    <text class="diagram-node-sub is-mono" x="836" y="668">presentation_session_id</text>
-                    <text class="diagram-node-sub is-mono" x="800" y="688">display_name : string</text>
-                    <text class="diagram-node-sub is-mono" x="800" y="706">token : uuid · joined_at</text>
+                    <text class="diagram-node-sub is-mono" x="836" y="668">session_id · user_id → users</text>
+                    <text class="diagram-node-sub is-mono" x="800" y="688">joined_at : timestamp</text>
+                    <text class="diagram-node-sub is-mono" x="800" y="706">(ingen display_name-kolonne)</text>
                     <text class="diagram-key" x="800" y="728">REL</text>
                     <text class="diagram-node-sub is-mono" x="836" y="728">has_many :poll_responses</text>
                   </g>
@@ -1112,7 +1142,7 @@
                             <div class="tree-node">
                               <button class="tree-row" type="button" data-tree-toggle
                                 data-node-title="backend/app/channels/" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/backend/app/channels"
-                                data-node-desc="Action Cable-kanaler. PresentationChannel håndterer slide_changed, poll_results og participant_joined-events for live-presentasjoner."
+                                data-node-desc="Action Cable-kanaler. PresentationChannel håndterer slide_change, poll_results og participant_joined-events for live-presentasjoner."
                                 data-node-meta='{"Hovedfil":"presentation_channel.rb","Auth":"application_cable/connection.rb (JWT)","Mount":"/cable","Stream":"stream_for(presentation)"}'>
                                 <svg class="tree-chevron" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
                                 <svg class="tree-icon ft-icon-folder" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
@@ -1124,7 +1154,7 @@
                                   <button class="tree-row" type="button" data-tree-leaf
                                     data-node-title="presentation_channel.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
                                     data-node-desc="Action Cable-kanal som broadcaster slide-bytte, poll-resultater og deltakere i en presentasjon."
-                                    data-node-meta='{"Stream":"stream_for(presentation)","Events":"slide_changed · poll_results · participant_joined","Adapter":"async (dev) · redis (prod)"}'>
+                                    data-node-meta='{"Stream":"stream_for(presentation)","Events":"slide_change · poll_results · poll_activated · question_activated · session_state · participant_joined","Adapter":"async (dev) · redis (prod)"}'>
                                     <svg class="tree-chevron" viewBox="0 0 24 24"></svg>
                                     <svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>
                                     <code>presentation_channel.rb</code>
@@ -1183,7 +1213,7 @@
                                     <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf
                                       data-node-title="sessions_controller.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb"
                                       data-node-desc="Live-sesjoner: start, join (kode/QR), avslutt og deltakerliste."
-                                      data-node-meta='{"Ruter":"create · join_by_code · end · participants","Generate":"6-char join_code","Cookie":"session_participant_token"}'>
+                                      data-node-meta='{"Ruter":"guest_join · join_by_code · join · participants · session_state","Generate":"LIVE-+4 join_code","Token":"JWT for gjester (localStorage)"}'>
                                       <svg class="tree-chevron" viewBox="0 0 24 24"></svg>
                                       <svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>
                                       <code>sessions_controller.rb</code>
@@ -1229,10 +1259,10 @@
                               <div class="tree-children">
                                 <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="user.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/user.rb" data-node-desc="Brukerkonto. Validerer email, hasher passord med bcrypt og kobler til OmniAuth (provider/uid)." data-node-meta='{"Auth":"has_secure_password + OmniAuth","Relasjoner":"has_many :presentations"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>user.rb</code></button></div>
                                 <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="presentation.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/presentation.rb" data-node-desc="Presentasjon med tittel, tema og status. Eier slides, polls og live-sesjoner." data-node-meta='{"Relasjoner":"belongs_to :user · has_many :slides, :polls, :presentation_sessions"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>presentation.rb</code></button></div>
-                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="slide.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/slide.rb" data-node-desc="Slide med JSONB-payload. Inkluderer SlidePayloadNormalizer for å normalisere innholdet før lagring." data-node-meta='{"Payload":"jsonb","Concern":"SlidePayloadNormalizer","Indeks":"(presentation_id, position)"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>slide.rb</code></button></div>
-                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="presentation_session.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/presentation_session.rb" data-node-desc="Live-økt med 6-sifret join_code, status (active/ended) og start-/slutt-tid." data-node-meta='{"Felt":"join_code · status · started_at · ended_at","Indeks":"unique join_code"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>presentation_session.rb</code></button></div>
-                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="session_participant.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/session_participant.rb" data-node-desc="Gjestedeltaker i en live-økt. Identifiseres med display_name og cookie-token." data-node-meta='{"Felt":"display_name · token · joined_at","Relasjoner":"has_many :poll_responses"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>session_participant.rb</code></button></div>
-                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="poll.rb / poll_option.rb / poll_response.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/backend/app/models" data-node-desc="Poll-domenet: spørsmål, alternativer og enkeltstemmer. Brukes både til flervalg og ordsky." data-node-meta='{"Typer":"single · multi · wordcloud","Aggregert":"PollService"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>poll.rb · poll_option.rb · poll_response.rb</code></button></div>
+                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="slide.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/slide.rb" data-node-desc="Slide med JSONB-payload. Inkluderer SlidePayloadNormalizer for å normalisere innholdet før lagring." data-node-meta='{"Payload":"background jsonb","Concern":"SlidePayloadNormalizer","Felt":"slide_index · notes"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>slide.rb</code></button></div>
+                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="presentation_session.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/presentation_session.rb" data-node-desc="Live-økt med LIVE-kode (4 tegn, format LIVE-XXXX). Aktiv når ended_at er null." data-node-meta='{"Felt":"join_code · started · started_at · ended_at","Indeks":"unique join_code"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>presentation_session.rb</code></button></div>
+                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="session_participant.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/session_participant.rb" data-node-desc="Kobling bruker ↔ live-økt (session_id + user_id). Gjester er User-poster med JWT." data-node-meta='{"PK":"session_id + user_id","Felt":"joined_at"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>session_participant.rb</code></button></div>
+                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="poll.rb / poll_option.rb / poll_response.rb" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/backend/app/models" data-node-desc="Poll-domenet: flervalg med alternativer og stemmer (multiple_choice)." data-node-meta='{"Type":"multiple_choice","Stemme":"POST /api/v1/polls/:id/vote","Broadcast":"poll_results"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>poll.rb · poll_option.rb · poll_response.rb</code></button></div>
                               </div>
                             </div>
 
@@ -1388,15 +1418,15 @@
                                     <span class="tree-tag">WS</span>
                                   </button>
                                   <div class="tree-children">
-                                    <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="LivePresentationHost.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/LivePresentationHost.tsx" data-node-desc="Presentatørens live-modus: bytter slides, starter polls, sender events via PresentationChannel." data-node-meta='{"Trigger":"slide_changed","Hook":"usePresentation"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>LivePresentationHost.tsx</code></button></div>
-                                    <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="LivePresentationAudience.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/LivePresentationAudience.tsx" data-node-desc="Publikumsvisning som mottar slide_changed-events og rendrer ny slide umiddelbart." data-node-meta='{"Subscribe":"PresentationChannel","Render":"slide payload (jsonb)"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>LivePresentationAudience.tsx</code></button></div>
-                                    <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="JoinPage.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/JoinPage.tsx" data-node-desc="Join-side: kobler publikum til via lenke, 6-sifret kode eller QR-skanning. Ingen innlogging." data-node-meta='{"Endepunkt":"POST /api/v1/sessions/join_by_code","Mobil":"useIsMobileDevice"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>JoinPage.tsx</code></button></div>
+                                    <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="LivePresentationHost.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/LivePresentationHost.tsx" data-node-desc="Presentatørens live-modus: bytter slides, starter polls, sender events via PresentationChannel." data-node-meta='{"Trigger":"slide_change","Hook":"usePresentation"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>LivePresentationHost.tsx</code></button></div>
+                                    <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="LivePresentationAudience.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/LivePresentationAudience.tsx" data-node-desc="Publikumsvisning som mottar slide_change-events og rendrer ny slide umiddelbart." data-node-meta='{"Subscribe":"PresentationChannel","Render":"slide payload (jsonb)"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>LivePresentationAudience.tsx</code></button></div>
+                                    <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="JoinPage.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/JoinPage.tsx" data-node-desc="Join-side: kobler publikum til via lenke, LIVE-kode (4 tegn) eller QR-skanning. Ingen innlogging." data-node-meta='{"Endepunkt":"POST /api/v1/sessions/join_by_code","Mobil":"useIsMobileDevice"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>JoinPage.tsx</code></button></div>
                                     <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="SessionLobby.tsx" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/SessionLobby.tsx" data-node-desc="Lobby-skjerm for presentatør og deltakere før live-økten starter. Viser join_code + QR." data-node-meta='{"QR":"qrcode.react","Polling":"deltakerliste"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>SessionLobby.tsx</code></button></div>
                                   </div>
                                 </div>
 
                                 <div class="tree-node">
-                                  <button class="tree-row" type="button" data-tree-toggle data-node-title="features/polls/" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/polls" data-node-desc="Poll-administrasjon og publikumsvisning. Resultater visualiseres som stolpediagram eller ordsky." data-node-meta='{"Visualisering":"chart.js / d3","Sanntid":"poll_results event"}'>
+                                  <button class="tree-row" type="button" data-tree-toggle data-node-title="features/polls/" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/polls" data-node-desc="Poll-administrasjon og publikumsvisning. Resultater visualiseres som stolpediagram (recharts)." data-node-meta='{"Visualisering":"recharts","Sanntid":"poll_results event"}'>
                                     <svg class="tree-chevron" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
                                     <svg class="tree-icon ft-icon-folder" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
                                     <code>polls/</code>
@@ -1432,7 +1462,7 @@
                                 <code>hooks/</code>
                               </button>
                               <div class="tree-children">
-                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="hooks/usePresentation.ts" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/hooks/usePresentation.ts" data-node-desc="Abonnerer på PresentationChannel og holder slides/polls i sync." data-node-meta='{"Klient":"@rails/actioncable","Events":"slide_changed · poll_results · participant_joined"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>usePresentation.ts</code></button></div>
+                                <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="hooks/usePresentation.ts" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/hooks/usePresentation.ts" data-node-desc="Abonnerer på PresentationChannel og holder slides/polls i sync." data-node-meta='{"Klient":"@rails/actioncable","Events":"slide_change · poll_results · poll_activated · question_activated · session_state · participant_joined"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>usePresentation.ts</code></button></div>
                                 <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="hooks/useAuth.ts" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/hooks/useAuth.ts" data-node-desc="React-hook som eksponerer current_user, login/logout og JWT-tokens." data-node-meta='{"Lagring":"localStorage + memory","Refresh":"401 → logout"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>useAuth.ts</code></button></div>
                                 <div class="tree-node"><button class="tree-row" type="button" data-tree-leaf data-node-title="hooks/useIsMobileDevice.ts" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/hooks/useIsMobileDevice.ts" data-node-desc="Detekterer mobil-enheter for å tilpasse UX (eks. join via QR i stedet for tastatur)." data-node-meta='{"Detect":"navigator.userAgent · matchMedia","Bruk":"JoinPage · AudiencePollView"}'><svg class="tree-chevron" viewBox="0 0 24 24"></svg><svg class="tree-icon ft-icon-file" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg><code>useIsMobileDevice.ts</code></button></div>
                               </div>
@@ -1533,7 +1563,6 @@
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="api-auth pub">Offentlig</span>
                     <span class="api-auth jwt">JWT</span>
-                    <span class="api-auth cook">Cookie</span>
                     <span class="text-[10px] text-[color:var(--muted-foreground)]">= auth-krav</span>
                     <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/config/routes.rb" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[10px] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] transition px-2 py-1 rounded border border-[color:var(--border)] hover:border-[color:var(--primary)]">
                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -1571,13 +1600,13 @@
                       </div>
                     </button>
                     <button class="api-row" type="button"
-                      data-node-title="POST /api/v1/auth/signup"
+                      data-node-title="POST /api/v1/auth/register"
                       data-node-desc="Opprett ny brukerkonto. Validerer e-postformat og minimum passordlengde."
-                      data-node-meta='{"Controller":"auth_controller.rb#signup","Validering":"email format · passord min-lengde","Body":"{name, email, password}","Respons":"{token, user}"}'>
+                      data-node-meta='{"Controller":"auth_controller.rb#register","Validering":"email format · passord min-lengde","Body":"{name, email, password}","Respons":"{token, user}"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method post">POST</span>
-                          <code class="api-ep-path">/api/v1/auth/signup</code>
+                          <code class="api-ep-path">/api/v1/auth/register</code>
                           <div class="api-ep-badges">
                             <span class="api-auth pub">Offentlig</span>
                             <span class="api-ret">→ JWT</span>
@@ -1732,73 +1761,73 @@
                     <span class="api-section-count">4 ruter</span>
                   </div>
                     <button class="api-row" type="button"
-                      data-node-title="POST /api/v1/sessions"
-                      data-node-desc="Starter en ny live-økt for en presentasjon. Genererer en unik 6-sifret join_code. Setter status=active og started_at."
-                      data-node-meta='{"Controller":"sessions_controller.rb#create","Auth":"Bearer JWT (eier)","Body":"{presentation_id}","Genererer":"join_code (6 tegn)","Respons":"{id, join_code, status, started_at}"}'>
+                      data-node-title="POST /api/v1/presentations/:id/start"
+                      data-node-desc="Starter live-økt for en presentasjon. Genererer join_code (LIVE-XXXX, 4 tegn). Setter is_live på presentasjonen."
+                      data-node-meta='{"Controller":"presentations_controller.rb#start","Auth":"Bearer JWT (eier)","Genererer":"join_code (LIVE- + 4 tegn)","Respons":"{presentation, join_code}"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method post">POST</span>
-                          <code class="api-ep-path">/api/v1/sessions</code>
+                          <code class="api-ep-path">/api/v1/presentations/:id/start</code>
                           <div class="api-ep-badges">
                             <span class="api-auth jwt">JWT</span>
                             <span class="api-ret">→ join_code</span>
                           </div>
-                          <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
+                          <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/presentations_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Start live-økt for presentasjon. Returnerer unik 6-sifret join_code for publikum.</p>
+                        <p class="api-ep-desc">Start live-økt. Returnerer LIVE-kode (4 tegn, f.eks. LIVE-A3B7) for publikum.</p>
                       </div>
                     </button>
                     <button class="api-row" type="button"
                       data-node-title="POST /api/v1/sessions/join_by_code"
-                      data-node-desc="Publikum kobler seg til med 6-sifret kode + display_name. Setter session_participant_token som HttpOnly-cookie. Ingen innlogging kreves."
-                      data-node-meta='{"Controller":"sessions_controller.rb#join_by_code","Auth":"Offentlig (ingen innlogging)","Body":"{code, display_name}","Cookie":"session_participant_token (HttpOnly)","Respons":"{session_id, presentation_id, slides}"}'>
+                      data-node-desc="Publikum kobler seg til med LIVE-kode (4 tegn, format LIVE-XXXX). Oppretter gjestebruker og returnerer JWT ved behov."
+                      data-node-meta='{"Controller":"sessions_controller.rb#join_by_code","Auth":"Offentlig","Body":"{code}","Respons":"{presentation_id, join_code, token?}"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method post">POST</span>
                           <code class="api-ep-path">/api/v1/sessions/join_by_code</code>
                           <div class="api-ep-badges">
                             <span class="api-auth pub">Offentlig</span>
-                            <span class="api-ret">→ Cookie</span>
+                            <span class="api-ret">→ JWT (gjest)</span>
                           </div>
                           <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Publikum kobler til med kode + navn. Setter session-cookie. Ingen innlogging.</p>
+                        <p class="api-ep-desc">Publikum skriver 4 tegn (LIVE-XXXX). Gjest får JWT i localStorage. Ingen innlogging.</p>
                       </div>
                     </button>
                     <button class="api-row" type="button"
-                      data-node-title="POST /api/v1/sessions/:id/end"
-                      data-node-desc="Avslutter en live-økt. Setter status=ended og ended_at. Bare eieren av presentasjonen kan avslutte."
-                      data-node-meta='{"Controller":"sessions_controller.rb#end_session","Auth":"Bearer JWT (eier)","Sett":"status=ended · ended_at=now","Respons":"{id, status, ended_at}"}'>
+                      data-node-title="POST /api/v1/presentations/:id/end_session"
+                      data-node-desc="Avslutter aktiv live-økt for presentasjonen. Setter ended_at og is_live=false."
+                      data-node-meta='{"Controller":"presentations_controller.rb#end_session","Auth":"Bearer JWT (eier)","Sett":"ended_at · is_live=false","Respons":"{presentation}"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method post">POST</span>
-                          <code class="api-ep-path">/api/v1/sessions/:id/end</code>
+                          <code class="api-ep-path">/api/v1/presentations/:id/end_session</code>
                           <div class="api-ep-badges"><span class="api-auth jwt">JWT</span></div>
-                          <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
+                          <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/presentations_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Avslutter live-økt. Setter status=ended + ended_at. Bare eier.</p>
+                        <p class="api-ep-desc">Avslutter live-økt for presentasjonen. Bare eier.</p>
                       </div>
                     </button>
                     <button class="api-row" type="button"
-                      data-node-title="GET /api/v1/sessions/:id/participants"
-                      data-node-desc="Lister aktive deltakere i en session med display_name og joined_at. Brukes av live-host-UI for deltakerliste."
-                      data-node-meta='{"Controller":"sessions_controller.rb#participants","Auth":"Bearer JWT (eier)","Respons":"[{id, display_name, joined_at}]"}'>
+                      data-node-title="GET /api/v1/presentations/:id/participants"
+                      data-node-desc="Lister deltakere i aktiv økt med navn, e-post og joined_at."
+                      data-node-meta='{"Controller":"sessions_controller.rb#participants","Auth":"Bearer JWT","Respons":"{participants: [{id, name, email, joined_at}]}"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method get">GET</span>
-                          <code class="api-ep-path">/api/v1/sessions/:id/participants</code>
+                          <code class="api-ep-path">/api/v1/presentations/:id/participants</code>
                           <div class="api-ep-badges"><span class="api-auth jwt">JWT</span></div>
                           <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Hent deltakerliste for en session (display_name + joined_at).</p>
+                        <p class="api-ep-desc">Hent deltakerliste (name, email, joined_at) for aktiv økt.</p>
                       </div>
                     </button>
                 </div>
@@ -1814,8 +1843,8 @@
                   </div>
                     <button class="api-row" type="button"
                       data-node-title="POST /api/v1/polls"
-                      data-node-desc="Opprett en poll knyttet til en presentasjon. Støtter typer: single, multi og wordcloud. Opsjoner gis som options[]."
-                      data-node-meta='{"Controller":"polls_controller.rb#create","Auth":"Bearer JWT (eier)","Body":"{presentation_id, question, poll_type, options:[]}","Typer":"single · multi · wordcloud"}'>
+                      data-node-desc="Opprett flervalgspoll. Krever minst 2 alternativer i poll[options][]."
+                      data-node-meta='{"Controller":"polls_controller.rb#create","Auth":"Bearer JWT (eier)","Body":"{poll: {question, poll_type?, options:[]}}","Standard":"poll_type=multiple_choice"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method post">POST</span>
@@ -1825,19 +1854,19 @@
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Opprett poll (single/multi/wordcloud) knyttet til presentasjon.</p>
+                        <p class="api-ep-desc">Opprett flervalgspoll (multiple_choice) med minst 2 alternativer.</p>
                       </div>
                     </button>
                     <button class="api-row" type="button"
                       data-node-title="POST /api/v1/polls/:id/vote"
                       data-node-desc="Publikum stemmer i en poll. Lagrer PollResponse og broadcaster poll_results til alle abonnenter via PresentationChannel."
-                      data-node-meta='{"Controller":"polls_controller.rb#vote","Auth":"Cookie (session_participant_token)","Body":"{option_id} eller {value_text} (wordcloud)","Broadcast":"PresentationChannel poll_results","Unique":"én stemme per deltaker per option"}'>
+                      data-node-meta='{"Controller":"polls_controller.rb#vote","Auth":"Bearer JWT (inkl. gjest)","Body":"{option_id}","Broadcast":"PresentationChannel poll_results","Unique":"én stemme per user_id per poll"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method post">POST</span>
                           <code class="api-ep-path">/api/v1/polls/:id/vote</code>
                           <div class="api-ep-badges">
-                            <span class="api-auth cook">Cookie</span>
+                            <span class="api-auth jwt">JWT</span>
                             <span class="api-ret">↗ WS</span>
                           </div>
                           <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/polls_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
@@ -1849,20 +1878,20 @@
                     </button>
                     <button class="api-row" type="button"
                       data-node-title="GET /api/v1/polls/:id/results"
-                      data-node-desc="Henter aggregerte resultater for en poll. For flervalg: count per option. For ordsky: {word, frequency}-format."
-                      data-node-meta='{"Controller":"polls_controller.rb#results","Auth":"Cookie (participant) eller JWT (eier)","Format (flervalg)":"[{option_id, label, count}]","Format (wordcloud)":"[{word, frequency}]"}'>
+                      data-node-desc="Henter aggregerte resultater: group(:answer).count og total."
+                      data-node-meta='{"Controller":"polls_controller.rb#results","Auth":"Bearer JWT","Respons":"{results: {answer=>count}, total, user_responded}"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method get">GET</span>
                           <code class="api-ep-path">/api/v1/polls/:id/results</code>
                           <div class="api-ep-badges">
-                            <span class="api-auth cook">Cookie</span>
+                            <span class="api-auth jwt">JWT</span>
                           </div>
                           <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/polls_controller.rb" target="_blank" rel="noopener" class="api-gh" onclick="event.stopPropagation()" title="Kildekode">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Aggregerte pollresultater (count per option eller ordsky-frekvenser).</p>
+                        <p class="api-ep-desc">Aggregerte pollresultater (antall per svaralternativ).</p>
                       </div>
                     </button>
                     <button class="api-row" type="button"
@@ -1894,8 +1923,8 @@
                   </div>
                     <button class="api-row" type="button"
                       data-node-title="WS /cable — PresentationChannel"
-                      data-node-desc="Action Cable WebSocket-kanal. Abonnenter sender presentation_id og mottar slide_changed, poll_results og participant_joined-events i sanntid."
-                      data-node-meta='{"Fil":"app/channels/presentation_channel.rb","Auth":"JWT via ApplicationCable::Connection","Param":"presentation_id","Events":"slide_changed · poll_results · participant_joined","Adapter":"async (dev) · Redis (prod)"}'>
+                      data-node-desc="Action Cable WebSocket-kanal. Abonnenter sender presentation_id og mottar slide_change, poll_results og participant_joined-events i sanntid."
+                      data-node-meta='{"Fil":"app/channels/presentation_channel.rb","Auth":"JWT via ApplicationCable::Connection","Param":"presentation_id","Events":"slide_change · poll_results · poll_activated · question_activated · session_state · participant_joined","Adapter":"async (dev) · Redis (prod)"}'>
                       <div class="api-ep">
                         <div class="api-ep-top">
                           <span class="api-method ws">WS</span>
@@ -1908,7 +1937,7 @@
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                           </a>
                         </div>
-                        <p class="api-ep-desc">Action Cable WebSocket. Broadcaster slide_changed, poll_results og participant_joined i sanntid.</p>
+                        <p class="api-ep-desc">Action Cable WebSocket. Broadcaster slide_change, poll_results, question_activated, session_state m.m.</p>
                       </div>
                     </button>
                     <button class="api-row" type="button"
@@ -1981,7 +2010,7 @@
       <p class="text-[color:var(--muted-foreground)] mb-10">Gruppe 1 – Bachelorprosjekt USN, våren 2026.</p>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
             <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
@@ -1996,7 +2025,7 @@
           </div>
         </div>
 
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
             <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
@@ -2011,7 +2040,7 @@
           </div>
         </div>
 
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
             <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
@@ -2026,7 +2055,7 @@
           </div>
         </div>
 
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
             <img src="https://github.com/scmog1.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
@@ -2041,7 +2070,7 @@
           </div>
         </div>
 
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
             <img src="https://github.com/rikkehlarsen.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
@@ -2061,115 +2090,148 @@
   </section>
 
   <!-- Timeline -->
-  <section id="timeline" class="py-20 px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
-    <div class="max-w-4xl mx-auto">
+  <section id="timeline" class="py-24 px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
+    <div class="max-w-5xl mx-auto">
       <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Tidslinje</h2>
-      <p class="text-[color:var(--muted-foreground)] mb-12">Prosjektet er delt opp i fire sprinter, tilpasset tidsrammen.</p>
+      <p class="text-[color:var(--muted-foreground)] mb-16">Prosjektet er delt opp i fire sprinter, tilpasset tidsrammen.</p>
 
       <div class="relative">
-        <div class="timeline-line hidden md:block"></div>
+        <div class="tl-track hidden md:block"></div>
+        <div class="tl-fill hidden md:block"></div>
 
         <!-- Sprint 1 -->
-        <div class="relative md:flex md:items-center mb-12 group">
-          <div class="md:w-1/2 md:pr-12 md:text-right">
-            <div class="bg-[var(--muted)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S1 – Start · Uke 5–7</div>
-              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Foranalyse</h3>
-              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Sette i gang med prosjektet. Oppsett av IDE, rammeverk og utviklingsmiljø. Sette seg inn i Ruby og Rails. PostgreSQL-database satt opp med riktig tilkobling.</p>
-              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1 text-left md:text-right">
-                <li>Oppsett av Rails 8 API + React/Vite monorepo</li>
-                <li>PostgreSQL-database med migrasjoner</li>
-                <li>Git-flyt og prosjektstruktur definert</li>
-                <li>Læringsperiode for Ruby og Rails</li>
-              </ul>
+        <div class="tl-row relative md:flex md:items-center group">
+          <div class="md:w-1/2 md:pr-14 md:text-right">
+            <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
+              <div class="tl-inner">
+                <div class="flex items-center gap-3 mb-3 justify-end flex-row-reverse md:flex-row">
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Foranalyse</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 5–7</span>
+                </div>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Sette i gang med prosjektet. Oppsett av IDE, rammeverk og utviklingsmiljø. Sette seg inn i Ruby og Rails.</p>
+                <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
+                  <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5 text-left md:text-right">
+                    <li>Oppsett av Rails 8 API + React/Vite monorepo</li>
+                    <li>PostgreSQL-database med migrasjoner</li>
+                    <li>Git-flyt og prosjektstruktur definert</li>
+                    <li>Læringsperiode for Ruby og Rails</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--card)] z-10"></div>
-          <div class="md:w-1/2 md:pl-12"></div>
+          <div class="tl-dot hidden md:flex" data-label="1"></div>
+          <div class="md:w-1/2 md:pl-14"></div>
         </div>
 
         <!-- Sprint 2 -->
-        <div class="relative md:flex md:items-center mb-12 group">
-          <div class="md:w-1/2 md:pr-12"></div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--card)] z-10"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <div class="bg-[var(--muted)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S2 – Design · Uke 8–10</div>
-              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">UI, UX og datastrukturer</h3>
-              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Etablere fast UI-struktur. Sikre interaktiv og intuitiv UX med universell utforming. Definere datastrukturer og modeller.</p>
-              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1">
-                <li>Komponentbibliotek med shadcn/ui + Tailwind</li>
-                <li>Databasemodeller: User, Presentation, Slide, Poll</li>
-                <li>Ruting og navigasjonsstruktur</li>
-                <li>Universell utforming (WCAG)</li>
-              </ul>
+        <div class="tl-row relative md:flex md:items-center group">
+          <div class="md:w-1/2 md:pr-14"></div>
+          <div class="tl-dot hidden md:flex" data-label="2"></div>
+          <div class="md:w-1/2 md:pl-14">
+            <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
+              <div class="tl-inner">
+                <div class="flex items-center gap-3 mb-3">
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">UI, UX og datastrukturer</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 8–10</span>
+                </div>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Etablere fast UI-struktur. Sikre interaktiv og intuitiv UX med universell utforming. Definere datastrukturer og modeller.</p>
+                <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
+                  <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
+                    <li>Komponentbibliotek med shadcn/ui + Tailwind</li>
+                    <li>Databasemodeller: User, Presentation, Slide, Poll</li>
+                    <li>Ruting og navigasjonsstruktur</li>
+                    <li>Universell utforming (WCAG)</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Sprint 3 -->
-        <div class="relative md:flex md:items-center mb-12 group">
-          <div class="md:w-1/2 md:pr-12 md:text-right">
-            <div class="bg-[var(--muted)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S3 – Implementasjon · Uke 11–17</div>
-              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Editor, interaktivitet og sanntid</h3>
-              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Editoren er kjernen i prosjektet og får en hel sprint. All funksjonalitet på plass: verktøylinje, polls, ordsky, slides, tegning. Strukturert og oversiktlig side med tilhørende funksjoner.</p>
-              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1 text-left md:text-right">
-                <li>Visuell slide-editor med Fabric.js-canvas</li>
-                <li>Drag-and-drop slide-organisering (dnd-kit)</li>
-                <li>Sanntids polls og ordskyer via Action Cable</li>
-                <li>OAuth-innlogging (Google, GitHub)</li>
-                <li>JWT-autentisering og sessions</li>
-                <li>Live presentasjonsmodus med deltaker-kobling</li>
-              </ul>
+        <div class="tl-row relative md:flex md:items-center group">
+          <div class="md:w-1/2 md:pr-14 md:text-right">
+            <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
+              <div class="tl-inner">
+                <div class="flex items-center gap-3 mb-3 justify-end flex-row-reverse md:flex-row">
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Editor, interaktivitet og sanntid</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 11–17</span>
+                </div>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Editoren er kjernen i prosjektet. All funksjonalitet på plass: verktøylinje, polls, publikumsspørsmål, slides, tegning og sanntidsvisning.</p>
+                <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
+                  <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5 text-left md:text-right">
+                    <li>Visuell slide-editor med Fabric.js-canvas</li>
+                    <li>Drag-and-drop slide-organisering (dnd-kit)</li>
+                    <li>Sanntids polls og publikumsspørsmål via Action Cable</li>
+                    <li>OAuth-innlogging (Google, GitHub)</li>
+                    <li>JWT-autentisering og sessions</li>
+                    <li>Live presentasjonsmodus med deltaker-kobling</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--card)] z-10"></div>
-          <div class="md:w-1/2 md:pl-12"></div>
+          <div class="tl-dot hidden md:flex" data-label="3"></div>
+          <div class="md:w-1/2 md:pl-14"></div>
         </div>
 
         <!-- Sprint 4 -->
-        <div class="relative md:flex md:items-center mb-12 group">
-          <div class="md:w-1/2 md:pr-12"></div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--card)] z-10"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <div class="bg-[var(--muted)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S4 – Testing · Uke 18–20</div>
-              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Feilretting og stabilisering</h3>
-              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Brukertesting av nettsiden, brukerhistorier og selvtesting. Feil og mangler fikses fortløpende. Stabilisering av produktet.</p>
-              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1">
-                <li>E2E-testing med Playwright</li>
-                <li>Brukertesting med reelle testpersoner</li>
-                <li>Testing basert på brukerhistorier</li>
-                <li>Feilretting og ytelsesforbedring</li>
-                <li>Deploy-testing med Docker + Kamal</li>
-              </ul>
+        <div class="tl-row relative md:flex md:items-center group">
+          <div class="md:w-1/2 md:pr-14"></div>
+          <div class="tl-dot hidden md:flex" data-label="4"></div>
+          <div class="md:w-1/2 md:pl-14">
+            <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
+              <div class="tl-inner">
+                <div class="flex items-center gap-3 mb-3">
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Feilretting og stabilisering</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 18–20</span>
+                </div>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Brukertesting av nettsiden, brukerhistorier og selvtesting. Feil og mangler fikses fortløpende.</p>
+                <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
+                  <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
+                    <li>E2E-testing med Playwright</li>
+                    <li>Brukertesting med reelle testpersoner</li>
+                    <li>Testing basert på brukerhistorier</li>
+                    <li>Feilretting og ytelsesforbedring</li>
+                    <li>Deploy-testing med Docker + Kamal</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Rapport -->
-        <div class="relative md:flex md:items-center mb-12 group">
-          <div class="md:w-1/2 md:pr-12 md:text-right">
-            <div class="bg-[var(--muted)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--muted-foreground)] bg-[var(--muted)] border border-[color:var(--border)] px-2.5 py-1 rounded-full mb-3">Rapport · Uke 5–21</div>
-              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Rapportskriving</h3>
-              <p class="text-sm text-[color:var(--muted-foreground)]">Gjøres gjennom hele prosjektets levetid, parallelt med utvikling. Dokumenterer prosess, metode, resultater og refleksjon.</p>
+        <div class="tl-row relative md:flex md:items-center group">
+          <div class="md:w-1/2 md:pr-14 md:text-right">
+            <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
+              <div class="tl-inner">
+                <div class="flex items-center gap-3 mb-3 justify-end flex-row-reverse md:flex-row">
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Rapportskriving</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--muted-foreground)] bg-[var(--muted)] border border-[color:var(--border)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 5–21</span>
+                </div>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed">Gjøres gjennom hele prosjektets levetid, parallelt med utvikling. Dokumenterer prosess, metode, resultater og refleksjon.</p>
+              </div>
             </div>
           </div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[color:var(--muted-foreground)] rounded-full border-4 border-[color:var(--card)] z-10"></div>
-          <div class="md:w-1/2 md:pl-12"></div>
+          <div class="tl-dot tl-dot--muted hidden md:flex" data-label="R"></div>
+          <div class="md:w-1/2 md:pl-14"></div>
         </div>
 
         <!-- Levering -->
-        <div class="relative md:flex md:items-center group">
-          <div class="md:w-1/2 md:pr-12"></div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-green-500 rounded-full border-4 border-[color:var(--card)] z-10"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <div class="bg-[var(--muted)] rounded-xl border border-[color:color-mix(in_oklch,#22c55e_40%,var(--border))] p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-green-800 dark:text-green-300 bg-[color:color-mix(in_oklch,#22c55e_18%,var(--muted))] dark:bg-[color:color-mix(in_oklch,#4ade80_14%,var(--card))] border border-[color:color-mix(in_oklch,#22c55e_35%,var(--border))] px-2.5 py-1 rounded-full mb-3">Levering · Uke 21 (19. mai)</div>
-              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Endelig produkt</h3>
-              <p class="text-sm text-[color:var(--muted-foreground)]">Siste optimalisering, feilretting og endringer. Levering av ferdig produkt, rapport og prosjektoversikt.</p>
+        <div class="tl-row relative md:flex md:items-center group">
+          <div class="md:w-1/2 md:pr-14"></div>
+          <div class="tl-dot tl-dot--green hidden md:flex" data-label="&#10003;"></div>
+          <div class="md:w-1/2 md:pl-14">
+            <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:color-mix(in_oklch,#22c55e_40%,var(--border))] p-6 md:p-8">
+              <div class="tl-inner">
+                <div class="flex items-center gap-3 mb-3">
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Endelig produkt</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-green-800 dark:text-green-300 bg-[color:color-mix(in_oklch,#22c55e_18%,var(--muted))] dark:bg-[color:color-mix(in_oklch,#4ade80_14%,var(--card))] border border-[color:color-mix(in_oklch,#22c55e_35%,var(--border))] px-2.5 py-1 rounded-full whitespace-nowrap">19. mai</span>
+                </div>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed">Siste optimalisering, feilretting og endringer. Levering av ferdig produkt, rapport og prosjektoversikt.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -2180,11 +2242,12 @@
 
   <!-- Documentation -->
   <section id="docs" class="py-20 px-6 bg-[var(--background)]">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Dokumentasjon</h2>
-      <p class="text-[color:var(--muted-foreground)] mb-10">Prosjektdokumenter og teknisk dokumentasjon.</p>
-      <div id="docs-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-      <p id="docs-empty" class="hidden text-sm text-[color:var(--muted-foreground)] italic">Ingen dokumenter lagt til ennå.</p>
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Ressurser</h2>
+      <p class="text-[color:var(--muted-foreground)] mb-2 max-w-2xl">Oversikt over dokumenter, lenker og media knyttet til prosjektet.</p>
+      <p class="text-xs text-[color:var(--muted-foreground)] mb-10">Legg til nye poster i <code class="text-[11px] px-1.5 py-0.5 rounded bg-[var(--muted)] font-mono">js/docs.js</code> — støtter filer, eksterne lenker og bilder.</p>
+      <div id="docs-catalog"></div>
+      <p id="docs-empty" class="hidden text-sm text-[color:var(--muted-foreground)] italic mt-6">Ingen ressurser lagt til ennå.</p>
     </div>
   </section>
 
@@ -2200,10 +2263,11 @@
     </div>
   </footer>
 
-  <script src="js/docs.js?v=2"></script>
   <script src="js/arch-explorer.js?v=2"></script>
   <script src="js/theme.js?v=2"></script>
-  <script src="js/showcase.js?v=4"></script>
+  <script src="js/showcase.js?v=6"></script>
+  <script src="js/animations.js?v=13"></script>
+  <script src="js/docs.js?v=5"></script>
 
 </body>
 </html>

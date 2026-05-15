@@ -1,0 +1,367 @@
+/* =====================================================================
+   ProSlides – Scroll & entrance animations  |  animations.css  v6
+   ===================================================================== */
+
+/* ─────────────────────────────────────────────────────────────────────
+   1. Section overlap layout
+   ───────────────────────────────────────────────────────────────────── */
+
+#showcase,
+#about,
+#tech,
+#architecture,
+#team,
+#timeline,
+#docs,
+body > footer {
+  position: relative;
+  margin-top: -1.25rem;
+}
+
+#hero        { position: relative; z-index: 1; }
+#showcase    { z-index: 2; }
+#about       { z-index: 3; }
+#tech        { z-index: 4; }
+#architecture{ z-index: 5; }
+#team        { z-index: 6; }
+#timeline    { z-index: 7; }
+#docs        { z-index: 8; }
+body > footer{ z-index: 9; }
+
+/* Gradient-glow hairline at each section boundary */
+#showcase::after,
+#about::after,
+#tech::after,
+#architecture::after,
+#team::after,
+#timeline::after,
+#docs::after,
+body > footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--primary) 55%, transparent) 30%,
+    color-mix(in oklch, var(--primary) 90%, transparent) 50%,
+    color-mix(in oklch, var(--primary) 55%, transparent) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+.dark #showcase::after,
+.dark #about::after,
+.dark #tech::after,
+.dark #architecture::after,
+.dark #team::after,
+.dark #timeline::after,
+.dark #docs::after,
+.dark body > footer::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--primary) 40%, transparent) 30%,
+    color-mix(in oklch, var(--primary) 70%, transparent) 50%,
+    color-mix(in oklch, var(--primary) 40%, transparent) 70%,
+    transparent 100%
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   2. Section-inner parallax
+   ───────────────────────────────────────────────────────────────────── */
+
+.ps-parallax-inner {
+  --ps-py: 0px;
+  transform: translateY(var(--ps-py));
+  will-change: transform;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   3. Element reveal (one-shot on first scroll into view)
+
+   Split-transition on first reveal only. Scroll focus (.ps-expand-focused,
+   timeline .is-focused) re-triggers via JS on every pass.
+   ───────────────────────────────────────────────────────────────────── */
+
+.reveal         { opacity: 0; }
+.reveal-up      { transform: translateY(44px); }
+.reveal-left    { transform: translateX(-38px); }
+.reveal-right   { transform: translateX(38px); }
+.reveal-scale   { transform: scale(0.88); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    transition: opacity 0.16s ease, transform 0.16s ease;
+    will-change: opacity, transform;
+  }
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal.is-revealed {
+    transition:
+      opacity   0.52s ease,
+      transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.is-revealed[data-delay="1"]  { transition-delay: 0.06s; }
+  .reveal.is-revealed[data-delay="2"]  { transition-delay: 0.12s; }
+  .reveal.is-revealed[data-delay="3"]  { transition-delay: 0.18s; }
+  .reveal.is-revealed[data-delay="4"]  { transition-delay: 0.24s; }
+  .reveal.is-revealed[data-delay="5"]  { transition-delay: 0.30s; }
+  .reveal.is-revealed[data-delay="6"]  { transition-delay: 0.36s; }
+  .reveal.is-revealed[data-delay="7"]  { transition-delay: 0.42s; }
+  .reveal.is-revealed[data-delay="8"]  { transition-delay: 0.48s; }
+  .reveal.is-revealed[data-delay="9"]  { transition-delay: 0.54s; }
+  .reveal.is-revealed[data-delay="10"] { transition-delay: 0.60s; }
+  .reveal.is-revealed[data-delay="11"] { transition-delay: 0.66s; }
+  .reveal.is-revealed[data-delay="12"] { transition-delay: 0.72s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.is-revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   4. Hero entrance keyframes
+   ───────────────────────────────────────────────────────────────────── */
+
+@keyframes ps-hero-up {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-anim-badge { opacity: 0; animation: ps-hero-up 0.44s ease                             forwards 0.08s; }
+  .hero-anim-title { opacity: 0; animation: ps-hero-up 0.56s cubic-bezier(0.22,1,0.36,1)      forwards 0.18s; }
+  .hero-anim-sub   { opacity: 0; animation: ps-hero-up 0.48s ease                             forwards 0.30s; }
+  .hero-anim-btns  { opacity: 0; animation: ps-hero-up 0.48s ease                             forwards 0.42s; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   5. Showcase preview — cinematic entrance + shimmer
+
+   When the showcase scrolls into view, JS adds .ps-showcase-entered.
+   The wrapper scales up from 0.92 and a light-streak sweeps across.
+   ───────────────────────────────────────────────────────────────────── */
+
+@keyframes ps-shimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%)  skewX(-15deg); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #showcase-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #showcase-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255,255,255,0.13) 45%,
+      rgba(255,255,255,0.22) 50%,
+      rgba(255,255,255,0.13) 55%,
+      transparent 60%
+    );
+    transform: translateX(-100%) skewX(-15deg);
+    opacity: 0;
+  }
+
+  .dark #showcase-wrap::before {
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255,255,255,0.06) 45%,
+      rgba(255,255,255,0.12) 50%,
+      rgba(255,255,255,0.06) 55%,
+      transparent 60%
+    );
+  }
+
+  #showcase-wrap.ps-showcase-entered::before {
+    opacity: 1;
+    animation: ps-shimmer 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   6. Timeline — scroll snap, dot focus, card expand
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Scroll snap removed — focus is driven by JS with a center “dead zone”
+   so one wheel tick doesn’t jump between timeline cards. */
+
+#timeline.tl-is-active {
+  overflow: visible;
+}
+
+#timeline.tl-is-active .tl-row {
+  position: relative;
+  z-index: 1;
+}
+
+#timeline.tl-is-active .tl-row.is-focused {
+  z-index: 30;
+}
+
+/* Card hidden → revealed */
+.tl-row-left .tl-card {
+  opacity: 0;
+  transform: translateX(-28px);
+}
+.tl-row-right .tl-card {
+  opacity: 0;
+  transform: translateX(28px);
+}
+
+.tl-row-left .tl-card  { transform-origin: right center; }
+.tl-row-right .tl-card { transform-origin: left center; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tl-card {
+    position: relative;
+    transition:
+      opacity        0.45s ease,
+      transform        0.62s cubic-bezier(0.34, 1.2, 0.64, 1),
+      box-shadow       0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      filter           0.45s ease,
+      border-color     0.4s ease;
+    will-change: transform, box-shadow;
+  }
+
+  .tl-row.is-visible .tl-card {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  /* Dim sibling cards while scrolling the timeline */
+  #timeline.tl-is-active .tl-row.is-visible:not(.is-focused) .tl-card {
+    opacity: 0.58;
+    transform: translateX(0) scale(0.96);
+    filter: saturate(0.88) brightness(0.97);
+  }
+
+  /* Focused card — subtle lift (less zoom than before) */
+  #timeline.tl-is-active .tl-row.is-focused .tl-card {
+    opacity: 1;
+    transform: translateX(0) scale(1.12);
+    z-index: 20;
+    border-color: color-mix(in oklch, var(--primary) 35%, var(--border));
+    box-shadow:
+      0 28px 70px -14px rgba(0, 0, 0, 0.22),
+      0 12px 28px -8px rgba(0, 0, 0, 0.1),
+      0 0 0 1px color-mix(in oklch, var(--primary) 14%, transparent);
+  }
+
+  .dark #timeline.tl-is-active .tl-row.is-focused .tl-card {
+    box-shadow:
+      0 32px 80px -12px rgba(0, 0, 0, 0.55),
+      0 14px 32px -8px rgba(0, 0, 0, 0.35),
+      0 0 0 1px color-mix(in oklch, var(--primary) 22%, transparent);
+  }
+
+  /* Inner content “grows out” of the focused card */
+  .tl-expand-card .tl-inner > * {
+    transition:
+      opacity   0.5s ease,
+      transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner h3 {
+    transform: scale(1.04);
+    transform-origin: inherit;
+  }
+
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner > p,
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner .tl-details {
+    transform: scale(1.02);
+    transform-origin: left top;
+  }
+
+  .tl-row-left.is-focused .tl-inner > p,
+  .tl-row-left.is-focused .tl-inner .tl-details {
+    transform-origin: right top;
+  }
+
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner span {
+    transform: scale(1.03);
+    display: inline-block;
+    transition: transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-card {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Details always visible */
+.tl-details { opacity: 0.65; transition: opacity 0.4s ease; }
+.tl-row.is-visible .tl-details { opacity: 1; }
+#timeline.tl-is-active .tl-row.is-focused .tl-details { opacity: 1; }
+
+/* Inner content stagger on reveal */
+.tl-inner > * { opacity: 0; transform: translateY(12px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tl-inner > * {
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .is-visible .tl-inner > *                { opacity: 1; transform: translateY(0); }
+  .is-visible .tl-inner > *:nth-child(1)   { transition-delay: 0.06s; }
+  .is-visible .tl-inner > *:nth-child(2)   { transition-delay: 0.12s; }
+  .is-visible .tl-inner > *:nth-child(3)   { transition-delay: 0.18s; }
+  .is-visible .tl-inner > *:nth-child(4)   { transition-delay: 0.24s; }
+
+  #timeline.tl-is-active .tl-row.is-focused .tl-inner > * {
+    transition-delay: 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-inner > * { opacity: 1 !important; transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-fill { transition: none !important; }
+  .tl-dot.is-active { animation: none !important; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   7. Hover presets — all managed via inline styles in JS
+   ───────────────────────────────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────────────────────────────
+   8. Nav active highlight
+   ───────────────────────────────────────────────────────────────────── */
+
+nav a {
+  transition: color 0.18s ease;
+}
+nav a.nav-active {
+  color: var(--foreground) !important;
+}
