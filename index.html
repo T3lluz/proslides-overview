@@ -4,15 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ProSlides – Prosjektoversikt</title>
-  <meta name="description" content="ProSlides – en webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering. Bachelorprosjekt (BOP3000) ved USN Bø, 2026." />
-  <meta property="og:title" content="ProSlides – Prosjektoversikt" />
-  <meta property="og:description" content="Interaktiv presentasjonsplattform med polls, ordskyer og live-resultater. Bygget som bachelorprosjekt ved USN i samarbeid med RubyNor." />
+  <meta name="description" content="ProSlides – en webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering. Bachelorprosjekt (BOP3000) ved USN Bø, 2026. Utviklet for RubyNor." />
+  <meta property="og:title" content="ProSlides – Interaktiv Presentasjonsplattform" />
+  <meta property="og:description" content="WYSIWYG slide-editor med sanntids polls, ordskyer og live-resultater. Bachelorprosjekt ved USN i samarbeid med RubyNor, 2026." />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ProSlides" />
   <meta property="og:url" content="https://t3lluz.github.io/proslides-overview/" />
-  <meta property="og:image" content="https://slides.rubynor.com/og-image.png" />
+  <meta property="og:image" content="https://opengraph.githubassets.com/1/Baitedr/Bachelor_Gruppe1" />
+  <meta property="og:locale" content="nb_NO" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ProSlides – Prosjektoversikt" />
-  <meta name="twitter:description" content="Interaktiv presentasjonsplattform med polls, ordskyer og live-resultater. Bachelorprosjekt USN 2026." />
+  <meta name="twitter:title" content="ProSlides – Interaktiv Presentasjonsplattform" />
+  <meta name="twitter:description" content="WYSIWYG slide-editor med sanntids polls, ordskyer og live-resultater. Bachelorprosjekt USN 2026." />
+  <meta name="twitter:image" content="https://opengraph.githubassets.com/1/Baitedr/Bachelor_Gruppe1" />
+  <link rel="canonical" href="https://t3lluz.github.io/proslides-overview/" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ProSlides",
+    "description": "En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, ordskyer, spørsmål og live-resultater.",
+    "url": "https://slides.rubynor.com/",
+    "applicationCategory": "Presentation Software",
+    "operatingSystem": "Web",
+    "author": {
+      "@type": "Organization",
+      "name": "Gruppe 1 – USN Bø",
+      "url": "https://github.com/Baitedr/Bachelor_Gruppe1"
+    },
+    "sourceOrganization": {
+      "@type": "Organization",
+      "name": "RubyNor",
+      "url": "https://rubynor.com"
+    }
+  }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -297,73 +322,78 @@
       <p class="text-gray-500 mb-10">Gruppe 1 – Bachelorprosjekt USN, våren 2026.</p>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
-          <div class="flex items-center gap-4 mb-3">
-            <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
-            <div>
-              <div class="font-semibold text-gray-900">Fredrik Stalsberg</div>
-              <div class="text-xs text-gray-400">Utvikler · UI/UX, Sikkerhet & E2E-testing</div>
+        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+          <div class="flex items-center gap-4 mb-auto">
+            <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <div class="min-w-0">
+              <div class="font-semibold text-gray-900 truncate">Fredrik Stalsberg</div>
+              <div class="text-xs text-accent-600 font-medium">Utvikler</div>
+              <div class="text-xs text-gray-400 mt-0.5">UI/UX, Sikkerhet & E2E-testing</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 mt-3">
-            <a href="https://github.com/T3lluz" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-900 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
-            <a href="https://www.linkedin.com/in/fredrik-stalsberg-427821151/" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#0A66C2] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+            <a href="https://github.com/T3lluz" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/fredrik-stalsberg-427821151/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
-          <div class="flex items-center gap-4 mb-3">
-            <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
-            <div>
-              <div class="font-semibold text-gray-900">Marcus W. H. Einarsen</div>
-              <div class="text-xs text-gray-400">Scrum Master · Editor & frontend-arkitektur</div>
+        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+          <div class="flex items-center gap-4 mb-auto">
+            <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <div class="min-w-0">
+              <div class="font-semibold text-gray-900 truncate">Marcus W. H. Einarsen</div>
+              <div class="text-xs text-accent-600 font-medium">Scrum Master</div>
+              <div class="text-xs text-gray-400 mt-0.5">Editor & frontend-arkitektur</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 mt-3">
-            <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-900 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
-            <a href="https://www.linkedin.com/in/marcus-woo-han%C3%B8y-einarsen-3ba9aa267/" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#0A66C2] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+            <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/marcus-woo-han%C3%B8y-einarsen-3ba9aa267/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
-          <div class="flex items-center gap-4 mb-3">
-            <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
-            <div>
-              <div class="font-semibold text-gray-900">Martin M. Hansen</div>
-              <div class="text-xs text-gray-400">Prosjektleder · Live-funksjonalitet & DB-arkitektur</div>
+        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+          <div class="flex items-center gap-4 mb-auto">
+            <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <div class="min-w-0">
+              <div class="font-semibold text-gray-900 truncate">Martin M. Hansen</div>
+              <div class="text-xs text-accent-600 font-medium">Prosjektleder</div>
+              <div class="text-xs text-gray-400 mt-0.5">Live-funksjonalitet & DB-arkitektur</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 mt-3">
-            <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-900 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
-            <a href="https://www.linkedin.com/in/martin-mentzen-hansen-70089135b/" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#0A66C2] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+            <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/martin-mentzen-hansen-70089135b/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
-          <div class="flex items-center gap-4 mb-3">
-            <img src="https://github.com/scmog1.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
-            <div>
-              <div class="font-semibold text-gray-900">Sondre C. Mogen</div>
-              <div class="text-xs text-gray-400">Utvikler · Backend API & forretningslogikk</div>
+        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+          <div class="flex items-center gap-4 mb-auto">
+            <img src="https://github.com/scmog1.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <div class="min-w-0">
+              <div class="font-semibold text-gray-900 truncate">Sondre C. Mogen</div>
+              <div class="text-xs text-accent-600 font-medium">Utvikler</div>
+              <div class="text-xs text-gray-400 mt-0.5">Backend API & forretningslogikk</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 mt-3">
-            <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-900 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
-            <a href="https://www.linkedin.com/in/sondre-christoffer-mogen-b11266215/" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#0A66C2] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+            <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/sondre-christoffer-mogen-b11266215/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
-          <div class="flex items-center gap-4 mb-3">
-            <img src="https://github.com/rikkehlarsen.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
-            <div>
-              <div class="font-semibold text-gray-900">Rikke H. Larsen</div>
-              <div class="text-xs text-gray-400">Utvikler · Interaktive elementer</div>
+        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+          <div class="flex items-center gap-4 mb-auto">
+            <img src="https://github.com/rikkehlarsen.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <div class="min-w-0">
+              <div class="font-semibold text-gray-900 truncate">Rikke H. Larsen</div>
+              <div class="text-xs text-accent-600 font-medium">Utvikler</div>
+              <div class="text-xs text-gray-400 mt-0.5">Interaktive elementer</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 mt-3">
-            <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-900 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
-            <a href="https://www.linkedin.com/in/rikke-hjelseth-larsen-a76a6419a/" target="_blank" rel="noopener" class="text-gray-400 hover:text-[#0A66C2] transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+            <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/rikke-hjelseth-larsen-a76a6419a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
@@ -502,9 +532,13 @@
   <!-- Footer -->
   <footer class="py-10 px-6 border-t border-gray-200 text-center text-sm text-gray-400">
     <p>ProSlides – Bachelorprosjekt Gruppe 1, USN 2026</p>
-    <p class="mt-1">
+    <div class="flex justify-center gap-4 mt-3">
+      <a href="https://slides.rubynor.com/" target="_blank" class="hover:text-accent-600 transition">Live-app</a>
+      <span class="text-gray-200">|</span>
       <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" class="hover:text-accent-600 transition">GitHub</a>
-    </p>
+      <span class="text-gray-200">|</span>
+      <a href="https://rubynor.com" target="_blank" class="hover:text-accent-600 transition">RubyNor</a>
+    </div>
   </footer>
 
   <script>
