@@ -1,28 +1,44 @@
-# ProSlides – Prosjektoversikt
+# ProSlides Overview
 
-Statisk nettside med oversikt over bachelorprosjektet **ProSlides** (Gruppe 1, USN 2026).
+Dette repoet inneholder den statiske prosjekt-siden for bachelorprosjektet **ProSlides** (Gruppe 1, USN 2026).  
+Siden viser prosjektets mål, teknologi, arkitektur, team, tidslinje og lenker til dokumentasjon.
 
-## Kjøre lokalt
+## Viktige lenker
 
-Åpne `index.html` i en nettleser – ingen build-steg nødvendig.
+- Live prosjekt-side (overview): [t3lluz.github.io/proslides-overview](https://t3lluz.github.io/proslides-overview/)
+- ProSlides app (prosjekt-side): [slides.rubynor.com](https://slides.rubynor.com/)
+- Hovedrepo for applikasjonen (frontend/backend): [github.com/Baitedr/Bachelor_Gruppe1](https://github.com/Baitedr/Bachelor_Gruppe1)
 
-## Legge til dokumentasjon
+## Innhold i dette repoet
 
-Rediger `docs`-arrayen øverst i `<script>`-blokken i `index.html`:
+- `index.html` - hovedsiden med seksjoner og innhold.
+- `css/styles.css` - hovedstilark for layout/tema.
+- `css/animations.css` - animasjoner og motion-regler.
+- `js/` - interaktivitet (showcase, arkitektur-utforsker, animasjonstoggle, docs, team).
+- `docs/` - prosjektdokumenter (PDF-er), f.eks. `bop2026.pdf` og `samarbeidskontrakt.pdf`.
 
-```js
-const docs = [
-  { title: "Prosjektrapport", file: "docs/rapport.pdf", desc: "Hovedrapport for bachelorprosjektet" },
-  { title: "API Dokumentasjon", file: "docs/api.pdf", desc: "REST API-referanse" },
-];
+## Kjoring lokalt
+
+Ingen build er nodvendig. Aapne `index.html` direkte i nettleser.
+
+Tips: bruk en enkel lokal server hvis du vil teste oppforing mer lik deploy:
+
+```bash
+python -m http.server 8080
 ```
 
-Legg PDF-filer i `docs/`-mappen og oppdater arrayen.
+Deretter: `http://localhost:8080`
+
+## Oppdatere dokumentlisten pa siden
+
+Dokumentkortene styres fra `js/docs.js`.  
+Legg nye PDF-filer i `docs/` og oppdater listen i `js/docs.js`.
 
 ## Deploy
 
-Nettsiden hostes via GitHub Pages fra `main`-branchen. Push endringer for å oppdatere.
+Overview-siden publiseres via GitHub Pages fra `main`-branch i dette repoet.
 
-## Kildekode
+## Relaterte repoer
 
-Hovedprosjektet: [github.com/Baitedr/Bachelor_Gruppe1](https://github.com/Baitedr/Bachelor_Gruppe1)
+- **Denne siden (overview):** `proslides-overview`
+- **Selve ProSlides-applikasjonen:** [Bachelor_Gruppe1](https://github.com/Baitedr/Bachelor_Gruppe1)
