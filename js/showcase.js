@@ -83,7 +83,11 @@
   }
 
   /* ---- per-item circle-reveal animation ---- */
-  function animateTheme(dark) {
+  /* ox/oy: clip-path origin as CSS percentage strings, e.g. "89%" / "2%" */
+  function animateTheme(dark, ox, oy) {
+    ox = (ox !== undefined) ? ox : ORIGIN_X;
+    oy = (oy !== undefined) ? oy : ORIGIN_Y;
+
     // Cancel any still-running animations
     runningAnims.forEach(function (a) { try { a.cancel(); } catch (_) {} });
     runningAnims = [];
@@ -92,24 +96,24 @@
     darkImgs.forEach(function (img) {
       var computed = getComputedStyle(img).clipPath;
       img.style.clipPath = computed || (darkImages
-        ? 'circle(150% at ' + ORIGIN_X + ' ' + ORIGIN_Y + ')'
-        : 'circle(0% at '   + ORIGIN_X + ' ' + ORIGIN_Y + ')');
+        ? 'circle(150% at ' + ox + ' ' + oy + ')'
+        : 'circle(0% at '   + ox + ' ' + oy + ')');
     });
 
     darkImages = dark;
     syncToggleUI(dark);
 
     var from = dark
-      ? 'circle(0% at '   + ORIGIN_X + ' ' + ORIGIN_Y + ')'
-      : 'circle(150% at ' + ORIGIN_X + ' ' + ORIGIN_Y + ')';
+      ? 'circle(0% at '   + ox + ' ' + oy + ')'
+      : 'circle(150% at ' + ox + ' ' + oy + ')';
     var to = dark
-      ? 'circle(150% at ' + ORIGIN_X + ' ' + ORIGIN_Y + ')'
-      : 'circle(0% at '   + ORIGIN_X + ' ' + ORIGIN_Y + ')';
+      ? 'circle(150% at ' + ox + ' ' + oy + ')'
+      : 'circle(0% at '   + ox + ' ' + oy + ')';
 
-    var dur    = dark ? 540 : 420;
+    var dur    = dark ? 580 : 460;
     var easing = dark
-      ? 'cubic-bezier(0.33, 0.86, 0.2, 1)'  // expanding: matches site "going dark"
-      : 'cubic-bezier(0.4, 0, 0.75, 1)';    // contracting: matches site "going light"
+      ? 'cubic-bezier(0.33, 0.86, 0.2, 1)'
+      : 'cubic-bezier(0.4, 0, 0.75, 1)';
 
     darkImgs.forEach(function (img) {
       img.style.clipPath = from;
@@ -119,9 +123,7 @@
         { duration: dur, easing: easing, fill: 'forwards' }
       );
 
-      anim.onfinish = function () {
-        img.style.clipPath = to;
-      };
+      anim.onfinish = function () { img.style.clipPath = to; };
 
       runningAnims.push(anim);
     });
@@ -167,9 +169,36 @@
   });
 
   /* ---- sync with site theme toggle ---- */
+  /*
+   * When the page theme changes, fire the screenshot circle-reveal ~380ms
+   * after the mutation so it plays in the tail of the page view-transition
+   * (duration 520ms). The origin is computed from the nav theme-toggle button
+   * relative to the carousel, creating a continuous ripple from the button
+   * through the page and into the screenshots.
+   */
+  var pageToggleBtn = document.getElementById('theme-toggle');
+  var pendingThemeTimer = null;
+
   new MutationObserver(function () {
     var siteDark = document.documentElement.classList.contains('dark');
-    if (siteDark !== darkImages) animateTheme(siteDark);
+    if (siteDark === darkImages) return;
+
+    // Capture button position at mutation time (before scroll changes it)
+    var ox = ORIGIN_X, oy = ORIGIN_Y;
+    if (pageToggleBtn && viewport) {
+      var btnRect  = pageToggleBtn.getBoundingClientRect();
+      var wrapRect = viewport.getBoundingClientRect();
+      var xPct = ((btnRect.left + btnRect.right) / 2 - wrapRect.left) / wrapRect.width  * 100;
+      var yPct = ((btnRect.top  + btnRect.bottom) / 2 - wrapRect.top)  / wrapRect.height * 100;
+      ox = xPct.toFixed(1) + '%';
+      oy = yPct.toFixed(1) + '%';
+    }
+
+    // Debounce in case the class toggles rapidly
+    clearTimeout(pendingThemeTimer);
+    pendingThemeTimer = setTimeout(function () {
+      animateTheme(siteDark, ox, oy);
+    }, 380);
   }).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['class'],
