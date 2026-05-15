@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="no" class="scroll-smooth">
 <head>
+  <script>
+    (function () {
+      try {
+        var k = 'proslides-overview-theme';
+        var r = document.documentElement;
+        var s = localStorage.getItem(k);
+        var dark = s === 'dark' || (s !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        r.classList.toggle('dark', dark);
+      } catch (e) {}
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ProSlides – Prosjektoversikt</title>
@@ -41,12 +52,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] },
-          colors: {
-            accent: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' }
-          }
         }
       }
     }
@@ -55,46 +64,201 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #c7d2fe; transform: translateX(-50%); }
-    @media (max-width: 768px) { .timeline-line { left: 1.25rem; } }
+    /* Fargevariabler og temanimasjon — samme konsept som frontend/src/index.css + ModeToggle i ProSlides-repoet */
+    @property --background {
+      syntax: '<color>';
+      inherits: true;
+      initial-value: oklch(0.965 0.012 95);
+    }
+    @property --foreground {
+      syntax: '<color>';
+      inherits: true;
+      initial-value: oklch(0.28 0.022 95);
+    }
+
+    :root {
+      color-scheme: light;
+      --background: oklch(0.965 0.012 95);
+      --foreground: oklch(0.28 0.022 95);
+      --card: oklch(0.985 0.009 95);
+      --card-foreground: oklch(0.28 0.022 95);
+      --popover: oklch(0.99 0.008 95);
+      --popover-foreground: oklch(0.28 0.022 95);
+      --primary: oklch(0.55 0.21 277);
+      --primary-foreground: oklch(0.98 0.005 0);
+      --secondary: oklch(0.94 0.016 95);
+      --secondary-foreground: oklch(0.3 0.022 95);
+      --muted: oklch(0.935 0.014 95);
+      --muted-foreground: oklch(0.46 0.024 95);
+      --accent: oklch(0.925 0.018 95);
+      --accent-foreground: oklch(0.3 0.022 95);
+      --destructive: oklch(0.58 0.22 25);
+      --destructive-foreground: oklch(0.98 0 0);
+      --border: oklch(0.88 0.018 95);
+      --input: oklch(0.88 0.018 95);
+      --ring: oklch(0.55 0.21 277);
+      --radius: 0.875rem;
+    }
+
+    .dark {
+      color-scheme: dark;
+      --background: oklch(0.13 0.02 268);
+      --foreground: oklch(0.93 0.005 268);
+      --card: oklch(0.19 0.02 268);
+      --card-foreground: oklch(0.93 0.005 268);
+      --popover: oklch(0.19 0.02 268);
+      --popover-foreground: oklch(0.93 0.005 268);
+      --primary: oklch(0.55 0.21 277);
+      --primary-foreground: oklch(0.98 0.005 0);
+      --secondary: oklch(0.24 0.015 268);
+      --secondary-foreground: oklch(0.93 0.005 268);
+      --muted: oklch(0.24 0.015 268);
+      --muted-foreground: oklch(0.62 0.01 268);
+      --accent: oklch(0.28 0.02 268);
+      --accent-foreground: oklch(0.93 0.005 268);
+      --destructive: oklch(0.7 0.19 22);
+      --destructive-foreground: oklch(0.98 0 0);
+      --border: oklch(1 0 0 / 10%);
+      --input: oklch(1 0 0 / 15%);
+      --ring: oklch(0.55 0.016 268);
+      --radius: 0.875rem;
+    }
+
+    html {
+      view-transition-name: root;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    #theme-toggle {
+      box-sizing: border-box;
+      height: 2rem;
+      width: 2rem;
+      flex-shrink: 0;
+      border-radius: calc(var(--radius, 0.875rem) - 4px);
+      border: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
+      background: color-mix(in oklch, var(--muted) 30%, transparent);
+      color: var(--foreground);
+      box-shadow: none;
+    }
+    #theme-toggle:hover {
+      border-color: color-mix(in oklch, var(--border) 70%, transparent);
+      background: color-mix(in oklch, var(--accent) 70%, transparent);
+      color: var(--accent-foreground);
+    }
+    .dark #theme-toggle {
+      border-color: color-mix(in oklch, var(--input) 70%, transparent);
+      background: transparent;
+    }
+    .dark #theme-toggle:hover {
+      border-color: var(--input);
+      background: var(--accent);
+      color: var(--accent-foreground);
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+      background: color-mix(in oklch, var(--primary) 35%, var(--border));
+      opacity: 0.85;
+    }
+    .dark .timeline-line {
+      opacity: 0.55;
+    }
+    @media (max-width: 768px) {
+      .timeline-line { left: 1.25rem; }
+    }
+
+    @keyframes theme-vt-expand {
+      from {
+        clip-path: circle(0% at var(--theme-orig-x, 50%) var(--theme-orig-y, 50%));
+      }
+      to {
+        clip-path: circle(150% at var(--theme-orig-x, 50%) var(--theme-orig-y, 50%));
+      }
+    }
+
+    @keyframes theme-vt-implode {
+      from {
+        clip-path: circle(150% at var(--theme-orig-x, 50%) var(--theme-orig-y, 50%));
+      }
+      to {
+        clip-path: circle(0% at var(--theme-orig-x, 50%) var(--theme-orig-y, 50%));
+      }
+    }
+
+    ::view-transition-new(root) {
+      animation-name: var(--theme-vt-new-name, none);
+      animation-duration: var(--theme-vt-dur, 0s);
+      animation-timing-function: cubic-bezier(0.33, 0.86, 0.2, 1);
+      animation-fill-mode: both;
+      z-index: var(--theme-vt-new-z, 1);
+    }
+
+    ::view-transition-old(root) {
+      animation-name: var(--theme-vt-old-name, none);
+      animation-duration: var(--theme-vt-dur, 0s);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.75, 1);
+      animation-fill-mode: both;
+      z-index: var(--theme-vt-old-z, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.001ms !important;
+      }
+    }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="antialiased bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200">
 
   <!-- Nav -->
-  <nav class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200/60">
-    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-      <a href="#hero" class="text-lg font-semibold text-accent-600">ProSlides</a>
-      <div class="hidden sm:flex gap-6 text-sm font-medium text-gray-500">
-        <a href="#about" class="hover:text-accent-600 transition">Om prosjektet</a>
-        <a href="#tech" class="hover:text-accent-600 transition">Teknologi</a>
-        <a href="#architecture" class="hover:text-accent-600 transition">Arkitektur</a>
-        <a href="#team" class="hover:text-accent-600 transition">Teamet</a>
-        <a href="#timeline" class="hover:text-accent-600 transition">Tidslinje</a>
+  <nav class="fixed top-0 inset-x-0 z-50 border-b border-[color:color-mix(in_oklch,var(--border)_60%,transparent)] bg-[color:color-mix(in_oklch,var(--background)_80%,transparent)] backdrop-blur-md supports-[backdrop-filter]:bg-[color:color-mix(in_oklch,var(--background)_65%,transparent)]">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between gap-3">
+      <a href="#hero" class="text-lg font-semibold text-[color:var(--primary)] shrink-0 hover:opacity-90 transition-opacity">ProSlides</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium text-[color:var(--muted-foreground)]">
+        <a href="#about" class="hover:text-[color:var(--foreground)] transition">Om prosjektet</a>
+        <a href="#tech" class="hover:text-[color:var(--foreground)] transition">Teknologi</a>
+        <a href="#architecture" class="hover:text-[color:var(--foreground)] transition">Arkitektur</a>
+        <a href="#team" class="hover:text-[color:var(--foreground)] transition">Teamet</a>
+        <a href="#timeline" class="hover:text-[color:var(--foreground)] transition">Tidslinje</a>
       </div>
+      <button type="button" id="theme-toggle" class="relative inline-flex shrink-0 items-center justify-center transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]" aria-label="Bytt tema">
+        <svg class="h-4 w-4 dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="h-4 w-4 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+      </button>
     </div>
   </nav>
 
   <!-- Hero -->
-  <section id="hero" class="pt-32 pb-20 px-6">
+  <section id="hero" class="pt-32 pb-20 px-6 bg-[var(--background)]">
     <div class="max-w-3xl mx-auto text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-50 text-accent-600 text-sm font-medium mb-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)] text-[color:var(--primary)] text-sm font-medium mb-6 border border-[color:var(--border)]">
         <span>Bachelorprosjekt 2026</span>
       </div>
-      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-6">ProSlides</h1>
-      <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-[color:var(--foreground)] mb-6">ProSlides</h1>
+      <p class="text-lg text-[color:var(--muted-foreground)] max-w-2xl mx-auto leading-relaxed mb-8">
         En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, ordskyer, spørsmål og live-resultater. Bygget som bachelorprosjekt (BOP3000) ved USN Bø, våren 2026.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
         <a href="https://slides.rubynor.com/" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-600 text-white rounded-lg text-sm font-medium hover:bg-accent-700 transition">
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--primary)] text-[var(--primary-foreground)]">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
           Se live-appen
         </a>
         <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition">
-          <img src="https://svgl.app/library/github_dark.svg" alt="GitHub" class="w-5 h-5" />
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--foreground)] text-[var(--background)]">
+          <img src="https://svgl.app/library/github_dark.svg" alt="" class="w-5 h-5 dark:hidden" />
+          <img src="https://svgl.app/library/github_light.svg" alt="GitHub" class="w-5 h-5 hidden dark:block" />
           Se kildekoden
         </a>
       </div>
@@ -102,213 +266,214 @@
   </section>
 
   <!-- About -->
-  <section id="about" class="py-20 px-6 bg-white">
+  <section id="about" class="py-20 px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">Om prosjektet</h2>
-      <p class="text-gray-500 max-w-3xl leading-relaxed mb-4">
-        RubyNor har i dag løsningen <a href="https://app.spleiselaget.no" target="_blank" class="text-accent-600 hover:underline">spleiselaget.no</a> for interaktive presentasjoner, men den er bygget på rigide, forhåndsdefinerte maler. Oppgaven var å utvikle en mer fleksibel WYSIWYG-editor der brukeren fritt kan utforme slides visuelt, samtidig som publikum involveres i sanntid via nettleser eller mobil – uten behov for apper eller brukerkonto.
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-4">Om prosjektet</h2>
+      <p class="text-[color:var(--muted-foreground)] max-w-3xl leading-relaxed mb-4">
+        RubyNor har i dag løsningen <a href="https://app.spleiselaget.no" target="_blank" class="text-[color:var(--primary)] hover:underline">spleiselaget.no</a> for interaktive presentasjoner, men den er bygget på rigide, forhåndsdefinerte maler. Oppgaven var å utvikle en mer fleksibel WYSIWYG-editor der brukeren fritt kan utforme slides visuelt, samtidig som publikum involveres i sanntid via nettleser eller mobil – uten behov for apper eller brukerkonto.
       </p>
-      <div class="rounded-lg bg-accent-50 border border-accent-100 p-4 mb-8">
-        <p class="text-sm font-medium text-accent-800 mb-1">Problemstilling</p>
-        <p class="text-sm text-accent-700 italic">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
+      <div class="rounded-lg bg-[var(--accent)] border border-[color:var(--border)] p-4 mb-8">
+        <p class="text-sm font-medium text-[color:var(--accent-foreground)] mb-1">Problemstilling</p>
+        <p class="text-sm text-[color:var(--muted-foreground)] italic">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
       </div>
       <div class="grid sm:grid-cols-2 gap-4 mb-8">
-        <div class="rounded-lg border border-gray-200 p-4 flex items-start gap-3">
-          <div class="shrink-0 w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+        <div class="rounded-lg border border-[color:var(--border)] bg-[var(--muted)] p-4 flex items-start gap-3">
+          <div class="shrink-0 w-10 h-10 rounded-full bg-[color:color-mix(in_oklch,var(--destructive)_14%,var(--muted))] flex items-center justify-center border border-[color:var(--border)]">
+            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
           </div>
           <div>
-            <p class="text-sm font-semibold text-gray-900">Oppdragsgiver</p>
-            <p class="text-sm text-gray-500">RubyNor – Pål Andrè Sundt, CTO</p>
+            <p class="text-sm font-semibold text-[color:var(--foreground)]">Oppdragsgiver</p>
+            <p class="text-sm text-[color:var(--muted-foreground)]">RubyNor – Pål Andrè Sundt, CTO</p>
           </div>
         </div>
-        <div class="rounded-lg border border-gray-200 p-4 flex items-start gap-3">
-          <div class="shrink-0 w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+        <div class="rounded-lg border border-[color:var(--border)] bg-[var(--muted)] p-4 flex items-start gap-3">
+          <div class="shrink-0 w-10 h-10 rounded-full bg-[color:color-mix(in_oklch,var(--primary)_12%,var(--muted))] flex items-center justify-center border border-[color:var(--border)]">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
           </div>
           <div>
-            <p class="text-sm font-semibold text-gray-900">Veileder</p>
-            <p class="text-sm text-gray-500">Ingrid Sundbø – USN, campus Bø</p>
+            <p class="text-sm font-semibold text-[color:var(--foreground)]">Veileder</p>
+            <p class="text-sm text-[color:var(--muted-foreground)]">Ingrid Sundbø – USN, campus Bø</p>
           </div>
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-6">
-        <div class="rounded-xl border border-gray-200 p-6">
-          <h3 class="font-semibold text-gray-900 mb-2">Monorepo-struktur</h3>
-          <p class="text-sm text-gray-500 mb-4">Prosjektet er organisert som en monorepo med to hovedmapper:</p>
-          <div class="font-mono text-sm bg-gray-50 rounded-lg p-4 text-gray-600 space-y-1">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6">
+          <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Monorepo-struktur</h3>
+          <p class="text-sm text-[color:var(--muted-foreground)] mb-4">Prosjektet er organisert som en monorepo med to hovedmapper:</p>
+          <div class="font-mono text-sm bg-[var(--muted)] rounded-lg p-4 text-[color:var(--muted-foreground)] border border-[color:var(--border)] space-y-1">
             <div>Bachelor_Gruppe1/</div>
-            <div class="pl-4">├── <span class="text-red-500 font-medium">backend/</span>  &nbsp;Rails 8.1 API</div>
-            <div class="pl-4">├── <span class="text-blue-500 font-medium">frontend/</span> React + Vite SPA</div>
+            <div class="pl-4">├── <span class="text-red-600 dark:text-red-400 font-medium">backend/</span>  &nbsp;Rails 8.1 API</div>
+            <div class="pl-4">├── <span class="text-blue-600 dark:text-blue-400 font-medium">frontend/</span> React + Vite SPA</div>
             <div class="pl-4">├── scripts/</div>
             <div class="pl-4">└── README.md</div>
           </div>
         </div>
-        <div class="rounded-xl border border-gray-200 p-6">
-          <h3 class="font-semibold text-gray-900 mb-2">Krav fra oppdragsgiver</h3>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Webbasert WYSIWYG-editor for slides</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Dra-og-slipp for elementer (tekst, bilder, bakgrunn)</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Interaktive elementer (polls, spørsmål)</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Sanntidskommunikasjon presentatør ↔ publikum</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Mobil deltakelse uten app/registrering</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Responsivt grensesnitt (desktop + mobil)</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Dynamisk bruk av publikumsdata i slides</li>
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6">
+          <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Krav fra oppdragsgiver</h3>
+          <ul class="space-y-2 text-sm text-[color:var(--muted-foreground)]">
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Webbasert WYSIWYG-editor for slides</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Dra-og-slipp for elementer (tekst, bilder, bakgrunn)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Interaktive elementer (polls, spørsmål)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Sanntidskommunikasjon presentatør ↔ publikum</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Mobil deltakelse uten app/registrering</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Responsivt grensesnitt (desktop + mobil)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 dark:text-green-400 shrink-0">&#10003;</span>Dynamisk bruk av publikumsdata i slides</li>
           </ul>
-          <p class="text-xs text-gray-400 mt-3 border-t border-gray-100 pt-3">Elm ble anbefalt som frontend – vi valgte React/TypeScript for økosystem, erfaring og industrirelevans.</p>
+          <p class="text-xs text-[color:var(--muted-foreground)] mt-3 border-t border-[color:var(--border)] pt-3">Elm ble anbefalt som frontend – vi valgte React/TypeScript for økosystem, erfaring og industrirelevans.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Tech Stack -->
-  <section id="tech" class="py-20 px-6">
+  <section id="tech" class="py-20 px-6 bg-[var(--background)]">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Teknologier</h2>
-      <p class="text-gray-500 mb-10">Språk, rammeverk og verktøy brukt i prosjektet.</p>
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Teknologier</h2>
+      <p class="text-[color:var(--muted-foreground)] mb-10">Språk, rammeverk og verktøy brukt i prosjektet.</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         <!-- Ruby on Rails -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/ruby.svg" alt="Ruby on Rails" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Ruby on Rails 8.1</div>
-          <div class="text-xs text-gray-400 mt-1">Backend API</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Ruby on Rails 8.1</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Backend API</div>
         </div>
         <!-- React -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
-          <img src="https://svgl.app/library/react_dark.svg" alt="React" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">React 18</div>
-          <div class="text-xs text-gray-400 mt-1">Frontend UI</div>
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
+          <img src="https://svgl.app/library/react_dark.svg" alt="" class="w-10 h-10 mb-2 dark:hidden" />
+          <img src="https://svgl.app/library/react_light.svg" alt="React" class="w-10 h-10 mb-2 hidden dark:block" />
+          <div class="font-medium text-sm text-[color:var(--foreground)]">React 18</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Frontend UI</div>
         </div>
         <!-- TypeScript -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/typescript.svg" alt="TypeScript" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">TypeScript</div>
-          <div class="text-xs text-gray-400 mt-1">Type-sikkerhet</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">TypeScript</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Type-sikkerhet</div>
         </div>
         <!-- PostgreSQL -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/postgresql.svg" alt="PostgreSQL" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">PostgreSQL</div>
-          <div class="text-xs text-gray-400 mt-1">Database</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">PostgreSQL</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Database</div>
         </div>
         <!-- Action Cable -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
-          <svg class="w-10 h-10 mb-2" viewBox="0 0 24 24" fill="none" stroke="#CC0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2C5.5 3.5 2 8 2 12s3.5 8.5 6.5 10"/><path d="M15.5 2c3 1.5 6.5 6 6.5 10s-3.5 8.5-6.5 10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
-          <div class="font-medium text-sm">Action Cable</div>
-          <div class="text-xs text-gray-400 mt-1">WebSockets / sanntid</div>
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
+          <svg class="w-10 h-10 mb-2 text-[color:var(--destructive)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2C5.5 3.5 2 8 2 12s3.5 8.5 6.5 10"/><path d="M15.5 2c3 1.5 6.5 6 6.5 10s-3.5 8.5-6.5 10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Action Cable</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">WebSockets / sanntid</div>
         </div>
         <!-- Vite -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/vite.svg" alt="Vite" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Vite</div>
-          <div class="text-xs text-gray-400 mt-1">Build-verktøy</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Vite</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Build-verktøy</div>
         </div>
         <!-- Tailwind CSS -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/tailwindcss.svg" alt="Tailwind CSS" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Tailwind CSS</div>
-          <div class="text-xs text-gray-400 mt-1">Styling</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Tailwind CSS</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Styling</div>
         </div>
         <!-- Playwright -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/playwright.svg" alt="Playwright" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Playwright</div>
-          <div class="text-xs text-gray-400 mt-1">E2E-testing</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Playwright</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">E2E-testing</div>
         </div>
         <!-- JWT + OAuth2 -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
-          <svg class="w-10 h-10 mb-2" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/><path d="M12 17v2"/></svg>
-          <div class="font-medium text-sm">JWT + OAuth2</div>
-          <div class="text-xs text-gray-400 mt-1">Autentisering</div>
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
+          <svg class="w-10 h-10 mb-2 text-[color:var(--primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/><path d="M12 17v2"/></svg>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">JWT + OAuth2</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Autentisering</div>
         </div>
         <!-- Redis -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/redis.svg" alt="Redis" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Redis</div>
-          <div class="text-xs text-gray-400 mt-1">Cache / pub-sub</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Redis</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Cache / pub-sub</div>
         </div>
         <!-- Docker -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/docker.svg" alt="Docker" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Docker + Kamal</div>
-          <div class="text-xs text-gray-400 mt-1">Deploy</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Docker + Kamal</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Deploy</div>
         </div>
         <!-- Fabric.js -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
-          <svg class="w-10 h-10 mb-2" viewBox="0 0 24 24" fill="none" stroke="#F57C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M2 15l5-5 4 4 3-3 8 8"/><circle cx="15.5" cy="7.5" r="2"/></svg>
-          <div class="font-medium text-sm">Fabric.js</div>
-          <div class="text-xs text-gray-400 mt-1">Canvas / tegning</div>
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
+          <svg class="w-10 h-10 mb-2 text-orange-600 dark:text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M2 15l5-5 4 4 3-3 8 8"/><circle cx="15.5" cy="7.5" r="2"/></svg>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Fabric.js</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Canvas / tegning</div>
         </div>
         <!-- Ruby -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition flex flex-col items-center">
+        <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-4 text-center hover:shadow-md transition flex flex-col items-center">
           <img src="https://svgl.app/library/ruby.svg" alt="Ruby" class="w-10 h-10 mb-2" />
-          <div class="font-medium text-sm">Ruby 3.4</div>
-          <div class="text-xs text-gray-400 mt-1">Språk (backend)</div>
+          <div class="font-medium text-sm text-[color:var(--foreground)]">Ruby 3.4</div>
+          <div class="text-xs text-[color:var(--muted-foreground)] mt-1">Språk (backend)</div>
         </div>
       </div>
 
       <!-- Language breakdown -->
       <div class="mt-10">
-        <h3 class="font-semibold text-gray-900 mb-4">Språkfordeling</h3>
-        <div class="flex rounded-full overflow-hidden h-3 bg-gray-200">
+        <h3 class="font-semibold text-[color:var(--foreground)] mb-4">Språkfordeling</h3>
+        <div class="flex rounded-full overflow-hidden h-3 bg-[var(--muted)] border border-[color:var(--border)]">
           <div class="bg-blue-500" style="width: 85.3%" title="TypeScript 85.3%"></div>
           <div class="bg-red-500" style="width: 14.3%" title="Ruby 14.3%"></div>
-          <div class="bg-gray-400" style="width: 0.4%" title="Annet 0.4%"></div>
+          <div class="bg-[color:var(--muted-foreground)]" style="width: 0.4%" title="Annet 0.4%"></div>
         </div>
-        <div class="flex gap-6 mt-3 text-sm text-gray-500">
+        <div class="flex gap-6 mt-3 text-sm text-[color:var(--muted-foreground)]">
           <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>TypeScript 85.3%</span>
           <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>Ruby 14.3%</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>Annet 0.4%</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[color:var(--muted-foreground)]"></span>Annet 0.4%</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Architecture -->
-  <section id="architecture" class="py-20 px-6 bg-white">
+  <section id="architecture" class="py-20 px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Arkitektur</h2>
-      <p class="text-gray-500 mb-10">Tredelt webarkitektur med SPA, REST API og sanntidskanal.</p>
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Arkitektur</h2>
+      <p class="text-[color:var(--muted-foreground)] mb-10">Tredelt webarkitektur med SPA, REST API og sanntidskanal.</p>
       <div class="grid sm:grid-cols-3 gap-5 mb-8">
-        <div class="rounded-xl border border-gray-200 p-5">
-          <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
+          <div class="w-9 h-9 rounded-lg bg-[color:color-mix(in_oklch,var(--primary)_10%,var(--muted))] flex items-center justify-center mb-3 border border-[color:var(--border)]">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
           </div>
-          <h3 class="font-semibold text-gray-900 text-sm mb-1">Frontend (SPA)</h3>
-          <p class="text-xs text-gray-500">React + TypeScript med Vite. Komponentbasert arkitektur med shadcn/ui og Fabric.js canvas-editor. Tokenbasert auth og reaktiv state.</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1">Frontend (SPA)</h3>
+          <p class="text-xs text-[color:var(--muted-foreground)]">React + TypeScript med Vite. Komponentbasert arkitektur med shadcn/ui og Fabric.js canvas-editor. Tokenbasert auth og reaktiv state.</p>
         </div>
-        <div class="rounded-xl border border-gray-200 p-5">
-          <div class="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
+          <div class="w-9 h-9 rounded-lg bg-[color:color-mix(in_oklch,var(--destructive)_12%,var(--muted))] flex items-center justify-center mb-3 border border-[color:var(--border)]">
+            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
           </div>
-          <h3 class="font-semibold text-gray-900 text-sm mb-1">Backend (API)</h3>
-          <p class="text-xs text-gray-500">Ruby on Rails 8.1 i API-modus. Versjonert REST-API, JWT-autentisering, OAuth (Google/GitHub), og Action Cable for WebSocket-sanntid.</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1">Backend (API)</h3>
+          <p class="text-xs text-[color:var(--muted-foreground)]">Ruby on Rails 8.1 i API-modus. Versjonert REST-API, JWT-autentisering, OAuth (Google/GitHub), og Action Cable for WebSocket-sanntid.</p>
         </div>
-        <div class="rounded-xl border border-gray-200 p-5">
-          <div class="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
+          <div class="w-9 h-9 rounded-lg bg-[color:color-mix(in_oklch,#22c55e_14%,var(--muted))] flex items-center justify-center mb-3 border border-[color:var(--border)]">
+            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>
           </div>
-          <h3 class="font-semibold text-gray-900 text-sm mb-1">Database</h3>
-          <p class="text-xs text-gray-500">PostgreSQL via Neon. UUID-primærnøkler, JSONB for fleksible slide-elementer, og relasjonell struktur for brukere, presentasjoner og sessions.</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1">Database</h3>
+          <p class="text-xs text-[color:var(--muted-foreground)]">PostgreSQL via Neon. UUID-primærnøkler, JSONB for fleksible slide-elementer, og relasjonell struktur for brukere, presentasjoner og sessions.</p>
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-5">
-        <div class="rounded-xl border border-gray-200 p-5">
-          <h3 class="font-semibold text-gray-900 text-sm mb-2">Sanntid & Live Sessions</h3>
-          <ul class="text-xs text-gray-500 space-y-1.5">
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>WebSocket via Action Cable for live-oppdateringer</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Publikum kobler til via QR-kode, kode eller lenke</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Polls og spørsmål aktiveres i sanntid fra presentatør</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Resultater visualiseres live (stolpediagram, ordsky)</li>
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-2">Sanntid & Live Sessions</h3>
+          <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>WebSocket via Action Cable for live-oppdateringer</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Publikum kobler til via QR-kode, kode eller lenke</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Polls og spørsmål aktiveres i sanntid fra presentatør</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Resultater visualiseres live (stolpediagram, ordsky)</li>
           </ul>
         </div>
-        <div class="rounded-xl border border-gray-200 p-5">
-          <h3 class="font-semibold text-gray-900 text-sm mb-2">Sikkerhet & Deploy</h3>
-          <ul class="text-xs text-gray-500 space-y-1.5">
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>JWT-tokens med 24t utløp, bcrypt-passord</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>OAuth 2.0 via Google og GitHub</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>CORS-kontroll og SSL i produksjon</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Containerisert med Docker, deployet via Kamal</li>
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-2">Sikkerhet & Deploy</h3>
+          <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>JWT-tokens med 24t utløp, bcrypt-passord</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>OAuth 2.0 via Google og GitHub</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>CORS-kontroll og SSL i produksjon</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Containerisert med Docker, deployet via Kamal</li>
           </ul>
         </div>
       </div>
@@ -316,84 +481,84 @@
   </section>
 
   <!-- Team -->
-  <section id="team" class="py-20 px-6">
+  <section id="team" class="py-20 px-6 bg-[var(--background)]">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Teamet</h2>
-      <p class="text-gray-500 mb-10">Gruppe 1 – Bachelorprosjekt USN, våren 2026.</p>
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Teamet</h2>
+      <p class="text-[color:var(--muted-foreground)] mb-10">Gruppe 1 – Bachelorprosjekt USN, våren 2026.</p>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
-              <div class="font-semibold text-gray-900 truncate">Fredrik Stalsberg</div>
-              <div class="text-xs text-accent-600 font-medium">Utvikler</div>
-              <div class="text-xs text-gray-400 mt-0.5">UI/UX, Sikkerhet & E2E-testing</div>
+              <div class="font-semibold text-[color:var(--foreground)] truncate">Fredrik Stalsberg</div>
+              <div class="text-xs text-[color:var(--primary)] font-medium">Utvikler</div>
+              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">UI/UX, Sikkerhet & E2E-testing</div>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-            <a href="https://github.com/T3lluz" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/fredrik-stalsberg-427821151/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
+            <a href="https://github.com/T3lluz" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/fredrik-stalsberg-427821151/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 dark:text-[#93c5fd] dark:bg-blue-950/40 dark:hover:bg-blue-950/60 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
-              <div class="font-semibold text-gray-900 truncate">Marcus W. H. Einarsen</div>
-              <div class="text-xs text-accent-600 font-medium">Scrum Master</div>
-              <div class="text-xs text-gray-400 mt-0.5">Editor & frontend-arkitektur</div>
+              <div class="font-semibold text-[color:var(--foreground)] truncate">Marcus W. H. Einarsen</div>
+              <div class="text-xs text-[color:var(--primary)] font-medium">Scrum Master</div>
+              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Editor & frontend-arkitektur</div>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-            <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/marcus-woo-han%C3%B8y-einarsen-3ba9aa267/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
+            <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/marcus-woo-han%C3%B8y-einarsen-3ba9aa267/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 dark:text-[#93c5fd] dark:bg-blue-950/40 dark:hover:bg-blue-950/60 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
-              <div class="font-semibold text-gray-900 truncate">Martin M. Hansen</div>
-              <div class="text-xs text-accent-600 font-medium">Prosjektleder</div>
-              <div class="text-xs text-gray-400 mt-0.5">Live-funksjonalitet & DB-arkitektur</div>
+              <div class="font-semibold text-[color:var(--foreground)] truncate">Martin M. Hansen</div>
+              <div class="text-xs text-[color:var(--primary)] font-medium">Prosjektleder</div>
+              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Live-funksjonalitet & DB-arkitektur</div>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-            <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/martin-mentzen-hansen-70089135b/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
+            <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/martin-mentzen-hansen-70089135b/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 dark:text-[#93c5fd] dark:bg-blue-950/40 dark:hover:bg-blue-950/60 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/scmog1.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <img src="https://github.com/scmog1.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
-              <div class="font-semibold text-gray-900 truncate">Sondre C. Mogen</div>
-              <div class="text-xs text-accent-600 font-medium">Utvikler</div>
-              <div class="text-xs text-gray-400 mt-0.5">Backend API & forretningslogikk</div>
+              <div class="font-semibold text-[color:var(--foreground)] truncate">Sondre C. Mogen</div>
+              <div class="text-xs text-[color:var(--primary)] font-medium">Utvikler</div>
+              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Backend API & forretningslogikk</div>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-            <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/sondre-christoffer-mogen-b11266215/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
+            <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/sondre-christoffer-mogen-b11266215/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 dark:text-[#93c5fd] dark:bg-blue-950/40 dark:hover:bg-blue-950/60 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col">
+        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col">
           <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/rikkehlarsen.png?size=80" alt="" class="w-14 h-14 rounded-full bg-gray-100 ring-2 ring-gray-100" />
+            <img src="https://github.com/rikkehlarsen.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
             <div class="min-w-0">
-              <div class="font-semibold text-gray-900 truncate">Rikke H. Larsen</div>
-              <div class="text-xs text-accent-600 font-medium">Utvikler</div>
-              <div class="text-xs text-gray-400 mt-0.5">Interaktive elementer</div>
+              <div class="font-semibold text-[color:var(--foreground)] truncate">Rikke H. Larsen</div>
+              <div class="text-xs text-[color:var(--primary)] font-medium">Utvikler</div>
+              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Interaktive elementer</div>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-            <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/rikke-hjelseth-larsen-a76a6419a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
+            <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/rikke-hjelseth-larsen-a76a6419a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[#0A66C2] bg-blue-50 hover:bg-blue-100 dark:text-[#93c5fd] dark:bg-blue-950/40 dark:hover:bg-blue-950/60 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
         </div>
 
@@ -402,10 +567,10 @@
   </section>
 
   <!-- Timeline -->
-  <section id="timeline" class="py-20 px-6">
+  <section id="timeline" class="py-20 px-6 bg-[var(--background)]">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Tidslinje</h2>
-      <p class="text-gray-500 mb-12">Prosjektet er delt opp i fire sprinter, tilpasset tidsrammen.</p>
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Tidslinje</h2>
+      <p class="text-[color:var(--muted-foreground)] mb-12">Prosjektet er delt opp i fire sprinter, tilpasset tidsrammen.</p>
 
       <div class="relative">
         <div class="timeline-line hidden md:block"></div>
@@ -413,11 +578,11 @@
         <!-- Sprint 1 -->
         <div class="relative md:flex md:items-center mb-12 group">
           <div class="md:w-1/2 md:pr-12 md:text-right">
-            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-accent-600 bg-accent-50 px-2.5 py-1 rounded-full mb-3">S1 – Start · Uke 5–7</div>
-              <h3 class="font-semibold text-gray-900 mb-2">Foranalyse</h3>
-              <p class="text-sm text-gray-500 mb-3">Sette i gang med prosjektet. Oppsett av IDE, rammeverk og utviklingsmiljø. Sette seg inn i Ruby og Rails. PostgreSQL-database satt opp med riktig tilkobling.</p>
-              <ul class="text-xs text-gray-400 space-y-1 text-left md:text-right">
+            <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S1 – Start · Uke 5–7</div>
+              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Foranalyse</h3>
+              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Sette i gang med prosjektet. Oppsett av IDE, rammeverk og utviklingsmiljø. Sette seg inn i Ruby og Rails. PostgreSQL-database satt opp med riktig tilkobling.</p>
+              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1 text-left md:text-right">
                 <li>Oppsett av Rails 8 API + React/Vite monorepo</li>
                 <li>PostgreSQL-database med migrasjoner</li>
                 <li>Git-flyt og prosjektstruktur definert</li>
@@ -425,20 +590,20 @@
               </ul>
             </div>
           </div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-accent-500 rounded-full border-4 border-gray-50 z-10"></div>
+          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--background)] z-10"></div>
           <div class="md:w-1/2 md:pl-12"></div>
         </div>
 
         <!-- Sprint 2 -->
         <div class="relative md:flex md:items-center mb-12 group">
           <div class="md:w-1/2 md:pr-12"></div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-accent-500 rounded-full border-4 border-gray-50 z-10"></div>
+          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--background)] z-10"></div>
           <div class="md:w-1/2 md:pl-12">
-            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-accent-600 bg-accent-50 px-2.5 py-1 rounded-full mb-3">S2 – Design · Uke 8–10</div>
-              <h3 class="font-semibold text-gray-900 mb-2">UI, UX og datastrukturer</h3>
-              <p class="text-sm text-gray-500 mb-3">Etablere fast UI-struktur. Sikre interaktiv og intuitiv UX med universell utforming. Definere datastrukturer og modeller.</p>
-              <ul class="text-xs text-gray-400 space-y-1">
+            <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S2 – Design · Uke 8–10</div>
+              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">UI, UX og datastrukturer</h3>
+              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Etablere fast UI-struktur. Sikre interaktiv og intuitiv UX med universell utforming. Definere datastrukturer og modeller.</p>
+              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1">
                 <li>Komponentbibliotek med shadcn/ui + Tailwind</li>
                 <li>Databasemodeller: User, Presentation, Slide, Poll</li>
                 <li>Ruting og navigasjonsstruktur</li>
@@ -451,11 +616,11 @@
         <!-- Sprint 3 -->
         <div class="relative md:flex md:items-center mb-12 group">
           <div class="md:w-1/2 md:pr-12 md:text-right">
-            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-accent-600 bg-accent-50 px-2.5 py-1 rounded-full mb-3">S3 – Implementasjon · Uke 11–17</div>
-              <h3 class="font-semibold text-gray-900 mb-2">Editor, interaktivitet og sanntid</h3>
-              <p class="text-sm text-gray-500 mb-3">Editoren er kjernen i prosjektet og får en hel sprint. All funksjonalitet på plass: verktøylinje, polls, ordsky, slides, tegning. Strukturert og oversiktlig side med tilhørende funksjoner.</p>
-              <ul class="text-xs text-gray-400 space-y-1 text-left md:text-right">
+            <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S3 – Implementasjon · Uke 11–17</div>
+              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Editor, interaktivitet og sanntid</h3>
+              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Editoren er kjernen i prosjektet og får en hel sprint. All funksjonalitet på plass: verktøylinje, polls, ordsky, slides, tegning. Strukturert og oversiktlig side med tilhørende funksjoner.</p>
+              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1 text-left md:text-right">
                 <li>Visuell slide-editor med Fabric.js-canvas</li>
                 <li>Drag-and-drop slide-organisering (dnd-kit)</li>
                 <li>Sanntids polls og ordskyer via Action Cable</li>
@@ -465,20 +630,20 @@
               </ul>
             </div>
           </div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-accent-500 rounded-full border-4 border-gray-50 z-10"></div>
+          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--background)] z-10"></div>
           <div class="md:w-1/2 md:pl-12"></div>
         </div>
 
         <!-- Sprint 4 -->
         <div class="relative md:flex md:items-center mb-12 group">
           <div class="md:w-1/2 md:pr-12"></div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-accent-500 rounded-full border-4 border-gray-50 z-10"></div>
+          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[var(--primary)] rounded-full border-4 border-[color:var(--background)] z-10"></div>
           <div class="md:w-1/2 md:pl-12">
-            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-accent-600 bg-accent-50 px-2.5 py-1 rounded-full mb-3">S4 – Testing · Uke 18–20</div>
-              <h3 class="font-semibold text-gray-900 mb-2">Feilretting og stabilisering</h3>
-              <p class="text-sm text-gray-500 mb-3">Brukertesting av nettsiden, brukerhistorier og selvtesting. Feil og mangler fikses fortløpende. Stabilisering av produktet.</p>
-              <ul class="text-xs text-gray-400 space-y-1">
+            <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full mb-3">S4 – Testing · Uke 18–20</div>
+              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Feilretting og stabilisering</h3>
+              <p class="text-sm text-[color:var(--muted-foreground)] mb-3">Brukertesting av nettsiden, brukerhistorier og selvtesting. Feil og mangler fikses fortløpende. Stabilisering av produktet.</p>
+              <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1">
                 <li>E2E-testing med Playwright</li>
                 <li>Brukertesting med reelle testpersoner</li>
                 <li>Testing basert på brukerhistorier</li>
@@ -492,25 +657,25 @@
         <!-- Rapport -->
         <div class="relative md:flex md:items-center mb-12 group">
           <div class="md:w-1/2 md:pr-12 md:text-right">
-            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full mb-3">Rapport · Uke 5–21</div>
-              <h3 class="font-semibold text-gray-900 mb-2">Rapportskriving</h3>
-              <p class="text-sm text-gray-500">Gjøres gjennom hele prosjektets levetid, parallelt med utvikling. Dokumenterer prosess, metode, resultater og refleksjon.</p>
+            <div class="bg-[var(--card)] rounded-xl border border-[color:var(--border)] p-6 hover:shadow-md transition">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--muted-foreground)] bg-[var(--muted)] border border-[color:var(--border)] px-2.5 py-1 rounded-full mb-3">Rapport · Uke 5–21</div>
+              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Rapportskriving</h3>
+              <p class="text-sm text-[color:var(--muted-foreground)]">Gjøres gjennom hele prosjektets levetid, parallelt med utvikling. Dokumenterer prosess, metode, resultater og refleksjon.</p>
             </div>
           </div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-400 rounded-full border-4 border-gray-50 z-10"></div>
+          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-[color:var(--muted-foreground)] rounded-full border-4 border-[color:var(--background)] z-10"></div>
           <div class="md:w-1/2 md:pl-12"></div>
         </div>
 
         <!-- Levering -->
         <div class="relative md:flex md:items-center group">
           <div class="md:w-1/2 md:pr-12"></div>
-          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-green-500 rounded-full border-4 border-gray-50 z-10"></div>
+          <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-green-500 rounded-full border-4 border-[color:var(--background)] z-10"></div>
           <div class="md:w-1/2 md:pl-12">
-            <div class="bg-white rounded-xl border border-green-200 p-6 hover:shadow-md transition">
-              <div class="inline-flex items-center gap-2 text-xs font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-full mb-3">Levering · Uke 21 (19. mai)</div>
-              <h3 class="font-semibold text-gray-900 mb-2">Endelig produkt</h3>
-              <p class="text-sm text-gray-500">Siste optimalisering, feilretting og endringer. Levering av ferdig produkt, rapport og prosjektoversikt.</p>
+            <div class="bg-[var(--card)] rounded-xl border border-[color:color-mix(in_oklch,#22c55e_40%,var(--border))] p-6 hover:shadow-md transition">
+              <div class="inline-flex items-center gap-2 text-xs font-semibold text-green-800 dark:text-green-300 bg-[color:color-mix(in_oklch,#22c55e_18%,var(--muted))] dark:bg-[color:color-mix(in_oklch,#4ade80_14%,var(--card))] border border-[color:color-mix(in_oklch,#22c55e_35%,var(--border))] px-2.5 py-1 rounded-full mb-3">Levering · Uke 21 (19. mai)</div>
+              <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Endelig produkt</h3>
+              <p class="text-sm text-[color:var(--muted-foreground)]">Siste optimalisering, feilretting og endringer. Levering av ferdig produkt, rapport og prosjektoversikt.</p>
             </div>
           </div>
         </div>
@@ -520,24 +685,24 @@
   </section>
 
   <!-- Documentation -->
-  <section id="docs" class="py-20 px-6 bg-white">
+  <section id="docs" class="py-20 px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Dokumentasjon</h2>
-      <p class="text-gray-500 mb-10">Prosjektdokumenter og teknisk dokumentasjon.</p>
+      <h2 class="text-3xl font-bold text-[color:var(--foreground)] mb-2">Dokumentasjon</h2>
+      <p class="text-[color:var(--muted-foreground)] mb-10">Prosjektdokumenter og teknisk dokumentasjon.</p>
       <div id="docs-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-      <p id="docs-empty" class="hidden text-sm text-gray-400 italic">Ingen dokumenter lagt til ennå.</p>
+      <p id="docs-empty" class="hidden text-sm text-[color:var(--muted-foreground)] italic">Ingen dokumenter lagt til ennå.</p>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="py-10 px-6 border-t border-gray-200 text-center text-sm text-gray-400">
+  <footer class="py-10 px-6 border-t border-[color:var(--border)] text-center text-sm text-[color:var(--muted-foreground)]">
     <p>ProSlides – Bachelorprosjekt Gruppe 1, USN 2026</p>
     <div class="flex justify-center gap-4 mt-3">
-      <a href="https://slides.rubynor.com/" target="_blank" class="hover:text-accent-600 transition">Live-app</a>
-      <span class="text-gray-200">|</span>
-      <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" class="hover:text-accent-600 transition">GitHub</a>
-      <span class="text-gray-200">|</span>
-      <a href="https://rubynor.com" target="_blank" class="hover:text-accent-600 transition">RubyNor</a>
+      <a href="https://slides.rubynor.com/" target="_blank" class="hover:text-[color:var(--foreground)] transition">Live-app</a>
+      <span class="text-[color:var(--border)]">|</span>
+      <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" class="hover:text-[color:var(--foreground)] transition">GitHub</a>
+      <span class="text-[color:var(--border)]">|</span>
+      <a href="https://rubynor.com" target="_blank" class="hover:text-[color:var(--foreground)] transition">RubyNor</a>
     </div>
   </footer>
 
@@ -566,19 +731,92 @@
         const card = document.createElement('a');
         card.href = doc.file;
         card.target = '_blank';
-        card.className = 'group rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition flex flex-col';
+        card.className = 'group rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:shadow-md hover:border-[color:var(--primary)] transition flex flex-col';
         card.innerHTML = `
           <div class="flex items-center gap-3 mb-3">
-            <svg class="w-8 h-8 text-accent-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <svg class="w-8 h-8 text-[color:var(--primary)] shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
             </svg>
-            <h3 class="font-semibold text-gray-900 group-hover:text-accent-600 transition">${doc.title}</h3>
+            <h3 class="font-semibold text-[color:var(--foreground)] group-hover:text-[color:var(--primary)] transition">${doc.title}</h3>
           </div>
-          <p class="text-sm text-gray-500">${doc.desc}</p>
+          <p class="text-sm text-[color:var(--muted-foreground)]">${doc.desc}</p>
         `;
         grid.appendChild(card);
       });
     }
+  </script>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('theme-toggle');
+      var k = 'proslides-overview-theme';
+      if (!btn) return;
+
+      function clearThemeViewTransitionVars() {
+        var r = document.documentElement;
+        ['--theme-vt-new-name', '--theme-vt-old-name', '--theme-vt-dur', '--theme-vt-new-z', '--theme-vt-old-z', '--theme-orig-x', '--theme-orig-y'].forEach(function (p) {
+          r.style.removeProperty(p);
+        });
+      }
+
+      function setAria() {
+        var dark = document.documentElement.classList.contains('dark');
+        btn.setAttribute('aria-label', dark ? 'Bytt til lyst tema' : 'Bytt til mørkt tema');
+      }
+      setAria();
+
+      btn.addEventListener('click', function () {
+        var root = document.documentElement;
+        var isDark = root.classList.contains('dark');
+        var nextDark = !isDark;
+        var nextTheme = nextDark ? 'dark' : 'light';
+
+        var rect = btn.getBoundingClientRect();
+        var x = ((rect.left + rect.right) / 2 / window.innerWidth) * 100;
+        var y = ((rect.top + rect.bottom) / 2 / window.innerHeight) * 100;
+        root.style.setProperty('--theme-orig-x', x + '%');
+        root.style.setProperty('--theme-orig-y', y + '%');
+        root.style.setProperty('--theme-vt-dur', '0.52s');
+
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var startVt = document.startViewTransition && document.startViewTransition.bind(document);
+
+        function applyTheme() {
+          root.classList.toggle('dark', nextDark);
+          try {
+            localStorage.setItem(k, nextTheme);
+          } catch (e) {}
+          setAria();
+        }
+
+        if (reduceMotion || !startVt) {
+          applyTheme();
+          clearThemeViewTransitionVars();
+          return;
+        }
+
+        if (nextTheme === 'light') {
+          root.style.setProperty('--theme-vt-new-name', 'theme-vt-expand');
+          root.style.setProperty('--theme-vt-new-z', '2');
+          root.style.setProperty('--theme-vt-old-z', '1');
+        } else {
+          root.style.setProperty('--theme-vt-old-name', 'theme-vt-implode');
+          root.style.setProperty('--theme-vt-old-z', '2');
+          root.style.setProperty('--theme-vt-new-z', '1');
+        }
+
+        try {
+          var transition = startVt(function () {
+            applyTheme();
+          });
+          var finished = transition.finished || Promise.resolve();
+          void finished.finally(clearThemeViewTransitionVars);
+        } catch (err) {
+          clearThemeViewTransitionVars();
+          applyTheme();
+        }
+      });
+    })();
   </script>
 
 </body>
