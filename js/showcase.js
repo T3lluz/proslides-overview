@@ -1,28 +1,31 @@
 /* -----------------------------------------------------------------------
    ProSlides – Screenshot Showcase
-   Single full-width slide carousel.
-   Per-item circle-reveal animation for the image theme toggle,
-   originating from the position of the theme icon inside each screenshot
-   (≈89% from left, 2% from top — the settings/theme button in the app nav).
-   Matches the site's own view-transition theme animation direction.
+   Stacked-cell carousel: all slides share the same grid cell and transition
+   via opacity + scale + blur crossfade (no translateX). CSS transitions are
+   enabled only after first render to prevent an entrance animation on load.
+
+   Per-item dark/light image stack revealed with a circle clip-path animation
+   matching the page theme toggle's view-transition style.
    ----------------------------------------------------------------------- */
 (function () {
-  var LABELS = ['Dashboard', 'Editor', 'Live-presentasjon'];
-  /* Position of the theme icon inside each screenshot (1024×556 px).
-     Expressed as percentage of the image so it scales with the element. */
+  var LABELS        = ['Dashboard', 'Editor', 'Live-presentasjon'];
+  var AUTO_INTERVAL = 9000;  /* ms between auto-advances */
+  var TRANS_DUR     = 750;   /* ms — keep ≥ longest CSS transition */
+
+  /* Position of the theme icon INSIDE each screenshot (1024×556 px) */
   var ORIGIN_X = '89%';
   var ORIGIN_Y = '2%';
 
-  var current    = 0;
-  var darkImages = false;
-  var autoTimer  = null;
-  var runningAnims = []; // per-item Web Animation refs
+  var current      = 0;
+  var darkImages   = false;
+  var autoTimer    = null;
+  var runningAnims = [];
 
   /* ---- element refs ---- */
   var viewport = document.getElementById('showcase-wrap');
   var track    = document.getElementById('sc-track');
-  var items    = track ? Array.from(track.querySelectorAll('.sc-item')) : [];
-  var darkImgs = track ? Array.from(track.querySelectorAll('.sc-dark')) : [];
+  var items    = track ? Array.from(track.querySelectorAll('.sc-item'))   : [];
+  var darkImgs = track ? Array.from(track.querySelectorAll('.sc-dark'))   : [];
   var tabs     = Array.from(document.querySelectorAll('.showcase-tab'));
   var dots     = Array.from(document.querySelectorAll('.sc-dot'));
   var label    = document.getElementById('showcase-label');
@@ -34,25 +37,58 @@
 
   if (!viewport || !track || !items.length) return;
 
-  /* ---- slide navigation ---- */
+  /* ---- progress bar (created programmatically) ---- */
+  var progressBar = document.createElement('div');
+  progressBar.className = 'sc-progress';
+  viewport.appendChild(progressBar);
+
+  function startProgress() {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    void progressBar.offsetWidth; /* flush */
+    progressBar.style.transition = 'width ' + AUTO_INTERVAL + 'ms linear';
+    progressBar.style.width = '100%';
+  }
+  function resetProgress() {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+  }
+
+  /* ---- slide transition ---- */
+  var zCleanTimer = null;
+
   function setSlide(idx) {
-    current = ((idx % LABELS.length) + LABELS.length) % LABELS.length;
+    var nextIdx = ((idx % LABELS.length) + LABELS.length) % LABELS.length;
+    if (nextIdx === current) return;
 
-    // Slide the track
-    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    var prevIdx = current;
+    current = nextIdx;
 
-    // Update tabs
+    /* Entering item on top during transition */
+    items[prevIdx].style.zIndex = '1';
+    items[current].style.zIndex = '3';
+
+    items[prevIdx].classList.remove('is-active');
+    items[current].classList.add('is-active');
+
+    /* Clean up inline z-index after transition finishes */
+    clearTimeout(zCleanTimer);
+    zCleanTimer = setTimeout(function () {
+      items.forEach(function (item) { item.style.zIndex = ''; });
+    }, TRANS_DUR + 50);
+
+    /* Tab pills */
     tabs.forEach(function (t, i) {
       t.classList.toggle('showcase-tab--active', i === current);
     });
 
-    // Update dots
+    /* Dots */
     dots.forEach(function (d, i) {
-      var active = i === current;
-      d.style.background = active ? 'var(--primary)' : 'var(--border)';
-      d.style.width      = active ? '1.5rem' : '';
-      d.style.height     = active ? '0.375rem' : '';
-      d.style.borderRadius = active ? '999px' : '';
+      var on = i === current;
+      d.style.background   = on ? 'var(--primary)' : 'var(--border)';
+      d.style.width        = on ? '1.5rem' : '';
+      d.style.height       = on ? '0.375rem' : '';
+      d.style.borderRadius = on ? '999px' : '';
     });
 
     if (label) label.textContent = LABELS[current];
@@ -63,39 +99,35 @@
   /* ---- auto-play ---- */
   function resetAuto() {
     clearInterval(autoTimer);
+    resetProgress();
+    startProgress();
     autoTimer = setInterval(function () {
       setSlide((current + 1) % LABELS.length);
-    }, 5000);
+    }, AUTO_INTERVAL);
   }
 
-  /* ---- commit theme instantly (no animation — used on first load) ---- */
+  /* ---- theme: instant commit (no animation, used on first load) ---- */
   function commitTheme(dark) {
     darkImages = dark;
-    var endClip = dark
+    var clip = dark
       ? 'circle(150% at ' + ORIGIN_X + ' ' + ORIGIN_Y + ')'
       : 'circle(0% at '   + ORIGIN_X + ' ' + ORIGIN_Y + ')';
-
-    darkImgs.forEach(function (img) {
-      img.style.clipPath = endClip;
-    });
-
+    darkImgs.forEach(function (img) { img.style.clipPath = clip; });
     syncToggleUI(dark);
   }
 
-  /* ---- per-item circle-reveal animation ---- */
-  /* ox/oy: clip-path origin as CSS percentage strings, e.g. "89%" / "2%" */
+  /* ---- theme: animated circle reveal ---- */
   function animateTheme(dark, ox, oy) {
     ox = (ox !== undefined) ? ox : ORIGIN_X;
     oy = (oy !== undefined) ? oy : ORIGIN_Y;
 
-    // Cancel any still-running animations
     runningAnims.forEach(function (a) { try { a.cancel(); } catch (_) {} });
     runningAnims = [];
 
-    // Commit mid-animation state before reversing
+    /* Snapshot mid-animation state so a reverse doesn't jump */
     darkImgs.forEach(function (img) {
-      var computed = getComputedStyle(img).clipPath;
-      img.style.clipPath = computed || (darkImages
+      var cur = getComputedStyle(img).clipPath;
+      img.style.clipPath = cur || (darkImages
         ? 'circle(150% at ' + ox + ' ' + oy + ')'
         : 'circle(0% at '   + ox + ' ' + oy + ')');
     });
@@ -117,19 +149,16 @@
 
     darkImgs.forEach(function (img) {
       img.style.clipPath = from;
-
       var anim = img.animate(
         [{ clipPath: from }, { clipPath: to }],
         { duration: dur, easing: easing, fill: 'forwards' }
       );
-
       anim.onfinish = function () { img.style.clipPath = to; };
-
       runningAnims.push(anim);
     });
   }
 
-  /* ---- keep the toggle pill + labels in sync ---- */
+  /* ---- toggle pill + label sync ---- */
   function syncToggleUI(dark) {
     if (!toggle) return;
     toggle.setAttribute('aria-checked', dark ? 'true' : 'false');
@@ -139,16 +168,30 @@
   }
 
   /* ---- initialise ---- */
-  // Each slide fills 100% of viewport — enforce this
-  items.forEach(function (item) {
-    item.style.width = '100%';
+  /* Show first slide instantly (no CSS transitions yet) */
+  items[0].classList.add('is-active');
+
+  /* Enable transitions after two RAF ticks so the initial state never animates */
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      track.classList.add('sc-initialized');
+    });
   });
 
-  setSlide(0);
-
-  // Sync image theme to site theme on load (instant, no animation)
+  /* Sync image theme to site theme instantly */
   darkImages = document.documentElement.classList.contains('dark');
   commitTheme(darkImages);
+
+  /* Set initial tab/dot/label state */
+  tabs.forEach(function (t, i) { t.classList.toggle('showcase-tab--active', i === 0); });
+  dots.forEach(function (d, i) {
+    d.style.background   = i === 0 ? 'var(--primary)' : 'var(--border)';
+    d.style.width        = i === 0 ? '1.5rem' : '';
+    d.style.height       = i === 0 ? '0.375rem' : '';
+    d.style.borderRadius = i === 0 ? '999px' : '';
+  });
+  if (label) label.textContent = LABELS[0];
+
   resetAuto();
 
   /* ---- events ---- */
@@ -164,45 +207,38 @@
     d.addEventListener('click', function () { setSlide(i); });
   });
 
+  /* Showcase's own Lyst/Mørkt toggle: use internal app-icon origin */
   toggle && toggle.addEventListener('click', function () {
     animateTheme(!darkImages);
   });
 
-  /* ---- sync with site theme toggle ---- */
+  /* ---- sync with site theme toggle (cascade animation) ---- */
   /*
-   * When the page theme changes, fire the screenshot circle-reveal ~380ms
-   * after the mutation so it plays in the tail of the page view-transition
-   * (duration 520ms). The origin is computed from the nav theme-toggle button
-   * relative to the carousel, creating a continuous ripple from the button
-   * through the page and into the screenshots.
+   * Delay by ~380ms so the screenshot animation fires in the tail of the
+   * page view-transition (520ms). Origin is mapped from the nav button
+   * into the carousel's coordinate space — the circle appears to ripple
+   * from the nav button through the page and into the screenshots.
    */
-  var pageToggleBtn = document.getElementById('theme-toggle');
+  var pageToggleBtn    = document.getElementById('theme-toggle');
   var pendingThemeTimer = null;
 
   new MutationObserver(function () {
     var siteDark = document.documentElement.classList.contains('dark');
     if (siteDark === darkImages) return;
 
-    // Capture button position at mutation time (before scroll changes it)
     var ox = ORIGIN_X, oy = ORIGIN_Y;
     if (pageToggleBtn && viewport) {
       var btnRect  = pageToggleBtn.getBoundingClientRect();
       var wrapRect = viewport.getBoundingClientRect();
-      var xPct = ((btnRect.left + btnRect.right) / 2 - wrapRect.left) / wrapRect.width  * 100;
-      var yPct = ((btnRect.top  + btnRect.bottom) / 2 - wrapRect.top)  / wrapRect.height * 100;
-      ox = xPct.toFixed(1) + '%';
-      oy = yPct.toFixed(1) + '%';
+      ox = (((btnRect.left + btnRect.right) / 2 - wrapRect.left) / wrapRect.width  * 100).toFixed(1) + '%';
+      oy = (((btnRect.top  + btnRect.bottom) / 2 - wrapRect.top)  / wrapRect.height * 100).toFixed(1) + '%';
     }
 
-    // Debounce in case the class toggles rapidly
     clearTimeout(pendingThemeTimer);
     pendingThemeTimer = setTimeout(function () {
       animateTheme(siteDark, ox, oy);
     }, 380);
-  }).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class'],
-  });
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
   /* ---- keyboard ---- */
   viewport.addEventListener('keydown', function (e) {

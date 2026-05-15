@@ -811,55 +811,94 @@ body {
 .dark .api-method.ws     { color: #c4b5fd; background: rgba(139,92,246,0.18); }
 
 /* =====================================================================
-   Screenshot Showcase – full-width single-slide carousel
-   Per-item light/dark stack; circle animation from theme icon position
+   Screenshot Showcase – stacked-cell carousel with crossfade animation
    ===================================================================== */
 
-/* Track: flex row, items each fill 100% of viewport width */
+/*
+  Track: CSS grid where all items share the same cell — no translateX needed.
+  Padding creates breathing space around the screenshots.
+*/
 .sc-track {
-  display: flex;
-  will-change: transform;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* spring feel */
+  display: grid;
+  padding: 16px 16px 12px;
+  background: var(--muted);
 }
 
-/* Items: full viewport width */
+/*
+  Items: all stacked in cell 1/1. Invisible by default (opacity 0, slight
+  scale-down + blur). Transitions are enabled via .sc-initialized only after
+  JS runs, so the first slide appears instantly without an entrance animation.
+*/
 .sc-item {
-  flex: 0 0 100%;
-  min-width: 0;
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: scale(0.965);
+  filter: blur(3px);
+  pointer-events: none;
+  will-change: opacity, transform, filter;
+}
+.sc-initialized .sc-item {
+  transition:
+    opacity   0.65s ease,
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    filter    0.55s ease;
+}
+.sc-item.is-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+  z-index: 2;
 }
 
-/* Per-item image stack: light below, dark on top */
+/* Screenshot image stack: light below, dark on top via clip-path */
 .sc-img-stack {
   display: grid;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 8px 32px rgba(0,0,0,0.06);
+}
+.dark .sc-img-stack {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4), 0 8px 40px rgba(0,0,0,0.45);
 }
 .sc-img-stack > img {
   grid-area: 1 / 1;
   width: 100%;
   display: block;
-  aspect-ratio: 1024 / 556; /* reserve space before load */
+  aspect-ratio: 1024 / 556;
 }
 
-/*
-  Dark image: starts hidden via clip-path.
-  JS animates clip-path from the theme-icon position within each screenshot
-  (approx 89% from left, 2% from top of the 1024×556 image).
-*/
+/* Dark image: hidden via clip-path; JS reveals it with a circle animation */
 .sc-dark {
   clip-path: circle(0% at 89% 2%);
 }
 
-/* Gradient edge masks on nav buttons (subtle depth cue) */
+/* Progress bar – auto-play indicator */
+.sc-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--primary);
+  opacity: 0.55;
+  z-index: 20;
+  border-radius: 0 1px 0 0;
+  pointer-events: none;
+}
+
+/* Gradient edge masks on nav buttons */
 .sc-nav-prev {
   background: linear-gradient(
     to right,
-    color-mix(in oklch, var(--background) 20%, transparent),
+    color-mix(in oklch, var(--muted) 40%, transparent),
     transparent
   );
 }
 .sc-nav-next {
   background: linear-gradient(
     to left,
-    color-mix(in oklch, var(--background) 20%, transparent),
+    color-mix(in oklch, var(--muted) 40%, transparent),
     transparent
   );
 }
