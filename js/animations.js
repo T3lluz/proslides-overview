@@ -50,8 +50,25 @@
   function presetTilt(card, opts) {
     var maxRot = (opts && opts.maxRot) || 10;
     var sc     = (opts && opts.scale)  || 1.04;
+    var hoverRect = null;
+
+    function updateHoverRect() {
+      var r = card.getBoundingClientRect();
+      hoverRect = {
+        left: r.left,
+        top: r.top,
+        width: r.width,
+        height: r.height
+      };
+    }
+
+    function getHoverRect() {
+      if (!hoverRect) updateHoverRect();
+      return hoverRect;
+    }
+
     function applyTilt(e) {
-      var r  = card.getBoundingClientRect();
+      var r  = getHoverRect();
       var dx = clamp((e.clientX - r.left - r.width  * 0.5) / (r.width  * 0.5), -1, 1);
       var dy = clamp((e.clientY - r.top  - r.height * 0.5) / (r.height * 0.5), -1, 1);
 
@@ -64,6 +81,7 @@
 
     card.addEventListener('mouseenter', function (e) {
       clearTimeout(card._psClear);
+      updateHoverRect();
       card.style.willChange = 'transform';
       applyTilt(e);
     });
@@ -75,8 +93,17 @@
         'transform 0.40s ' + EASE_OUT + ', box-shadow 0.35s ease';
       card.style.transform  = '';
       card.style.boxShadow  = '';
+      hoverRect = null;
       clearLater(card, 450);
     });
+
+    function refreshHoverRect() {
+      if (!card.matches(':hover')) return;
+      updateHoverRect();
+    }
+
+    window.addEventListener('resize', refreshHoverRect, { passive: true });
+    window.addEventListener('scroll', refreshHoverRect, { passive: true });
   }
 
   function unwrapTiltInner(card) {
@@ -86,37 +113,189 @@
     inner.remove();
   }
 
+  function normalizeTeamCard(card) {
+    card.querySelectorAll('.team-card__foil, .team-card__glare').forEach(function (el) {
+      el.remove();
+    });
+    var legacy = card.querySelector(':scope > .team-card__tilt');
+    if (legacy) {
+      legacy.classList.remove('team-card__tilt');
+      legacy.classList.add('team-card__scene');
+    }
+  }
+
+  function ensureTeamCardScene(card) {
+    normalizeTeamCard(card);
+    var scene = card.querySelector(':scope > .team-card__scene');
+    if (scene) return scene;
+    scene = document.createElement('div');
+    scene.className = 'team-card__scene';
+    while (card.firstChild) scene.appendChild(card.firstChild);
+    card.appendChild(scene);
+    return scene;
+  }
+
   function presetTeamCard(card) {
-    var maxRot = 8;
-    var sc     = 1.03;
+    ensureTeamCardScene(card);
 
-    function applyTilt(e) {
-      var r  = card.getBoundingClientRect();
-      var dx = clamp((e.clientX - r.left - r.width  * 0.5) / (r.width  * 0.5), -1, 1);
-      var dy = clamp((e.clientY - r.top  - r.height * 0.5) / (r.height * 0.5), -1, 1);
+    var popLayers = [
+      { sel: '.team-card__photo-frame', hoverZ: 14, parallaxX: 4.5, parallaxY: 4, rotX: 1.2, rotY: 1.4 },
+      { sel: '.team-card__identity', hoverZ: 8, parallaxX: 2.5, parallaxY: 2, rotX: 0.7, rotY: 0.9 },
+      { sel: '.team-card__badge', hoverZ: 6, parallaxX: 1.7, parallaxY: 1.2, rotX: 0.45, rotY: 0.7 },
+      { sel: '.team-card__focus', hoverZ: 1, parallaxX: -0.9, parallaxY: -0.6, rotX: 0.32, rotY: 0.38, scale: 0.987 },
+      { sel: '.team-card__actions', hoverZ: 6, parallaxX: 1.6, parallaxY: 1.2, rotX: 0.32, rotY: 0.38 }
+    ];
+    var layerEls = popLayers
+      .map(function (layer) {
+        return { cfg: layer, el: card.querySelector(layer.sel) };
+      })
+      .filter(function (item) {
+        return item.el;
+      });
+    var maxRot = 6.4;
+    var cardLift = 14;
+    var easeSmooth = 'cubic-bezier(0.22, 1, 0.36, 1)';
+    var durIn = '0.5s';
+    var durMove = '0.28s';
+    var durOut = '0.65s';
+    var hoverRect = null;
 
-      card.style.transition = 'box-shadow 80ms linear';
-      card.style.transform  =
-        'perspective(900px) rotateX(' + (-dy * maxRot) + 'deg) rotateY(' +
-        (dx * maxRot) + 'deg) scale(' + sc + ')';
-      card.style.boxShadow = shadow();
+    function updateHoverRect() {
+      var r = card.getBoundingClientRect();
+      hoverRect = {
+        left: r.left,
+        top: r.top,
+        width: r.width,
+        height: r.height
+      };
+    }
+
+    function getHoverRect() {
+      if (!hoverRect) updateHoverRect();
+      return hoverRect;
+    }
+
+    function getTilt(e) {
+      var r = getHoverRect();
+      var dx = (e.clientX - r.left - r.width * 0.5) / (r.width * 0.5);
+      var dy = (e.clientY - r.top - r.height * 0.5) / (r.height * 0.5);
+      dx = clamp(dx, -1, 1);
+      dy = clamp(dy, -1, 1);
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      var dead = 0.12;
+
+      if (dist <= dead) {
+        return { dx: 0, dy: 0, flat: true };
+      }
+
+      var amount = (dist - dead) / (1 - dead);
+      amount = Math.min(amount, 1);
+      var nx = dx / dist;
+      var ny = dy / dist;
+
+      return {
+        dx: clamp(nx * amount, -1, 1),
+        dy: clamp(ny * amount, -1, 1),
+        flat: false
+      };
+    }
+
+    function cardTransform(t) {
+      if (t.flat) {
+        return 'translate3d(0, 0, ' + cardLift + 'px) rotateX(0deg) rotateY(0deg)';
+      }
+      return (
+        'translate3d(0, 0, ' +
+        cardLift +
+        'px) rotateX(' +
+        (-t.dy * maxRot) +
+        'deg) rotateY(' +
+        (t.dx * maxRot) +
+        'deg)'
+      );
+    }
+
+    function setLight(e, t) {
+      var r = getHoverRect();
+      var mx = ((e.clientX - r.left) / r.width) * 100;
+      var my = ((e.clientY - r.top) / r.height) * 100;
+      card.style.setProperty('--lx', mx + '%');
+      card.style.setProperty('--ly', my + '%');
+      card.style.setProperty('--light-angle', 120 + (mx - 50) * 0.9 + 'deg');
+      card.style.setProperty('--shine-strength', String(t.flat ? 0.58 : 0.58 + Math.min(Math.sqrt(t.dx * t.dx + t.dy * t.dy), 1) * 0.42));
+    }
+
+    function layerTransform(t, layer, active) {
+      if (!active) return '';
+      var dx = t.flat ? 0 : t.dx;
+      var dy = t.flat ? 0 : t.dy;
+      var z = t.flat ? 0 : (layer.hoverZ || 0);
+      var tx = dx * (layer.parallaxX || 0);
+      var ty = dy * (layer.parallaxY || 0);
+      var rx = -dy * (layer.rotX || 0);
+      var ry = dx * (layer.rotY || 0);
+      var sc = t.flat ? 1 : (layer.scale || 1);
+      return (
+        'translate3d(' + tx + 'px, ' + ty + 'px, ' + z + 'px) ' +
+        'rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale(' + sc + ')'
+      );
+    }
+
+    function applyDepth(e, dur, active) {
+      var trans = 'transform ' + dur + ' ' + easeSmooth;
+      var t = active && e ? getTilt(e) : { dx: 0, dy: 0, flat: true };
+
+      if (active && e) setLight(e, t);
+
+      card.style.transition = trans + ', box-shadow ' + dur + ' ease';
+
+      if (active) {
+        card.classList.add('team-card--lift');
+        card.style.transform = cardTransform(t);
+      } else {
+        card.classList.remove('team-card--lift');
+        card.style.transform = '';
+      }
+
+      layerEls.forEach(function (item) {
+        item.el.style.transition = trans;
+        item.el.style.transform = active ? layerTransform(t, item.cfg, active) : '';
+      });
     }
 
     card.addEventListener('mouseenter', function (e) {
       clearTimeout(card._psClear);
+      updateHoverRect();
       card.style.willChange = 'transform';
-      applyTilt(e);
+      card.style.zIndex = '8';
+      applyDepth(e, durIn, true);
     });
 
-    card.addEventListener('mousemove', applyTilt);
+    card.addEventListener('mousemove', function (e) {
+      applyDepth(e, durMove, true);
+    });
 
     card.addEventListener('mouseleave', function () {
-      card.style.transition =
-        'transform 0.40s ' + EASE_OUT + ', box-shadow 0.35s ease';
-      card.style.transform  = '';
-      card.style.boxShadow  = '';
-      clearLater(card, 450);
+      applyDepth(null, durOut, false);
+      card.style.zIndex = '';
+      hoverRect = null;
+      card.style.removeProperty('--lx');
+      card.style.removeProperty('--ly');
+      card.style.removeProperty('--light-angle');
+      card.style.removeProperty('--shine-strength');
+      clearLater(card, 700);
+      layerEls.forEach(function (item) {
+        clearLater(item.el, 700);
+      });
     });
+
+    function refreshHoverRect() {
+      if (!card.matches(':hover')) return;
+      updateHoverRect();
+    }
+
+    window.addEventListener('resize', refreshHoverRect, { passive: true });
+    window.addEventListener('scroll', refreshHoverRect, { passive: true });
   }
 
   /* =================================================================
@@ -391,10 +570,10 @@
 
   /* Opacity-only entrance — team cards use inline transform for tilt hover */
   function animateTeamCards() {
-    var container = document.querySelector('#team .grid');
+    var container = document.querySelector('#team .team-grid');
     if (!container || motionReduced()) return;
 
-    var items = container.querySelectorAll(':scope > div');
+    var items = container.querySelectorAll(':scope > .team-card');
     items.forEach(function (el) {
       unwrapTiltInner(el);
       el.style.opacity = '0';
@@ -404,7 +583,7 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         obs.unobserve(entry.target);
-        entry.target.querySelectorAll(':scope > div').forEach(function (el, i) {
+        entry.target.querySelectorAll(':scope > .team-card').forEach(function (el, i) {
           setTimeout(function () {
             el.style.transition = 'opacity 0.42s ' + EASE_OUT;
             el.style.opacity = '1';

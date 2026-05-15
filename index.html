@@ -60,7 +60,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=16" />
+  <link rel="stylesheet" href="css/styles.css?v=37" />
   <link rel="stylesheet" href="css/animations.css?v=13" />
   <!-- Preload first-visible showcase images for instant display -->
   <link rel="preload" as="image" href="assets/image-a51f2bef-9624-4586-8928-54ce81f924f8.png" />
@@ -1963,21 +1963,6 @@
           </aside>
         </div>
 
-        <!-- Footer (quick links + tip) -->
-        <div class="px-5 sm:px-6 py-3 border-t border-[color:var(--border)] bg-[color:color-mix(in_oklch,var(--muted)_25%,var(--card))] flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-xs text-[color:var(--muted-foreground)]">
-          <div class="inline-flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-[color:var(--primary)]"></span>
-            <span>Klikk på et element for detaljer · Dra for å panorere · Scroll for zoom</span>
-          </div>
-          <div class="flex items-center gap-1 flex-wrap">
-            <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/README.md" target="_blank" rel="noopener" class="px-2 py-1 rounded-md border border-transparent hover:border-[color:var(--border)] hover:text-[color:var(--foreground)] transition">README</a>
-            <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/config/routes.rb" target="_blank" rel="noopener" class="px-2 py-1 rounded-md border border-transparent hover:border-[color:var(--border)] hover:text-[color:var(--foreground)] transition">routes.rb</a>
-            <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/db/schema.rb" target="_blank" rel="noopener" class="px-2 py-1 rounded-md border border-transparent hover:border-[color:var(--border)] hover:text-[color:var(--foreground)] transition">schema.rb</a>
-            <a href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/backend/app/channels" target="_blank" rel="noopener" class="px-2 py-1 rounded-md border border-transparent hover:border-[color:var(--border)] hover:text-[color:var(--foreground)] transition">channels/</a>
-            <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/Gemfile" target="_blank" rel="noopener" class="px-2 py-1 rounded-md border border-transparent hover:border-[color:var(--border)] hover:text-[color:var(--foreground)] transition">Gemfile</a>
-            <a href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/package.json" target="_blank" rel="noopener" class="px-2 py-1 rounded-md border border-transparent hover:border-[color:var(--border)] hover:text-[color:var(--foreground)] transition">package.json</a>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -1987,85 +1972,118 @@
     <div class="section-inner">
       <header class="section-header">
         <h2 class="section-title">Teamet</h2>
-        <p class="section-desc">Gruppe 1 – Bachelorprosjekt USN, våren 2026.</p>
+        <p class="section-desc">Utviklerteamet bak ProSlides – bachelorprosjekt USN våren 2026, i samarbeid med RubyNor.</p>
       </header>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:border-[color:var(--primary)] flex flex-col team-card">
-          <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
-            <div class="min-w-0">
-              <div class="font-semibold text-[color:var(--foreground)] truncate">Fredrik Stalsberg</div>
-              <div class="text-xs text-[color:var(--primary)] font-medium">Utvikler</div>
-              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">UI/UX, Sikkerhet & E2E-testing</div>
+      <div class="team-grid">
+        <article class="team-card">
+          <div class="team-card__profile">
+            <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/Baitedr.png?size=460" data-photo="assets/team/martin-hansen.jpg" alt="Martin M. Hansen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Martin M. Hansen</h3>
+            <p class="team-card__badge">Prosjektleder · Utvikler</p>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
-            <a href="https://github.com/T3lluz" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/fredrik-stalsberg-427821151/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium team-linkedin transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
-          </div>
-        </div>
-
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:border-[color:var(--primary)] flex flex-col team-card">
-          <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
-            <div class="min-w-0">
-              <div class="font-semibold text-[color:var(--foreground)] truncate">Marcus W. H. Einarsen</div>
-              <div class="text-xs text-[color:var(--primary)] font-medium">Scrum Master</div>
-              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Editor & frontend-arkitektur</div>
+          <div class="team-card__body">
+            <p class="team-card__spec">Live-funksjonalitet og databasearkitektur</p>
+            <div class="team-card__focus">
+              <p class="team-card__focus-title">Primærfokus</p>
+              <ul class="team-card__list">
+              <li>Sanntidskommunikasjon (Action Cable)</li>
+              <li>Datamodell (PostgreSQL / Neon)</li>
+              <li>Resultattavle (live)</li>
+              </ul>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
-            <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/marcus-woo-han%C3%B8y-einarsen-3ba9aa267/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium team-linkedin transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="team-card__actions">
+            <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="team-card__link team-card__link--github"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/martin-mentzen-hansen-70089135b/" target="_blank" rel="noopener" class="team-card__link team-linkedin"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
-        </div>
-
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:border-[color:var(--primary)] flex flex-col team-card">
-          <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
-            <div class="min-w-0">
-              <div class="font-semibold text-[color:var(--foreground)] truncate">Martin M. Hansen</div>
-              <div class="text-xs text-[color:var(--primary)] font-medium">Prosjektleder</div>
-              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Live-funksjonalitet & DB-arkitektur</div>
+        </article>
+        <article class="team-card">
+          <div class="team-card__profile">
+            <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/MarcusWHE.png?size=460" data-photo="assets/team/marcus-einarsen.jpg" alt="Marcus W. H. Einarsen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Marcus W. H. Einarsen</h3>
+            <p class="team-card__badge">Scrum Master · Utvikler</p>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
-            <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/martin-mentzen-hansen-70089135b/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium team-linkedin transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
-          </div>
-        </div>
-
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:border-[color:var(--primary)] flex flex-col team-card">
-          <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/scmog1.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
-            <div class="min-w-0">
-              <div class="font-semibold text-[color:var(--foreground)] truncate">Sondre C. Mogen</div>
-              <div class="text-xs text-[color:var(--primary)] font-medium">Utvikler</div>
-              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Backend API & forretningslogikk</div>
+          <div class="team-card__body">
+            <p class="team-card__spec">Presentasjonseditor, frontend-arkitektur og Scrum</p>
+            <div class="team-card__focus">
+              <p class="team-card__focus-title">Primærfokus</p>
+              <ul class="team-card__list">
+              <li>WYSIWYG-editor (Fabric.js)</li>
+              <li>Redigeringsflyt</li>
+              </ul>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
-            <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/sondre-christoffer-mogen-b11266215/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium team-linkedin transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="team-card__actions">
+            <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="team-card__link team-card__link--github"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/marcus-woo-han%C3%B8y-einarsen-3ba9aa267/" target="_blank" rel="noopener" class="team-card__link team-linkedin"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
           </div>
-        </div>
-
-        <div class="rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 hover:border-[color:var(--primary)] flex flex-col team-card">
-          <div class="flex items-center gap-4 mb-auto">
-            <img src="https://github.com/rikkehlarsen.png?size=80" alt="" class="w-14 h-14 rounded-full bg-[var(--muted)] ring-2 ring-[color:var(--border)]" />
-            <div class="min-w-0">
-              <div class="font-semibold text-[color:var(--foreground)] truncate">Rikke H. Larsen</div>
-              <div class="text-xs text-[color:var(--primary)] font-medium">Utvikler</div>
-              <div class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Interaktive elementer</div>
+        </article>
+        <article class="team-card">
+          <div class="team-card__profile">
+            <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/T3lluz.png?size=460" data-photo="assets/team/fredrik-stalsberg.jpg" alt="Fredrik Stalsberg" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Fredrik Stalsberg</h3>
+            <p class="team-card__badge">Utvikler · UI/UX · Sikkerhet</p>
             </div>
           </div>
-          <div class="flex items-center gap-2 mt-4 pt-4 border-t border-[color:var(--border)]">
-            <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90 transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-            <a href="https://www.linkedin.com/in/rikke-hjelseth-larsen-a76a6419a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium team-linkedin transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          <div class="team-card__body">
+            <p class="team-card__spec">Autentisering, UI &amp; UX-design og testing (Playwright E2E)</p>
+            <div class="team-card__focus">
+              <p class="team-card__focus-title">Primærfokus</p>
+              <ul class="team-card__list">
+              <li>Brukerautentisering og sikkerhet</li>
+              <li>Designsystem (shadcn/ui)</li>
+              <li>E2E-testrutiner</li>
+              </ul>
+            </div>
           </div>
-        </div>
-
+          <div class="team-card__actions">
+            <a href="https://github.com/T3lluz" target="_blank" rel="noopener" class="team-card__link team-card__link--github"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/fredrik-stalsberg-427821151/" target="_blank" rel="noopener" class="team-card__link team-linkedin"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          </div>
+        </article>
+        <article class="team-card">
+          <div class="team-card__profile">
+            <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/scmog1.png?size=460" data-photo="assets/team/sondre-mogen.jpg" alt="Sondre C. Mogen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Sondre C. Mogen</h3>
+            <p class="team-card__badge">Utvikler</p>
+            </div>
+          </div>
+          <div class="team-card__body">
+            <p class="team-card__spec">Backend API og forretningslogikk</p>
+            <div class="team-card__focus">
+              <p class="team-card__focus-title">Primærfokus</p>
+              <ul class="team-card__list">
+              <li>API-struktur og endepunkter</li>
+              <li>Validering av data</li>
+              <li>Generell backend-utvikling</li>
+              </ul>
+            </div>
+          </div>
+          <div class="team-card__actions">
+            <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="team-card__link team-card__link--github"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/sondre-christoffer-mogen-b11266215/" target="_blank" rel="noopener" class="team-card__link team-linkedin"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          </div>
+        </article>
+        <article class="team-card">
+          <div class="team-card__profile">
+            <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/rikkehlarsen.png?size=460" data-photo="assets/team/rikke-larsen.jpg" alt="Rikke H. Larsen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Rikke H. Larsen</h3>
+            <p class="team-card__badge">Utvikler</p>
+            </div>
+          </div>
+          <div class="team-card__body">
+            <p class="team-card__spec">Interaktive elementer</p>
+            <div class="team-card__focus">
+              <p class="team-card__focus-title">Primærfokus</p>
+              <ul class="team-card__list">
+              <li>Polls og avstemninger</li>
+              <li>Publikumsspørsmål i sanntid</li>
+              <li>Integrasjon i presentasjonsflyt</li>
+              </ul>
+            </div>
+          </div>
+          <div class="team-card__actions">
+            <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="team-card__link team-card__link--github"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+            <a href="https://www.linkedin.com/in/rikke-hjelseth-larsen-a76a6419a/" target="_blank" rel="noopener" class="team-card__link team-linkedin"><svg class="team-card__link-icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -2277,7 +2295,8 @@
   <script src="js/arch-explorer.js?v=2"></script>
   <script src="js/motion-toggle.js?v=5"></script>
   <script src="js/showcase.js?v=9"></script>
-  <script src="js/animations.js?v=16"></script>
+  <script src="js/animations.js?v=29"></script>
+  <script src="js/team-avatars.js?v=2"></script>
   <script src="js/docs.js?v=5"></script>
 
 </body>
