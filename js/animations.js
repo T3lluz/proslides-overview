@@ -987,6 +987,9 @@
     });
 
     function reset(card) {
+      if (!card._psMobileActive) return;
+      card._psMobileActive = false;
+      card._psMobileSig = '';
       card.style.transform = '';
       card.classList.remove('is-mobile-tilting', 'is-mobile-focus', 'team-card--lift');
       card.style.removeProperty('--lx');
@@ -1002,6 +1005,7 @@
       var visibleCards = [];
       var nearestCard = null;
       var nearestDist = Infinity;
+      var metrics = [];
 
       cards.forEach(function (card) {
         var r = card.getBoundingClientRect();
@@ -1010,7 +1014,9 @@
           reset(card);
           return;
         }
+        var center = r.top + r.height * 0.5;
         visibleCards.push(card);
+        metrics.push({ card: card, rect: r, center: center });
         var dist = Math.abs((r.top + r.height * 0.5) - centerY);
         if (dist < nearestDist) {
           nearestDist = dist;
@@ -1037,9 +1043,9 @@
         if (nearestDist + switchThreshold < focusedDist) focusedCard = nearestCard;
       }
 
-      visibleCards.forEach(function (card) {
-        var r = card.getBoundingClientRect();
-        var center = r.top + r.height * 0.5;
+      metrics.forEach(function (item) {
+        var card = item.card;
+        var center = item.center;
         var offset = clamp((center - vh * 0.5) / (vh * 0.42), -1, 1);
         var absOffset = Math.abs(offset);
         var focusStrength = clamp(1 - absOffset * 1.6, 0, 1);
@@ -1047,18 +1053,41 @@
         var rotateX = offset < 0 ? -tiltAmount : tiltAmount;
         var scale = card === focusedCard ? 1.018 : (0.998 - absOffset * 0.015);
         var rise = card === focusedCard ? -5 : (absOffset * 1.2);
+        var lx = clamp(50 + (-offset * 16), 28, 72);
+        var ly = 36 + focusStrength * 7;
+        var lightAngle = 136 + offset * 12;
+        var shineStrength = 0.28 + focusStrength * 0.42;
+        var isFocused = card === focusedCard;
+
+        var sig =
+          rotateX.toFixed(2) + '|' +
+          scale.toFixed(3) + '|' +
+          rise.toFixed(2) + '|' +
+          lx.toFixed(2) + '|' +
+          ly.toFixed(2) + '|' +
+          lightAngle.toFixed(2) + '|' +
+          shineStrength.toFixed(3) + '|' +
+          (isFocused ? '1' : '0');
+
+        if (card._psMobileSig === sig) {
+          card._psMobileActive = true;
+          return;
+        }
+
+        card._psMobileSig = sig;
+        card._psMobileActive = true;
 
         card.style.transform =
           'perspective(980px) rotateX(' + rotateX + 'deg) rotateY(0deg) translateY(' +
           rise + 'px) scale(' + scale + ')';
 
-        card.style.setProperty('--lx', clamp(50 + (-offset * 16), 28, 72) + '%');
-        card.style.setProperty('--ly', (36 + focusStrength * 7) + '%');
-        card.style.setProperty('--light-angle', (136 + offset * 12) + 'deg');
-        card.style.setProperty('--shine-strength', String(0.28 + focusStrength * 0.42));
+        card.style.setProperty('--lx', lx + '%');
+        card.style.setProperty('--ly', ly + '%');
+        card.style.setProperty('--light-angle', lightAngle + 'deg');
+        card.style.setProperty('--shine-strength', String(shineStrength));
         card.classList.add('is-mobile-tilting');
-        card.classList.toggle('team-card--lift', card === focusedCard);
-        card.classList.toggle('is-mobile-focus', card === focusedCard);
+        card.classList.toggle('team-card--lift', isFocused);
+        card.classList.toggle('is-mobile-focus', isFocused);
       });
       ticking = false;
     }
