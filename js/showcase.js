@@ -110,7 +110,7 @@
   function commitTheme(dark) {
     darkImages = dark;
     var clip = dark
-      ? 'circle(150% at ' + ORIGIN_X + ' ' + ORIGIN_Y + ')'
+      ? 'circle(300% at ' + ORIGIN_X + ' ' + ORIGIN_Y + ')'
       : 'circle(0% at '   + ORIGIN_X + ' ' + ORIGIN_Y + ')';
     darkImgs.forEach(function (img) { img.style.clipPath = clip; });
     syncToggleUI(dark);
@@ -128,7 +128,7 @@
     darkImgs.forEach(function (img) {
       var cur = getComputedStyle(img).clipPath;
       img.style.clipPath = cur || (darkImages
-        ? 'circle(150% at ' + ox + ' ' + oy + ')'
+        ? 'circle(300% at ' + ox + ' ' + oy + ')'
         : 'circle(0% at '   + ox + ' ' + oy + ')');
     });
 
@@ -137,9 +137,9 @@
 
     var from = dark
       ? 'circle(0% at '   + ox + ' ' + oy + ')'
-      : 'circle(150% at ' + ox + ' ' + oy + ')';
+      : 'circle(300% at ' + ox + ' ' + oy + ')';
     var to = dark
-      ? 'circle(150% at ' + ox + ' ' + oy + ')'
+      ? 'circle(300% at ' + ox + ' ' + oy + ')'
       : 'circle(0% at '   + ox + ' ' + oy + ')';
 
     var dur    = dark ? 580 : 460;
