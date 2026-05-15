@@ -72,7 +72,7 @@
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold text-gray-900 mb-4">Om prosjektet</h2>
       <p class="text-gray-500 max-w-3xl leading-relaxed mb-4">
-        ProSlides er en fullstack webapplikasjon som lar forelesere og presentatører lage interaktive presentasjoner med sanntidsfunksjonalitet. Publikum kan delta i polls, ordskyer og andre interaktive elementer direkte fra sine enheter.
+        RubyNor har i dag løsningen <a href="https://app.spleiselaget.no" target="_blank" class="text-accent-600 hover:underline">spleiselaget.no</a> for interaktive presentasjoner, men den er bygget på rigide, forhåndsdefinerte maler. Oppgaven var å utvikle en mer fleksibel WYSIWYG-editor der brukeren fritt kan utforme slides visuelt, samtidig som publikum involveres i sanntid via mobil – uten behov for apper eller brukerkonto.
       </p>
       <div class="rounded-lg bg-accent-50 border border-accent-100 p-4 mb-8">
         <p class="text-sm font-medium text-accent-800 mb-1">Problemstilling</p>
@@ -111,15 +111,17 @@
           </div>
         </div>
         <div class="rounded-xl border border-gray-200 p-6">
-          <h3 class="font-semibold text-gray-900 mb-2">Nøkkelfunksjoner</h3>
+          <h3 class="font-semibold text-gray-900 mb-2">Krav fra oppdragsgiver</h3>
           <ul class="space-y-2 text-sm text-gray-500">
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Lag og rediger presentasjoner med en visuell editor</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Sanntids polls og ordskyer via WebSockets</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>OAuth-innlogging (Google, GitHub)</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Tegne-canvas med Fabric.js</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Drag-and-drop slide-organisering</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Deploy med Kamal til produksjon</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Webbasert WYSIWYG-editor for slides</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Dra-og-slipp for elementer (tekst, bilder, bakgrunn)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Interaktive elementer (polls, spørsmål)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Sanntidskommunikasjon presentatør ↔ publikum</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Mobil deltakelse uten app/registrering</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Responsivt grensesnitt (desktop + mobil)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-500 shrink-0">&#10003;</span>Dynamisk bruk av publikumsdata i slides</li>
           </ul>
+          <p class="text-xs text-gray-400 mt-3 border-t border-gray-100 pt-3">Elm ble anbefalt som frontend – vi valgte React/TypeScript for økosystem, erfaring og industrirelevans.</p>
         </div>
       </div>
     </div>
