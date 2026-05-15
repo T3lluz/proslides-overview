@@ -35,9 +35,9 @@
       <div class="hidden sm:flex gap-6 text-sm font-medium text-gray-500">
         <a href="#about" class="hover:text-accent-600 transition">Om prosjektet</a>
         <a href="#tech" class="hover:text-accent-600 transition">Teknologi</a>
+        <a href="#architecture" class="hover:text-accent-600 transition">Arkitektur</a>
         <a href="#team" class="hover:text-accent-600 transition">Teamet</a>
         <a href="#timeline" class="hover:text-accent-600 transition">Tidslinje</a>
-        <a href="#docs" class="hover:text-accent-600 transition">Dokumentasjon</a>
       </div>
     </div>
   </nav>
@@ -50,13 +50,20 @@
       </div>
       <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-6">ProSlides</h1>
       <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-8">
-        En interaktiv presentasjonsplattform med sanntidsfunksjonalitet – polls, ordskyer, tegning og live-samarbeid. Bygget som bachelorprosjekt ved USN, våren 2026.
+        En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, ordskyer, spørsmål og live-resultater. Bygget som bachelorprosjekt (BOP3000) ved USN Bø, våren 2026.
       </p>
-      <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" rel="noopener"
-         class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition">
-        <img src="https://svgl.app/library/github_dark.svg" alt="GitHub" class="w-5 h-5" />
-        Se kildekoden
-      </a>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="https://slides.rubynor.com/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-600 text-white rounded-lg text-sm font-medium hover:bg-accent-700 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+          Se live-appen
+        </a>
+        <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition">
+          <img src="https://svgl.app/library/github_dark.svg" alt="GitHub" class="w-5 h-5" />
+          Se kildekoden
+        </a>
+      </div>
     </div>
   </section>
 
@@ -64,9 +71,33 @@
   <section id="about" class="py-20 px-6 bg-white">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold text-gray-900 mb-4">Om prosjektet</h2>
-      <p class="text-gray-500 max-w-3xl leading-relaxed mb-8">
+      <p class="text-gray-500 max-w-3xl leading-relaxed mb-4">
         ProSlides er en fullstack webapplikasjon som lar forelesere og presentatører lage interaktive presentasjoner med sanntidsfunksjonalitet. Publikum kan delta i polls, ordskyer og andre interaktive elementer direkte fra sine enheter.
       </p>
+      <div class="rounded-lg bg-accent-50 border border-accent-100 p-4 mb-8">
+        <p class="text-sm font-medium text-accent-800 mb-1">Problemstilling</p>
+        <p class="text-sm text-accent-700 italic">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4 mb-8">
+        <div class="rounded-lg border border-gray-200 p-4 flex items-start gap-3">
+          <div class="shrink-0 w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-gray-900">Oppdragsgiver</p>
+            <p class="text-sm text-gray-500">RubyNor – Pål Andrè Sundt, CTO</p>
+          </div>
+        </div>
+        <div class="rounded-lg border border-gray-200 p-4 flex items-start gap-3">
+          <div class="shrink-0 w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-gray-900">Veileder</p>
+            <p class="text-sm text-gray-500">Ingrid Sundbø – USN, campus Bø</p>
+          </div>
+        </div>
+      </div>
       <div class="grid sm:grid-cols-2 gap-6">
         <div class="rounded-xl border border-gray-200 p-6">
           <h3 class="font-semibold text-gray-900 mb-2">Monorepo-struktur</h3>
@@ -197,8 +228,59 @@
     </div>
   </section>
 
+  <!-- Architecture -->
+  <section id="architecture" class="py-20 px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Arkitektur</h2>
+      <p class="text-gray-500 mb-10">Tredelt webarkitektur med SPA, REST API og sanntidskanal.</p>
+      <div class="grid sm:grid-cols-3 gap-5 mb-8">
+        <div class="rounded-xl border border-gray-200 p-5">
+          <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 text-sm mb-1">Frontend (SPA)</h3>
+          <p class="text-xs text-gray-500">React + TypeScript med Vite. Komponentbasert arkitektur med shadcn/ui og Fabric.js canvas-editor. Tokenbasert auth og reaktiv state.</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 p-5">
+          <div class="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 text-sm mb-1">Backend (API)</h3>
+          <p class="text-xs text-gray-500">Ruby on Rails 8.1 i API-modus. Versjonert REST-API, JWT-autentisering, OAuth (Google/GitHub), og Action Cable for WebSocket-sanntid.</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 p-5">
+          <div class="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 text-sm mb-1">Database</h3>
+          <p class="text-xs text-gray-500">PostgreSQL via Neon. UUID-primærnøkler, JSONB for fleksible slide-elementer, og relasjonell struktur for brukere, presentasjoner og sessions.</p>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="rounded-xl border border-gray-200 p-5">
+          <h3 class="font-semibold text-gray-900 text-sm mb-2">Sanntid & Live Sessions</h3>
+          <ul class="text-xs text-gray-500 space-y-1.5">
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>WebSocket via Action Cable for live-oppdateringer</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Publikum kobler til via QR-kode, kode eller lenke</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Polls og spørsmål aktiveres i sanntid fra presentatør</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Resultater visualiseres live (stolpediagram, ordsky)</li>
+          </ul>
+        </div>
+        <div class="rounded-xl border border-gray-200 p-5">
+          <h3 class="font-semibold text-gray-900 text-sm mb-2">Sikkerhet & Deploy</h3>
+          <ul class="text-xs text-gray-500 space-y-1.5">
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>JWT-tokens med 24t utløp, bcrypt-passord</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>OAuth 2.0 via Google og GitHub</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>CORS-kontroll og SSL i produksjon</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-accent-400 shrink-0"></span>Containerisert med Docker, deployet via Kamal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Team -->
-  <section id="team" class="py-20 px-6 bg-white">
+  <section id="team" class="py-20 px-6">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold text-gray-900 mb-2">Teamet</h2>
       <p class="text-gray-500 mb-10">Gruppe 1 – Bachelorprosjekt USN, våren 2026.</p>
@@ -208,33 +290,33 @@
           <div class="flex items-center gap-4 mb-3">
             <img src="https://github.com/T3lluz.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
             <div>
-              <div class="font-semibold text-gray-900 group-hover:text-accent-600 transition">Fredde</div>
+              <div class="font-semibold text-gray-900 group-hover:text-accent-600 transition">Fredrik Stalsberg</div>
               <div class="text-xs text-gray-400">@T3lluz</div>
             </div>
           </div>
-          <div class="text-sm text-gray-500">120 commits</div>
+          <div class="text-sm text-gray-500">Utvikler · UI/UX, Sikkerhet & E2E-testing</div>
         </a>
 
         <a href="https://github.com/MarcusWHE" target="_blank" rel="noopener" class="group rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
           <div class="flex items-center gap-4 mb-3">
             <img src="https://github.com/MarcusWHE.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
             <div>
-              <div class="font-semibold text-gray-900 group-hover:text-accent-600 transition">Marcus Einarsen</div>
+              <div class="font-semibold text-gray-900 group-hover:text-accent-600 transition">Marcus W. H. Einarsen</div>
               <div class="text-xs text-gray-400">@MarcusWHE</div>
             </div>
           </div>
-          <div class="text-sm text-gray-500">64 commits</div>
+          <div class="text-sm text-gray-500">Scrum Master · Editor & frontend-arkitektur</div>
         </a>
 
         <a href="https://github.com/Baitedr" target="_blank" rel="noopener" class="group rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
           <div class="flex items-center gap-4 mb-3">
             <img src="https://github.com/Baitedr.png?size=80" alt="" class="w-12 h-12 rounded-full bg-gray-100" />
             <div>
-              <div class="font-semibold text-gray-900 group-hover:text-accent-600 transition">Martin M Hansen</div>
+              <div class="font-semibold text-gray-900 group-hover:text-accent-600 transition">Martin M. Hansen</div>
               <div class="text-xs text-gray-400">@Baitedr</div>
             </div>
           </div>
-          <div class="text-sm text-gray-500">59 commits</div>
+          <div class="text-sm text-gray-500">Prosjektleder · Live-funksjonalitet & DB-arkitektur</div>
         </a>
 
         <a href="https://github.com/scmog1" target="_blank" rel="noopener" class="group rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
@@ -245,7 +327,7 @@
               <div class="text-xs text-gray-400">@scmog1</div>
             </div>
           </div>
-          <div class="text-sm text-gray-500">23 commits</div>
+          <div class="text-sm text-gray-500">Utvikler · Backend API & forretningslogikk</div>
         </a>
 
         <a href="https://github.com/rikkehlarsen" target="_blank" rel="noopener" class="group rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-accent-200 transition">
@@ -256,7 +338,7 @@
               <div class="text-xs text-gray-400">@rikkehlarsen</div>
             </div>
           </div>
-          <div class="text-sm text-gray-500">11 commits</div>
+          <div class="text-sm text-gray-500">Utvikler · Interaktive elementer</div>
         </a>
 
       </div>
