@@ -972,6 +972,7 @@
 
     var cards = Array.from(document.querySelectorAll('#team .team-card'));
     if (!cards.length) return;
+    var focusedCard = null;
 
     function reset(card) {
       card.style.transform = '';
@@ -986,9 +987,9 @@
     function update() {
       var vh = window.innerHeight || 1;
       var centerY = vh * 0.5;
-      var activeCard = null;
-      var activeDist = Infinity;
       var visibleCards = [];
+      var nearestCard = null;
+      var nearestDist = Infinity;
 
       cards.forEach(function (card) {
         var r = card.getBoundingClientRect();
@@ -999,34 +1000,53 @@
         }
         visibleCards.push(card);
         var dist = Math.abs((r.top + r.height * 0.5) - centerY);
-        if (dist < activeDist) {
-          activeDist = dist;
-          activeCard = card;
+        if (dist < nearestDist) {
+          nearestDist = dist;
+          nearestCard = card;
         }
       });
+
+      if (!visibleCards.length) {
+        focusedCard = null;
+        ticking = false;
+        return;
+      }
+
+      if (focusedCard && visibleCards.indexOf(focusedCard) === -1) {
+        focusedCard = null;
+      }
+
+      if (!focusedCard) {
+        focusedCard = nearestCard;
+      } else if (nearestCard && nearestCard !== focusedCard) {
+        var focusedRect = focusedCard.getBoundingClientRect();
+        var focusedDist = Math.abs((focusedRect.top + focusedRect.height * 0.5) - centerY);
+        var switchThreshold = vh * 0.035;
+        if (nearestDist + switchThreshold < focusedDist) focusedCard = nearestCard;
+      }
 
       visibleCards.forEach(function (card) {
         var r = card.getBoundingClientRect();
         var center = r.top + r.height * 0.5;
-        var offset = clamp((center - vh * 0.5) / (vh * 0.5), -1, 1);
+        var offset = clamp((center - vh * 0.5) / (vh * 0.42), -1, 1);
         var absOffset = Math.abs(offset);
-        var focusStrength = clamp(1 - absOffset * 1.35, 0, 1);
-        var wheelTiltX = clamp(-offset * 14, -14, 14);
-        var wheelTiltY = clamp(-offset * 4, -4, 4);
-        var scale = 0.97 + focusStrength * 0.08;
-        var rise = (focusStrength * -8) + (absOffset * 2);
+        var focusStrength = clamp(1 - absOffset * 1.6, 0, 1);
+        var tiltAmount = clamp(absOffset * 8.5, 0, 5.5);
+        var rotateX = offset < 0 ? -tiltAmount : tiltAmount;
+        var scale = card === focusedCard ? 1.018 : (0.998 - absOffset * 0.015);
+        var rise = card === focusedCard ? -5 : (absOffset * 1.2);
 
         card.style.transform =
-          'perspective(980px) rotateX(' + wheelTiltX + 'deg) rotateY(' +
-          wheelTiltY + 'deg) translateY(' + rise + 'px) scale(' + scale + ')';
+          'perspective(980px) rotateX(' + rotateX + 'deg) rotateY(0deg) translateY(' +
+          rise + 'px) scale(' + scale + ')';
 
-        card.style.setProperty('--lx', clamp(50 + (-offset * 28), 18, 82) + '%');
-        card.style.setProperty('--ly', (34 + focusStrength * 8) + '%');
-        card.style.setProperty('--light-angle', (130 + offset * 22) + 'deg');
-        card.style.setProperty('--shine-strength', String(0.3 + focusStrength * 0.58));
+        card.style.setProperty('--lx', clamp(50 + (-offset * 16), 28, 72) + '%');
+        card.style.setProperty('--ly', (36 + focusStrength * 7) + '%');
+        card.style.setProperty('--light-angle', (136 + offset * 12) + 'deg');
+        card.style.setProperty('--shine-strength', String(0.28 + focusStrength * 0.42));
         card.classList.add('is-mobile-tilting');
-        card.classList.toggle('team-card--lift', focusStrength > 0.08);
-        card.classList.toggle('is-mobile-focus', card === activeCard);
+        card.classList.toggle('team-card--lift', card === focusedCard);
+        card.classList.toggle('is-mobile-focus', card === focusedCard);
       });
       ticking = false;
     }
