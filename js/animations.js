@@ -5,8 +5,12 @@
 (function () {
   'use strict';
 
-  var reducedMotion =
-    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function motionReduced() {
+    return (
+      (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
+      document.documentElement.classList.contains('animations-off')
+    );
+  }
 
   var canHover =
     window.matchMedia && window.matchMedia('(hover: hover)').matches;
@@ -19,18 +23,13 @@
     return Math.max(lo, Math.min(hi, v));
   }
 
-  function isDark() {
-    return document.documentElement.classList.contains('dark');
-  }
-
   /* ── shared transition curves ─────────────────────────────────── */
 
   var EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-  var SHADOW_L = '0 14px 40px -8px rgba(0,0,0,0.18), 0 4px 14px -4px rgba(0,0,0,0.08)';
-  var SHADOW_D = '0 14px 40px -6px rgba(0,0,0,0.50), 0 4px 14px -3px rgba(0,0,0,0.25)';
+  var SHADOW = '0 14px 40px -8px rgba(0,0,0,0.18), 0 4px 14px -4px rgba(0,0,0,0.08)';
 
-  function shadow() { return isDark() ? SHADOW_D : SHADOW_L; }
+  function shadow() { return SHADOW; }
 
   function clearLater(el, ms) {
     clearTimeout(el._psClear);
@@ -51,16 +50,54 @@
   function presetTilt(card, opts) {
     var maxRot = (opts && opts.maxRot) || 10;
     var sc     = (opts && opts.scale)  || 1.04;
+    function applyTilt(e) {
+      var r  = card.getBoundingClientRect();
+      var dx = clamp((e.clientX - r.left - r.width  * 0.5) / (r.width  * 0.5), -1, 1);
+      var dy = clamp((e.clientY - r.top  - r.height * 0.5) / (r.height * 0.5), -1, 1);
+
+      card.style.transition = 'box-shadow 80ms linear';
+      card.style.transform  =
+        'rotateX(' + (-dy * maxRot) + 'deg) rotateY(' +
+        (dx * maxRot) + 'deg) scale(' + sc + ')';
+      card.style.boxShadow = shadow();
+    }
+
+    card.addEventListener('mouseenter', function (e) {
+      clearTimeout(card._psClear);
+      card.style.willChange = 'transform';
+      applyTilt(e);
+    });
+
+    card.addEventListener('mousemove', applyTilt);
+
+    card.addEventListener('mouseleave', function () {
+      card.style.transition =
+        'transform 0.40s ' + EASE_OUT + ', box-shadow 0.35s ease';
+      card.style.transform  = '';
+      card.style.boxShadow  = '';
+      clearLater(card, 450);
+    });
+  }
+
+  function unwrapTiltInner(card) {
+    var inner = card.querySelector(':scope > .ps-tilt-inner');
+    if (!inner) return;
+    while (inner.firstChild) card.insertBefore(inner.firstChild, inner);
+    inner.remove();
+  }
+
+  function presetTeamCard(card) {
+    var maxRot = 8;
+    var sc     = 1.03;
 
     function applyTilt(e) {
       var r  = card.getBoundingClientRect();
       var dx = clamp((e.clientX - r.left - r.width  * 0.5) / (r.width  * 0.5), -1, 1);
       var dy = clamp((e.clientY - r.top  - r.height * 0.5) / (r.height * 0.5), -1, 1);
 
-      /* No transform transition while tracking — avoids fighting Tailwind/CSS */
       card.style.transition = 'box-shadow 80ms linear';
       card.style.transform  =
-        'rotateX(' + (-dy * maxRot) + 'deg) rotateY(' +
+        'perspective(900px) rotateX(' + (-dy * maxRot) + 'deg) rotateY(' +
         (dx * maxRot) + 'deg) scale(' + sc + ')';
       card.style.boxShadow = shadow();
     }
@@ -158,7 +195,7 @@
   var expandFocusObs = null;
 
   function observeExpandCard(card, opts) {
-    if (reducedMotion || !card) return;
+    if (motionReduced() || !card) return;
 
     var lift = (opts && opts.lift) || 4;
     var sc   = (opts && opts.scale) || 1.02;
@@ -194,9 +231,8 @@
       card.style.transition =
         'transform 0.35s ' + EASE_OUT + ', box-shadow 0.30s ease';
       card.style.transform = 'translateY(-4px) scale(1.008)';
-      card.style.boxShadow = isDark()
-        ? '0 18px 50px -10px rgba(0,0,0,0.55), 0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent)'
-        : '0 18px 50px -10px rgba(0,0,0,0.16), 0 0 0 1px color-mix(in oklch, var(--primary) 12%, transparent)';
+      card.style.boxShadow =
+        '0 18px 50px -10px rgba(0,0,0,0.16), 0 0 0 1px color-mix(in oklch, var(--primary) 12%, transparent)';
     });
 
     card.addEventListener('mouseleave', function () {
@@ -213,10 +249,10 @@
      ───────────────────────────────────────────────────────────────── */
 
   function classifyHeaders() {
-    each('section[id] > [class*="max-w-"] > h2', function (h) {
+    each('section[id] .section-title', function (h) {
       h.classList.add('reveal', 'reveal-up');
     });
-    each('section[id] > [class*="max-w-"] > p.text-muted-foreground', function (p) {
+    each('section[id] .section-header .section-desc', function (p) {
       p.classList.add('reveal', 'reveal-up');
       p.dataset.delay = '2';
     });
@@ -234,7 +270,7 @@
   }
 
   function classifyArch() {
-    document.querySelectorAll('#architecture > [class*="max-w-"] > .grid > div').forEach(
+    document.querySelectorAll('#architecture .section-inner > .grid > div').forEach(
       function (c, i) {
         c.classList.add('reveal', 'reveal-up');
         c.dataset.delay = String(i + 1);
@@ -285,7 +321,7 @@
 
   function animateDocsCards() {
     var container = document.getElementById('docs-catalog');
-    if (!container || reducedMotion) return;
+    if (!container || motionReduced()) return;
 
     var items = container.querySelectorAll('.doc-card');
     if (!items.length) return;
@@ -320,7 +356,7 @@
 
   function animateGrid(containerSel, itemSel) {
     var container = document.querySelector(containerSel);
-    if (!container || reducedMotion) return;
+    if (!container || motionReduced()) return;
 
     var items = container.querySelectorAll(itemSel);
     items.forEach(function (el) {
@@ -351,15 +387,16 @@
     obs.observe(container);
   }
 
-  function animateTechCards() { animateGrid('#tech .grid', ':scope > a'); }
+  function animateTechCards() { animateGrid('#tech .tech-stack', '.tech-chip'); }
 
   /* Opacity-only entrance — team cards use inline transform for tilt hover */
   function animateTeamCards() {
     var container = document.querySelector('#team .grid');
-    if (!container || reducedMotion) return;
+    if (!container || motionReduced()) return;
 
     var items = container.querySelectorAll(':scope > div');
     items.forEach(function (el) {
+      unwrapTiltInner(el);
       el.style.opacity = '0';
     });
 
@@ -385,7 +422,7 @@
 
   function watchDocsGrid() {
     var grid = document.getElementById('docs-catalog');
-    if (!grid || reducedMotion) return;
+    if (!grid || motionReduced()) return;
 
     new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
@@ -422,7 +459,7 @@
 
   function initShowcaseEntrance() {
     var wrap = document.querySelector('#showcase-wrap');
-    if (!wrap || reducedMotion) return;
+    if (!wrap || motionReduced()) return;
 
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -442,7 +479,7 @@
 
   function observeRevealOnce(el) {
     if (!el || el.classList.contains('is-revealed') || el._psRevealObserved) return;
-    if (reducedMotion) {
+    if (motionReduced()) {
       el.classList.add('is-revealed');
       return;
     }
@@ -638,7 +675,7 @@
      ───────────────────────────────────────────────────────────────── */
 
   function initSectionParallax() {
-    if (reducedMotion) return;
+    if (motionReduced()) return;
 
     var RANGE = 20;
     var SKIP  = new Set(['hero', 'architecture', 'team']);
@@ -646,7 +683,7 @@
 
     each('section[id]', function (section) {
       if (SKIP.has(section.id)) return;
-      var inner = section.querySelector('[class*="max-w-"]');
+      var inner = section.querySelector('.section-inner');
       if (!inner) return;
       inner.classList.add('ps-parallax-inner');
       items.push({ section: section, inner: inner });
@@ -680,7 +717,7 @@
      ───────────────────────────────────────────────────────────────── */
 
   function initInViewExpandEffects() {
-    if (reducedMotion) return;
+    if (motionReduced()) return;
 
     each('#about .about-card', function (c) {
       observeExpandCard(c, { lift: 4, scale: 1.02 });
@@ -688,7 +725,7 @@
     each('#about .grid.gap-4 > div', function (c) {
       observeExpandCard(c, { lift: 3, scale: 1.015 });
     });
-    document.querySelectorAll('#architecture > [class*="max-w-"] > .grid > div').forEach(
+    document.querySelectorAll('#architecture .section-inner > .grid > div').forEach(
       function (c) {
         observeExpandCard(c, { lift: 4, scale: 1.02 });
       }
@@ -699,18 +736,19 @@
   }
 
   function initHoverEffects() {
-    if (reducedMotion || !canHover) return;
+    if (motionReduced() || !canHover) return;
 
     /* PRESET A — tilt (mouse-follow parallax) */
-    each('#team .grid > div', function (c) {
-      presetTilt(c, { maxRot: 10, scale: 1.04 });
+    each('#team .team-card', function (c) {
+      unwrapTiltInner(c);
+      presetTeamCard(c);
     });
     var showcase = document.querySelector('#showcase-wrap');
     if (showcase) presetShowcase(showcase);
 
     /* PRESET B — lean (fixed hinge, no tracking) */
-    each('#tech .grid > a', function (c) {
-      presetLean(c, { deg: 2, scale: 1.03, origin: 'center', lift: 4 });
+    each('#tech .tech-chip', function (c) {
+      presetLean(c, { deg: 2, scale: 1.04, origin: 'center', lift: 2 });
     });
   }
 
@@ -731,6 +769,32 @@
           });
         });
       }, { threshold: 0.35 }).observe(s);
+    });
+  }
+
+  function initMobileNav() {
+    var btn = document.getElementById('nav-menu-toggle');
+    var panel = document.getElementById('nav-mobile');
+    if (!btn || !panel) return;
+
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Lukk meny' : 'Åpne meny');
+      panel.hidden = !open;
+    }
+
+    btn.addEventListener('click', function () {
+      setOpen(panel.hidden);
+    });
+
+    panel.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        setOpen(false);
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) setOpen(false);
     });
   }
 
@@ -763,6 +827,7 @@
     initInViewExpandEffects();
     initHoverEffects();
     initNavHighlight();
+    initMobileNav();
   });
 
 })();

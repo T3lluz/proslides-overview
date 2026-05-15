@@ -4,15 +4,14 @@
    via opacity + scale + blur crossfade (no translateX). CSS transitions are
    enabled only after first render to prevent an entrance animation on load.
 
-   The Lyst/Mørkt toggle inside the showcase proxies to the site's
-   #theme-toggle button so both controls stay in sync. The per-image dark/
-   light stack is revealed with a circle clip-path animation that originates
-   from whichever toggle was clicked — matching the page view-transition style.
+   Lyst/Mørkt toggles only the screenshot stack (light/dark app captures),
+   independent of the site theme (always light).
    ----------------------------------------------------------------------- */
 (function () {
   var LABELS        = ['Dashboard', 'Editor', 'Live-presentasjon'];
   var AUTO_INTERVAL = 9000;  /* ms between auto-advances */
   var TRANS_DUR     = 750;   /* ms — keep ≥ longest CSS transition */
+  var STORAGE_KEY   = 'proslides-showcase-images';
 
   /* Default clip-path origin when no button rect is available */
   var ORIGIN_X = '89%';
@@ -36,9 +35,34 @@
   var toggle       = document.getElementById('showcase-theme-toggle');
   var lblLight     = document.getElementById('showcase-label-light');
   var lblDark      = document.getElementById('showcase-label-dark');
-  var siteToggle   = document.getElementById('theme-toggle');
 
   if (!viewport || !track || !items.length) return;
+
+  function motionReduced() {
+    return (
+      document.documentElement.classList.contains('animations-off') ||
+      (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    );
+  }
+
+  function storedDark() {
+    try {
+      return localStorage.getItem(STORAGE_KEY) === 'dark';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function persistDark(dark) {
+    try {
+      localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light');
+    } catch (_) {}
+  }
+
+  function applyImageTheme(dark, ox, oy) {
+    if (motionReduced()) commitTheme(dark);
+    else animateTheme(dark, ox, oy);
+  }
 
   /* ---- progress bar ---- */
   var progressTrack = document.createElement('div');
@@ -52,7 +76,9 @@
     progressBar.style.transition = 'none';
     progressBar.style.width = '0%';
     void progressBar.offsetWidth;
-    progressBar.style.transition = 'width ' + AUTO_INTERVAL + 'ms linear';
+    progressBar.style.transition = motionReduced()
+      ? 'none'
+      : 'width ' + AUTO_INTERVAL + 'ms linear';
     progressBar.style.width = '100%';
   }
   function resetProgress() {
@@ -116,6 +142,7 @@
       : 'circle(0% at '   + ORIGIN_X + ' ' + ORIGIN_Y + ')';
     darkImgs.forEach(function (img) { img.style.clipPath = clip; });
     syncToggleUI(dark);
+    persistDark(dark);
   }
 
   /* ---- theme: animated circle reveal ---- */
@@ -136,6 +163,7 @@
 
     darkImages = dark;
     syncToggleUI(dark);
+    persistDark(dark);
 
     var from = dark
       ? 'circle(0% at '   + ox + ' ' + oy + ')'
@@ -164,6 +192,7 @@
   function syncToggleUI(dark) {
     if (!toggle) return;
     toggle.setAttribute('aria-checked', dark ? 'true' : 'false');
+    toggle.setAttribute('aria-label', dark ? 'Vis lyst skjermbilde' : 'Vis mørkt skjermbilde');
     toggle.classList.toggle('showcase-toggle--on', dark);
     if (lblLight) lblLight.classList.toggle('showcase-lbl--active', !dark);
     if (lblDark)  lblDark.classList.toggle('showcase-lbl--active',  dark);
@@ -188,8 +217,7 @@
     });
   });
 
-  darkImages = document.documentElement.classList.contains('dark');
-  commitTheme(darkImages);
+  commitTheme(storedDark());
 
   tabs.forEach(function (t, i) { t.classList.toggle('showcase-tab--active', i === 0); });
   dots.forEach(function (d, i) {
@@ -215,45 +243,10 @@
     d.addEventListener('click', function () { setSlide(i); });
   });
 
-  /*
-   * Showcase Lyst/Mørkt toggle → animate only the preview images.
-   * Does NOT affect the site theme; the site toggle is a separate control.
-   * Origin is mapped from the toggle button into the carousel's coordinate
-   * space so the circle expands from the toggle position.
-   */
   toggle && toggle.addEventListener('click', function () {
     var o = toggleOrigin();
-    animateTheme(!darkImages, o.ox, o.oy);
+    applyImageTheme(!darkImages, o.ox, o.oy);
   });
-
-  /* ---- sync images with site theme (fires on nav toggle AND showcase toggle) ---- */
-  /*
-   * Delay ~380 ms so the screenshot circle fires in the tail of the page
-   * view-transition (~520 ms). Origin is mapped from whichever button
-   * triggered the change into the carousel's coordinate space.
-   */
-  var pendingThemeTimer = null;
-
-  new MutationObserver(function () {
-    var siteDark = document.documentElement.classList.contains('dark');
-    if (siteDark === darkImages) return;
-
-    /* Use the site nav toggle as the animation origin so the circle
-       appears to ripple from the nav button through the page into the images. */
-    var ox = ORIGIN_X, oy = ORIGIN_Y;
-    var originBtn = siteToggle;
-    if (originBtn && viewport) {
-      var btnRect  = originBtn.getBoundingClientRect();
-      var wrapRect = viewport.getBoundingClientRect();
-      ox = (((btnRect.left + btnRect.right) / 2 - wrapRect.left) / wrapRect.width  * 100).toFixed(1) + '%';
-      oy = (((btnRect.top  + btnRect.bottom) / 2 - wrapRect.top)  / wrapRect.height * 100).toFixed(1) + '%';
-    }
-
-    clearTimeout(pendingThemeTimer);
-    pendingThemeTimer = setTimeout(function () {
-      animateTheme(siteDark, ox, oy);
-    }, 380);
-  }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
   /* ---- keyboard ---- */
   viewport.addEventListener('keydown', function (e) {

@@ -15,7 +15,23 @@
 #docs,
 body > footer {
   position: relative;
-  margin-top: -1.25rem;
+  margin-top: -0.75rem;
+}
+
+#ai-disclosure {
+  position: relative;
+  margin-top: 0;
+  isolation: isolate;
+}
+
+/* Footer must not overlap the disclosure band (avoids ::after line through text) */
+#ai-disclosure + footer {
+  margin-top: 0;
+  border-top: none;
+}
+
+#ai-disclosure + footer::after {
+  display: none;
 }
 
 #hero        { position: relative; z-index: 1; }
@@ -25,8 +41,9 @@ body > footer {
 #architecture{ z-index: 5; }
 #team        { z-index: 6; }
 #timeline    { z-index: 7; }
-#docs        { z-index: 8; }
-body > footer{ z-index: 9; }
+#docs          { z-index: 8; }
+#ai-disclosure { z-index: 9; }
+body > footer  { z-index: 10; }
 
 /* Gradient-glow hairline at each section boundary */
 #showcase::after,
@@ -53,23 +70,6 @@ body > footer::after {
   );
   pointer-events: none;
   z-index: 1;
-}
-.dark #showcase::after,
-.dark #about::after,
-.dark #tech::after,
-.dark #architecture::after,
-.dark #team::after,
-.dark #timeline::after,
-.dark #docs::after,
-.dark body > footer::after {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    color-mix(in oklch, var(--primary) 40%, transparent) 30%,
-    color-mix(in oklch, var(--primary) 70%, transparent) 50%,
-    color-mix(in oklch, var(--primary) 40%, transparent) 70%,
-    transparent 100%
-  );
 }
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -188,16 +188,6 @@ body > footer::after {
     opacity: 0;
   }
 
-  .dark #showcase-wrap::before {
-    background: linear-gradient(
-      105deg,
-      transparent 40%,
-      rgba(255,255,255,0.06) 45%,
-      rgba(255,255,255,0.12) 50%,
-      rgba(255,255,255,0.06) 55%,
-      transparent 60%
-    );
-  }
 
   #showcase-wrap.ps-showcase-entered::before {
     opacity: 1;
@@ -262,10 +252,10 @@ body > footer::after {
     filter: saturate(0.88) brightness(0.97);
   }
 
-  /* Focused card — subtle lift (less zoom than before) */
+  /* Focused card — subtle lift */
   #timeline.tl-is-active .tl-row.is-focused .tl-card {
     opacity: 1;
-    transform: translateX(0) scale(1.12);
+    transform: translateX(0) scale(1.05);
     z-index: 20;
     border-color: color-mix(in oklch, var(--primary) 35%, var(--border));
     box-shadow:
@@ -274,12 +264,6 @@ body > footer::after {
       0 0 0 1px color-mix(in oklch, var(--primary) 14%, transparent);
   }
 
-  .dark #timeline.tl-is-active .tl-row.is-focused .tl-card {
-    box-shadow:
-      0 32px 80px -12px rgba(0, 0, 0, 0.55),
-      0 14px 32px -8px rgba(0, 0, 0, 0.35),
-      0 0 0 1px color-mix(in oklch, var(--primary) 22%, transparent);
-  }
 
   /* Inner content “grows out” of the focused card */
   .tl-expand-card .tl-inner > * {
@@ -364,4 +348,46 @@ nav a {
 }
 nav a.nav-active {
   color: var(--foreground) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   User toggle: html.animations-off (mirrors prefers-reduced-motion)
+   ───────────────────────────────────────────────────────────────────── */
+
+html.animations-off .reveal,
+html.animations-off .reveal.is-revealed {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+html.animations-off .hero-anim-badge,
+html.animations-off .hero-anim-title,
+html.animations-off .hero-anim-sub,
+html.animations-off .hero-anim-btns {
+  opacity: 1 !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+html.animations-off #showcase-wrap::before {
+  display: none !important;
+}
+
+html.animations-off .tl-card {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+html.animations-off .tl-inner > * {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+html.animations-off .tl-details {
+  opacity: 1 !important;
+  transition: none !important;
 }
