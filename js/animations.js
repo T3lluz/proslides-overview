@@ -14,8 +14,6 @@
 
   var canHover =
     window.matchMedia && window.matchMedia('(hover: hover)').matches;
-  var hasCoarsePointer =
-    window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
   function each(sel, cb) {
     document.querySelectorAll(sel).forEach(cb);
@@ -965,68 +963,84 @@
     });
   }
 
-  function initMobileTeamHandles() {
-    if (!hasCoarsePointer) return;
+  function initMobileTeamScrollTilt() {
+    if (motionReduced()) return;
+    var coarse =
+      window.matchMedia &&
+      window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (!coarse) return;
 
-    each('#team .team-card', function (card) {
-      if (card.querySelector('.team-card__handle')) return;
+    var cards = Array.from(document.querySelectorAll('#team .team-card'));
+    if (!cards.length) return;
 
-      var handle = document.createElement('button');
-      handle.type = 'button';
-      handle.className = 'team-card__handle';
-      handle.setAttribute('aria-label', 'Dra for 3D-visning');
-      handle.innerHTML =
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">' +
-        '<path stroke-linecap="round" stroke-linejoin="round" d="M9 6l-3 3 3 3M15 6l3 3-3 3M9 18l-3-3 3-3M15 18l3-3-3-3"/>' +
-        '</svg>';
-      card.appendChild(handle);
+    function reset(card) {
+      card.style.transform = '';
+      card.classList.remove('is-mobile-tilting', 'is-mobile-focus', 'team-card--lift');
+      card.style.removeProperty('--lx');
+      card.style.removeProperty('--ly');
+      card.style.removeProperty('--light-angle');
+      card.style.removeProperty('--shine-strength');
+    }
 
-      var active = false;
-      var rect = null;
-      var pointerId = null;
-      var startX = 0;
-      var startY = 0;
+    var ticking = false;
+    function update() {
+      var vh = window.innerHeight || 1;
+      var centerY = vh * 0.5;
+      var activeCard = null;
+      var activeDist = Infinity;
+      var visibleCards = [];
 
-      function applyTilt(clientX, clientY) {
-        if (!rect) return;
-        var dx = clamp((clientX - startX) / (rect.width * 0.45), -1, 1);
-        var dy = clamp((clientY - startY) / (rect.height * 0.45), -1, 1);
+      cards.forEach(function (card) {
+        var r = card.getBoundingClientRect();
+        var isVisible = r.bottom > vh * 0.04 && r.top < vh * 0.96;
+        if (!isVisible) {
+          reset(card);
+          return;
+        }
+        visibleCards.push(card);
+        var dist = Math.abs((r.top + r.height * 0.5) - centerY);
+        if (dist < activeDist) {
+          activeDist = dist;
+          activeCard = card;
+        }
+      });
+
+      visibleCards.forEach(function (card) {
+        var r = card.getBoundingClientRect();
+        var center = r.top + r.height * 0.5;
+        var offset = clamp((center - vh * 0.5) / (vh * 0.5), -1, 1);
+        var absOffset = Math.abs(offset);
+        var focusStrength = clamp(1 - absOffset * 1.35, 0, 1);
+        var wheelTiltX = clamp(-offset * 14, -14, 14);
+        var wheelTiltY = clamp(-offset * 4, -4, 4);
+        var scale = 0.97 + focusStrength * 0.08;
+        var rise = (focusStrength * -8) + (absOffset * 2);
+
         card.style.transform =
-          'perspective(900px) rotateX(' + (-dy * 7) + 'deg) rotateY(' + (dx * 9) + 'deg) translateY(-2px)';
-      }
+          'perspective(980px) rotateX(' + wheelTiltX + 'deg) rotateY(' +
+          wheelTiltY + 'deg) translateY(' + rise + 'px) scale(' + scale + ')';
 
-      function endTilt() {
-        if (!active) return;
-        active = false;
-        card.classList.remove('is-mobile-tilting');
-        card.style.transform = '';
-        try {
-          if (pointerId !== null) handle.releasePointerCapture(pointerId);
-        } catch (_) {}
-        pointerId = null;
-      }
-
-      handle.addEventListener('pointerdown', function (e) {
-        if (e.button && e.button !== 0) return;
-        e.preventDefault();
-        active = true;
-        pointerId = e.pointerId;
-        rect = card.getBoundingClientRect();
-        startX = e.clientX;
-        startY = e.clientY;
+        card.style.setProperty('--lx', clamp(50 + (-offset * 28), 18, 82) + '%');
+        card.style.setProperty('--ly', (34 + focusStrength * 8) + '%');
+        card.style.setProperty('--light-angle', (130 + offset * 22) + 'deg');
+        card.style.setProperty('--shine-strength', String(0.3 + focusStrength * 0.58));
         card.classList.add('is-mobile-tilting');
-        try { handle.setPointerCapture(pointerId); } catch (_) {}
+        card.classList.toggle('team-card--lift', focusStrength > 0.08);
+        card.classList.toggle('is-mobile-focus', card === activeCard);
       });
+      ticking = false;
+    }
 
-      handle.addEventListener('pointermove', function (e) {
-        if (!active) return;
-        applyTilt(e.clientX, e.clientY);
-      });
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
 
-      handle.addEventListener('pointerup', endTilt);
-      handle.addEventListener('pointercancel', endTilt);
-      handle.addEventListener('lostpointercapture', endTilt);
-    });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
   }
 
   /* ─────────────────────────────────────────────────────────────────
@@ -1103,7 +1117,7 @@
     initSectionParallax();
     initInViewExpandEffects();
     initHoverEffects();
-    initMobileTeamHandles();
+    initMobileTeamScrollTilt();
     initNavHighlight();
     initMobileNav();
   });

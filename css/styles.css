@@ -513,16 +513,17 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
 }
 @media (max-width: 768px) {
   .tl-track, .tl-fill {
-    left: 1.15rem;
+    left: 1.4rem;
     display: block;
   }
 
   #timeline .tl-row {
-    padding-left: 3.4rem;
+    padding-left: 3.55rem;
+    min-height: 13.5rem;
   }
 
   #timeline .tl-row:not(:last-child) {
-    margin-bottom: 1.6rem;
+    margin-bottom: 2rem;
   }
 
   #timeline .tl-row > div:empty {
@@ -533,6 +534,7 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
     width: 100%;
     padding: 0;
     text-align: left;
+    display: block;
   }
 
   #timeline .tl-row .tl-inner > div.flex {
@@ -544,26 +546,30 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
     text-align: left !important;
   }
 
-  .tl-dot {
+  #timeline .tl-dot {
     display: flex !important;
-    left: 1.15rem;
-    top: 2.25rem;
-    width: 1.7rem;
-    height: 1.7rem;
-    font-size: 0.62rem;
+    left: 1.4rem;
+    top: 50%;
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 0.64rem;
     border-width: 2px;
+    z-index: 30;
   }
 
   #timeline .tl-card {
-    width: calc(100% - 0.15rem);
+    width: calc(100% - 0.05rem);
+    min-height: 100%;
     margin-left: 0.05rem;
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
   }
 
-  .tl-dot.is-reached {
+  #timeline .tl-dot.is-reached {
     transform: translate(-50%, -50%) scale(1.08);
   }
 
-  .tl-dot.is-active {
+  #timeline .tl-dot.is-active {
     transform: translate(-50%, -50%) scale(1.16);
   }
 
@@ -579,6 +585,7 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
       0 16px 34px -14px rgba(0, 0, 0, 0.2),
       0 0 0 1px color-mix(in oklch, var(--primary) 12%, transparent);
   }
+
 }
 
 /* Dots */
@@ -1171,28 +1178,32 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
 }
 
 @media (max-width: 768px) {
+  .site-section {
+    overflow-x: clip;
+  }
+
   #team .team-grid {
     gap: 1rem;
-    perspective: none;
+    perspective: 1100px;
   }
 
   #team .team-card {
     min-height: 0;
     transform: none;
-    transition: transform 0.16s ease, box-shadow 0.22s ease;
+    transition: transform 0.2s ease, box-shadow 0.24s ease, opacity 0.2s ease;
     transform-style: preserve-3d;
+    transform-origin: center center;
     will-change: transform;
     overflow: hidden;
     border-radius: 0.9rem;
     box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.25);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   #team .team-card::before,
   #team .team-card::after,
-  #team .team-card__scene::after,
-  #team .team-card__badge::after,
-  #team .team-card__link::before,
-  #team .team-card__photo-frame::after {
+  #team .team-card__link::before {
     display: none !important;
   }
 
@@ -1266,40 +1277,26 @@ html.animations-off .nav-anim-toggle:focus-visible .nav-anim-toggle__detail {
   }
 
   #team .team-card.is-mobile-tilting {
+    opacity: 0.94;
     box-shadow:
-      0 20px 36px -20px rgba(0, 0, 0, 0.35),
+      0 14px 28px -18px rgba(0, 0, 0, 0.34),
       0 0 0 1px color-mix(in oklch, var(--primary) 16%, transparent);
-    z-index: 12;
+    z-index: 10;
   }
 
-  #team .team-card__handle {
-    position: absolute;
-    top: 0.55rem;
-    right: 0.55rem;
-    z-index: 4;
-    width: 2rem;
-    height: 2rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid color-mix(in oklch, var(--border) 78%, transparent);
-    border-radius: 0.6rem;
-    background: color-mix(in oklch, var(--card) 88%, var(--muted));
-    color: var(--muted-foreground);
-    touch-action: none;
-    user-select: none;
-    -webkit-user-select: none;
+  #team .team-card.is-mobile-focus {
+    opacity: 1;
+    z-index: 14;
+    box-shadow:
+      0 22px 40px -20px rgba(0, 0, 0, 0.4),
+      0 0 0 1px color-mix(in oklch, var(--primary) 22%, transparent);
   }
 
-  #team .team-card__handle:active {
-    color: var(--foreground);
-    border-color: color-mix(in oklch, var(--primary) 40%, var(--border));
-    background: color-mix(in oklch, var(--accent) 88%, transparent);
-  }
-
-  #team .team-card__handle svg {
-    width: 1rem;
-    height: 1rem;
+  #timeline .tl-card,
+  #docs .doc-card,
+  #architecture .rounded-xl,
+  #tech .rounded-xl {
+    max-width: 100%;
   }
 }
 
