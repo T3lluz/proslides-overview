@@ -974,6 +974,11 @@
     if (!cards.length) return;
     var focusedCard = null;
 
+    cards.forEach(function (card) {
+      unwrapTiltInner(card);
+      ensureTeamCardScene(card);
+    });
+
     function reset(card) {
       card.style.transform = '';
       card.classList.remove('is-mobile-tilting', 'is-mobile-focus', 'team-card--lift');
