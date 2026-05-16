@@ -10,6 +10,14 @@
       } catch (e) {}
     })();
   </script>
+  <script>
+    (function () {
+      try {
+        var loc = localStorage.getItem('proslides-overview-locale');
+        if (loc === 'en' || loc === 'no') document.documentElement.setAttribute('data-locale', loc);
+      } catch (e) {}
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ProSlides – Prosjektoversikt</title>
@@ -60,7 +68,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=63" />
+  <link rel="stylesheet" href="css/styles.css?v=64" />
   <link rel="stylesheet" href="css/animations.css?v=14" />
   <!-- Preload first-visible showcase images for instant display -->
   <link rel="preload" as="image" href="assets/image-a51f2bef-9624-4586-8928-54ce81f924f8.png" />
@@ -77,20 +85,21 @@
     <div class="section-inner px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
       <a href="#hero" class="text-lg font-semibold text-[color:var(--primary)] shrink-0 hover:opacity-90 transition-opacity">ProSlides</a>
       <div class="hidden sm:flex items-center gap-7 text-sm font-medium text-[color:var(--muted-foreground)]">
-        <a href="#about" class="hover:text-[color:var(--foreground)] transition">Om prosjektet</a>
-        <a href="#tech" class="hover:text-[color:var(--foreground)] transition">Teknologi</a>
-        <a href="#architecture" class="hover:text-[color:var(--foreground)] transition">Arkitektur</a>
-        <a href="#team" class="hover:text-[color:var(--foreground)] transition">Teamet</a>
-        <a href="#timeline" class="hover:text-[color:var(--foreground)] transition">Tidslinje</a>
+        <a href="#about" data-i18n="nav.about" class="hover:text-[color:var(--foreground)] transition">Om prosjektet</a>
+        <a href="#tech" data-i18n="nav.tech" class="hover:text-[color:var(--foreground)] transition">Teknologi</a>
+        <a href="#architecture" data-i18n="nav.architecture" class="hover:text-[color:var(--foreground)] transition">Arkitektur</a>
+        <a href="#team" data-i18n="nav.team" class="hover:text-[color:var(--foreground)] transition">Teamet</a>
+        <a href="#timeline" data-i18n="nav.timeline" class="hover:text-[color:var(--foreground)] transition">Tidslinje</a>
       </div>
-      <div class="flex items-center gap-2 shrink-0">
+      <div class="nav-controls flex items-center gap-2 shrink-0">
+      <button type="button" id="locale-toggle" class="nav-lang-toggle" aria-pressed="false" aria-label="Bytt språk til engelsk">EN</button>
       <button
         type="button"
         id="nav-menu-toggle"
         class="nav-menu-btn sm:hidden"
         aria-expanded="false"
         aria-controls="nav-mobile"
-        aria-label="Åpne meny"
+        data-i18n-aria="nav.openMenu" aria-label="Åpne meny"
       >
         <svg class="nav-menu-btn__icon nav-menu-btn__open" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
         <svg class="nav-menu-btn__icon nav-menu-btn__close" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
@@ -101,7 +110,7 @@
         class="nav-anim-toggle is-on shrink-0"
         role="switch"
         aria-checked="true"
-        aria-label="Slå av animasjoner"
+        data-i18n-aria="motion.ariaOff" aria-label="Slå av animasjoner"
       >
         <span class="nav-anim-toggle__icon" aria-hidden="true">
           <svg class="nav-anim-toggle__svg nav-anim-toggle__svg--on" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
@@ -109,21 +118,21 @@
         </span>
         <span class="nav-anim-toggle__copy">
           <span class="nav-anim-toggle__compact">
-            <span class="nav-anim-toggle__name">Animasjon</span>
-            <span class="nav-anim-toggle__badge" id="animations-toggle-status">På</span>
+            <span class="nav-anim-toggle__name" data-i18n="motion.name">Animasjon</span>
+            <span class="nav-anim-toggle__badge" id="animations-toggle-status" data-i18n="motion.on">På</span>
           </span>
-          <span class="nav-anim-toggle__detail" id="animations-toggle-label">Animasjoner på</span>
+          <span class="nav-anim-toggle__detail" id="animations-toggle-label" data-i18n="motion.onDetail">Animasjoner på</span>
         </span>
       </button>
       </div>
     </div>
     <div id="nav-mobile" class="nav-mobile sm:hidden" hidden>
-      <nav class="nav-mobile__links" aria-label="Sidemeny">
-        <a href="#about">Om prosjektet</a>
-        <a href="#tech">Teknologi</a>
-        <a href="#architecture">Arkitektur</a>
-        <a href="#team">Teamet</a>
-        <a href="#timeline">Tidslinje</a>
+      <nav class="nav-mobile__links" data-i18n-aria="nav.mobileLabel" aria-label="Sidemeny">
+        <a href="#about" data-i18n="nav.about">Om prosjektet</a>
+        <a href="#tech" data-i18n="nav.tech">Teknologi</a>
+        <a href="#architecture" data-i18n="nav.architecture">Arkitektur</a>
+        <a href="#team" data-i18n="nav.team">Teamet</a>
+        <a href="#timeline" data-i18n="nav.timeline">Tidslinje</a>
       </nav>
     </div>
   </nav>
@@ -132,20 +141,22 @@
   <section id="hero" class="site-section px-5 sm:px-6 bg-[var(--background)]">
     <div class="section-inner text-center">
       <div class="hero-anim-badge inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)] text-[color:var(--primary)] text-sm font-medium mb-6 border border-[color:var(--border)]">
-        <span>Bachelorprosjekt 2026</span>
+        <span data-i18n="hero.badge">Bachelorprosjekt 2026</span>
       </div>
       <h1 class="hero-anim-title text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[color:var(--foreground)] mb-6">ProSlides</h1>
-      <p class="hero-anim-sub section-desc text-lg sm:text-xl mx-auto mb-10">
+      <p class="hero-anim-sub section-desc text-lg sm:text-xl mx-auto mb-10" data-i18n="hero.desc">
         En webbasert WYSIWYG-presentasjonseditor med sanntids publikumsinvolvering – polls, publikumsspørsmål og live-resultater. Bygget som bachelorprosjekt (BOP3000) ved USN Bø, våren 2026.
       </p>
       <div class="hero-anim-btns flex flex-wrap justify-center gap-4">
         <a href="https://slides.rubynor.com/" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--primary)] text-[var(--primary-foreground)]">
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--primary)] text-[var(--primary-foreground)]"
+           data-i18n="hero.liveApp">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
           Se live-appen
         </a>
         <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--foreground)] text-[var(--background)]">
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition hover:opacity-90 bg-[var(--foreground)] text-[var(--background)]"
+           data-i18n="hero.source">
           <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           Se kildekoden
         </a>
@@ -160,23 +171,23 @@
       <!-- Section header -->
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
         <div>
-          <h2 class="section-title text-2xl sm:text-3xl">Se appen i aksjon</h2>
-          <p class="section-desc text-sm sm:text-base mt-1">Dashboard · Editor · Live-presentasjon</p>
+          <h2 class="section-title text-2xl sm:text-3xl" data-i18n="showcase.title">Se appen i aksjon</h2>
+          <p class="section-desc text-sm sm:text-base mt-1" data-i18n="showcase.subtitle">Dashboard · Editor · Live-presentasjon</p>
         </div>
         <!-- Lyst/mørkt for skjermbilder (kun karusellen) -->
         <div class="flex items-center gap-2.5 self-start sm:self-auto">
-          <span id="showcase-label-light" class="text-xs font-medium text-[color:var(--foreground)] showcase-lbl--active">Lyst</span>
+          <span id="showcase-label-light" class="text-xs font-medium text-[color:var(--foreground)] showcase-lbl--active" data-i18n="showcase.light">Lyst</span>
           <button
             id="showcase-theme-toggle"
             type="button"
             role="switch"
             aria-checked="false"
-            aria-label="Bytt skjermbildetema"
+            data-i18n-aria="showcase.ariaTheme" aria-label="Bytt skjermbildetema"
             class="showcase-toggle relative flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-[color:var(--border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]"
           >
             <span class="showcase-toggle-thumb pointer-events-none inline-block h-4 w-4 rounded-full bg-[var(--card)] shadow-sm"></span>
           </button>
-          <span id="showcase-label-dark" class="text-xs font-medium text-[color:var(--muted-foreground)]">Mørkt</span>
+          <span id="showcase-label-dark" class="text-xs font-medium text-[color:var(--muted-foreground)]" data-i18n="showcase.dark">Mørkt</span>
         </div>
       </div>
 
@@ -185,7 +196,7 @@
         id="showcase-wrap"
         class="group relative rounded-xl overflow-hidden border border-[color:var(--border)] shadow-xl"
         tabindex="0"
-        aria-label="Skjermbilder av ProSlides"
+        data-i18n-aria="showcase.ariaCarousel" aria-label="Skjermbilder av ProSlides"
       >
         <!-- Single sliding track -->
         <div id="sc-track" class="sc-track">
@@ -223,7 +234,7 @@
         </div>
 
         <!-- Prev: hover-reveal arrow -->
-        <button id="showcase-prev" type="button" aria-label="Forrige skjermbilde"
+        <button id="showcase-prev" type="button" data-i18n-aria="showcase.prev" aria-label="Forrige skjermbilde"
           class="sc-nav-btn sc-nav-prev absolute left-0 top-0 h-full w-16 z-10 flex items-center justify-start pl-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <span class="w-9 h-9 rounded-full border border-[color:var(--border)] bg-[color:color-mix(in_oklch,var(--card)_90%,transparent)] backdrop-blur-sm shadow flex items-center justify-center text-[color:var(--foreground)] hover:scale-110 hover:bg-[var(--card)] transition-transform duration-150">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -231,7 +242,7 @@
         </button>
 
         <!-- Next: hover-reveal arrow -->
-        <button id="showcase-next" type="button" aria-label="Neste skjermbilde"
+        <button id="showcase-next" type="button" data-i18n-aria="showcase.next" aria-label="Neste skjermbilde"
           class="sc-nav-btn sc-nav-next absolute right-0 top-0 h-full w-16 z-10 flex items-center justify-end pr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <span class="w-9 h-9 rounded-full border border-[color:var(--border)] bg-[color:color-mix(in_oklch,var(--card)_90%,transparent)] backdrop-blur-sm shadow flex items-center justify-center text-[color:var(--foreground)] hover:scale-110 hover:bg-[var(--card)] transition-transform duration-150">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
@@ -254,9 +265,9 @@
         </div>
         <!-- Tab pills -->
         <div class="flex items-center gap-2 flex-wrap justify-center">
-          <button class="showcase-tab px-4 py-1.5 rounded-full text-xs font-medium border border-[color:var(--border)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] hover:border-[color:color-mix(in_oklch,var(--primary)_30%,var(--border))] transition" data-tab="0">Dashboard</button>
-          <button class="showcase-tab px-4 py-1.5 rounded-full text-xs font-medium border border-[color:var(--border)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] hover:border-[color:color-mix(in_oklch,var(--primary)_30%,var(--border))] transition" data-tab="1">Editor</button>
-          <button class="showcase-tab px-4 py-1.5 rounded-full text-xs font-medium border border-[color:var(--border)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] hover:border-[color:color-mix(in_oklch,var(--primary)_30%,var(--border))] transition" data-tab="2">Live-presentasjon</button>
+          <button class="showcase-tab px-4 py-1.5 rounded-full text-xs font-medium border border-[color:var(--border)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] hover:border-[color:color-mix(in_oklch,var(--primary)_30%,var(--border))] transition" data-tab="0" data-i18n="showcase.tab0">Dashboard</button>
+          <button class="showcase-tab px-4 py-1.5 rounded-full text-xs font-medium border border-[color:var(--border)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] hover:border-[color:color-mix(in_oklch,var(--primary)_30%,var(--border))] transition" data-tab="1" data-i18n="showcase.tab1">Editor</button>
+          <button class="showcase-tab px-4 py-1.5 rounded-full text-xs font-medium border border-[color:var(--border)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] hover:border-[color:color-mix(in_oklch,var(--primary)_30%,var(--border))] transition" data-tab="2" data-i18n="showcase.tab2">Live-presentasjon</button>
         </div>
       </div>
 
@@ -267,8 +278,8 @@
   <section id="about" class="site-section px-5 sm:px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
     <div class="section-inner">
       <header class="section-header">
-        <h2 class="section-title">Om prosjektet</h2>
-        <p class="section-desc leading-relaxed">
+        <h2 class="section-title" data-i18n="about.title">Om prosjektet</h2>
+        <p class="section-desc leading-relaxed" data-i18n-html="about.desc">
         RubyNor har i dag løsningen <a href="https://app.spleiselaget.no" target="_blank" class="text-[color:var(--primary)] hover:underline">spleiselaget.no</a> for interaktive presentasjoner, men den er bygget på rigide, forhåndsdefinerte maler. Oppgaven var å utvikle en mer fleksibel WYSIWYG-editor der brukeren fritt kan utforme slides visuelt, samtidig som publikum involveres i sanntid via nettleser eller mobil – uten behov for apper eller brukerkonto.
         </p>
       </header>
@@ -277,9 +288,9 @@
         <svg class="absolute bottom-2 right-4 w-14 h-14 pointer-events-none select-none" style="color: color-mix(in oklch, #ef4444 18%, transparent);" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>
         <div class="flex items-center gap-1.5 mb-3">
           <svg class="w-3.5 h-3.5 shrink-0" style="color: color-mix(in oklch, #ef4444 72%, var(--muted-foreground));" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-          <p class="text-[0.65rem] font-bold uppercase tracking-[0.12em]" style="color: color-mix(in oklch, #ef4444 68%, var(--muted-foreground));">Problemstilling</p>
+          <p class="text-[0.65rem] font-bold uppercase tracking-[0.12em]" style="color: color-mix(in oklch, #ef4444 68%, var(--muted-foreground));" data-i18n="about.problemLabel">Problemstilling</p>
         </div>
-        <p class="text-sm leading-relaxed italic" style="color: color-mix(in oklch, var(--foreground) 85%, var(--muted-foreground));">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
+        <p class="text-sm leading-relaxed italic" style="color: color-mix(in oklch, var(--foreground) 85%, var(--muted-foreground));" data-i18n="about.problemQuote">«Hvordan kan vi utvikle et webbasert presentasjonsverktøy som både gir brukeren full frihet til å utforme slides visuelt og samtidig legger til rette for aktiv publikumsinvolvering under presentasjonen?»</p>
       </div>
       <div class="grid sm:grid-cols-2 gap-5 mb-10">
         <div class="rounded-lg border border-[color:var(--border)] bg-[var(--muted)] p-5 flex items-start gap-3">
@@ -287,8 +298,8 @@
             <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
           </div>
           <div>
-            <p class="text-sm font-semibold text-[color:var(--foreground)]">Oppdragsgiver</p>
-            <p class="text-sm text-[color:var(--muted-foreground)]">RubyNor – Pål Andrè Sundt, CTO</p>
+            <p class="text-sm font-semibold text-[color:var(--foreground)]" data-i18n="about.clientLabel">Oppdragsgiver</p>
+            <p class="text-sm text-[color:var(--muted-foreground)]" data-i18n="about.clientValue">RubyNor – Pål Andrè Sundt, CTO</p>
           </div>
         </div>
         <div class="rounded-lg border border-[color:var(--border)] bg-[var(--muted)] p-5 flex items-start gap-3">
@@ -296,15 +307,15 @@
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
           </div>
           <div>
-            <p class="text-sm font-semibold text-[color:var(--foreground)]">Veileder</p>
-            <p class="text-sm text-[color:var(--muted-foreground)]">Ingrid Sundbø – USN, campus Bø</p>
+            <p class="text-sm font-semibold text-[color:var(--foreground)]" data-i18n="about.advisorLabel">Veileder</p>
+            <p class="text-sm text-[color:var(--muted-foreground)]" data-i18n="about.advisorValue">Ingrid Sundbø – USN, campus Bø</p>
           </div>
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
         <div class="about-card rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 sm:p-7">
-          <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Monorepo-struktur</h3>
-          <p class="text-sm text-[color:var(--muted-foreground)] mb-4">Prosjektet er organisert som en monorepo med to hovedmapper:</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] mb-2" data-i18n="about.monoTitle">Monorepo-struktur</h3>
+          <p class="text-sm text-[color:var(--muted-foreground)] mb-4" data-i18n="about.monoDesc">Prosjektet er organisert som en monorepo med to hovedmapper:</p>
           <div class="about-card-inner font-mono text-sm bg-[var(--muted)] rounded-lg p-4 text-[color:var(--muted-foreground)] border border-[color:var(--border)] space-y-1">
             <div>Bachelor_Gruppe1/</div>
             <div class="pl-4">├── <span class="text-red-600 font-medium">backend/</span>  &nbsp;Rails 8.1 API</div>
@@ -314,17 +325,17 @@
           </div>
         </div>
         <div class="about-card rounded-xl border border-[color:var(--border)] bg-[var(--card)] p-6 sm:p-7">
-          <h3 class="font-semibold text-[color:var(--foreground)] mb-2">Krav fra oppdragsgiver</h3>
+          <h3 class="font-semibold text-[color:var(--foreground)] mb-2" data-i18n="about.reqTitle">Krav fra oppdragsgiver</h3>
           <ul class="space-y-2 text-sm text-[color:var(--muted-foreground)]">
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Webbasert WYSIWYG-editor for slides</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Dra-og-slipp for elementer (tekst, bilder, bakgrunn)</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Interaktive elementer (polls, spørsmål)</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Sanntidskommunikasjon presentatør ↔ publikum</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Mobil deltakelse uten app/registrering</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Responsivt grensesnitt (desktop + mobil)</li>
-            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span>Dynamisk bruk av publikumsdata i slides</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req1">Webbasert WYSIWYG-editor for slides</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req2">Dra-og-slipp for elementer (tekst, bilder, bakgrunn)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req3">Interaktive elementer (polls, spørsmål)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req4">Sanntidskommunikasjon presentatør ↔ publikum</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req5">Mobil deltakelse uten app/registrering</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req6">Responsivt grensesnitt (desktop + mobil)</li>
+            <li class="flex items-start gap-2"><span class="mt-0.5 text-green-600 shrink-0">&#10003;</span data-i18n="about.req7">Dynamisk bruk av publikumsdata i slides</li>
           </ul>
-          <p class="text-xs text-[color:var(--muted-foreground)] mt-3 border-t border-[color:var(--border)] pt-3">Elm ble anbefalt som frontend – vi valgte React/TypeScript for økosystem, erfaring og industrirelevans.</p>
+          <p class="text-xs text-[color:var(--muted-foreground)] mt-3 border-t border-[color:var(--border)] pt-3" data-i18n="about.reqFoot">Elm ble anbefalt som frontend – vi valgte React/TypeScript for økosystem, erfaring og industrirelevans.</p>
         </div>
       </div>
     </div>
@@ -334,8 +345,8 @@
   <section id="tech" class="site-section px-5 sm:px-6 bg-[var(--background)]">
     <div class="section-inner">
       <header class="section-header">
-        <h2 class="section-title">Teknologier</h2>
-        <p class="section-desc">TypeScript-dominert frontend mot et Ruby on Rails API – med PostgreSQL, Redis og container-deploy.</p>
+        <h2 class="section-title" data-i18n="tech.title">Teknologier</h2>
+        <p class="section-desc" data-i18n="tech.desc">TypeScript-dominert frontend mot et Ruby on Rails API – med PostgreSQL, Redis og container-deploy.</p>
       </header>
 
       <div class="tech-stack rounded-2xl border border-[color:var(--border)] bg-[var(--card)] overflow-hidden">
@@ -346,7 +357,7 @@
               <span class="tech-layer-accent" style="--tc: #61DAFB" aria-hidden="true"></span>
               <div>
                 <h3 class="font-semibold text-sm text-[color:var(--foreground)]">Frontend</h3>
-                <p class="text-xs text-[color:var(--muted-foreground)] mt-0.5">SPA, editor og styling</p>
+                <p class="text-xs text-[color:var(--muted-foreground)] mt-0.5" data-i18n="tech.feSubtitle">SPA, editor og styling</p>
               </div>
             </div>
             <div class="tech-chips flex flex-wrap gap-2">
@@ -364,7 +375,7 @@
               <span class="tech-layer-accent" style="--tc: #CC0000" aria-hidden="true"></span>
               <div>
                 <h3 class="font-semibold text-sm text-[color:var(--foreground)]">Backend</h3>
-                <p class="text-xs text-[color:var(--muted-foreground)] mt-0.5">API, sanntid og auth</p>
+                <p class="text-xs text-[color:var(--muted-foreground)] mt-0.5" data-i18n="tech.beSubtitle">API, sanntid og auth</p>
               </div>
             </div>
             <div class="tech-chips flex flex-wrap gap-2">
@@ -381,7 +392,7 @@
               <span class="tech-layer-accent" style="--tc: #336791" aria-hidden="true"></span>
               <div>
                 <h3 class="font-semibold text-sm text-[color:var(--foreground)]">Data &amp; deploy</h3>
-                <p class="text-xs text-[color:var(--muted-foreground)] mt-0.5">Lagring, cache og produksjon</p>
+                <p class="text-xs text-[color:var(--muted-foreground)] mt-0.5" data-i18n="tech.dataSubtitle">Lagring, cache og produksjon</p>
               </div>
             </div>
             <div class="tech-chips flex flex-wrap gap-2">
@@ -395,7 +406,7 @@
 
         <div class="tech-stack-foot border-t border-[color:var(--border)] px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 bg-[color:color-mix(in_oklch,var(--muted)_40%,var(--card))]">
           <div class="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-            <span class="text-xs font-medium text-[color:var(--muted-foreground)] shrink-0">Språkfordeling</span>
+            <span class="text-xs font-medium text-[color:var(--muted-foreground)] shrink-0" data-i18n="tech.langDist">Språkfordeling</span>
             <div class="flex-1 flex items-center gap-3 min-w-0">
               <div class="flex-1 flex rounded-full overflow-hidden h-1.5 bg-[var(--muted)] border border-[color:var(--border)] min-w-[6rem]">
                 <div class="bg-blue-500" style="width: 85.3%" title="TypeScript 85.3%"></div>
@@ -418,49 +429,49 @@
   <section id="architecture" class="site-section px-5 sm:px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
     <div class="section-inner">
       <header class="section-header">
-        <h2 class="section-title">Arkitektur</h2>
-        <p class="section-desc">Tredelt webarkitektur med SPA, REST API og sanntidskanal.</p>
+        <h2 class="section-title" data-i18n="arch.title">Arkitektur</h2>
+        <p class="section-desc" data-i18n="arch.desc">Tredelt webarkitektur med SPA, REST API og sanntidskanal.</p>
       </header>
       <div class="grid sm:grid-cols-3 gap-6 mb-10">
         <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-6">
           <div class="w-9 h-9 rounded-lg bg-[color:color-mix(in_oklch,var(--primary)_10%,var(--muted))] flex items-center justify-center mb-3 border border-[color:var(--border)]">
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
           </div>
-          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1">Frontend (SPA)</h3>
-          <p class="text-xs text-[color:var(--muted-foreground)]">React + TypeScript med Vite. Komponentbasert arkitektur med shadcn/ui og Fabric.js canvas-editor. Tokenbasert auth og reaktiv state.</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1" data-i18n="arch.feTitle">Frontend (SPA)</h3>
+          <p class="text-xs text-[color:var(--muted-foreground)]" data-i18n="arch.feDesc">React + TypeScript med Vite. Komponentbasert arkitektur med shadcn/ui og Fabric.js canvas-editor. Tokenbasert auth og reaktiv state.</p>
         </div>
         <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
           <div class="w-9 h-9 rounded-lg bg-[color:color-mix(in_oklch,var(--destructive)_12%,var(--muted))] flex items-center justify-center mb-3 border border-[color:var(--border)]">
             <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
           </div>
-          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1">Backend (API)</h3>
-          <p class="text-xs text-[color:var(--muted-foreground)]">Ruby on Rails 8.1 i API-modus. Versjonert REST-API, JWT-autentisering, OAuth (Google/GitHub), og Action Cable for WebSocket-sanntid.</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1" data-i18n="arch.beTitle">Backend (API)</h3>
+          <p class="text-xs text-[color:var(--muted-foreground)]" data-i18n="arch.beDesc">Ruby on Rails 8.1 i API-modus. Versjonert REST-API, JWT-autentisering, OAuth (Google/GitHub), og Action Cable for WebSocket-sanntid.</p>
         </div>
         <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
           <div class="w-9 h-9 rounded-lg bg-[color:color-mix(in_oklch,#22c55e_14%,var(--muted))] flex items-center justify-center mb-3 border border-[color:var(--border)]">
             <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>
           </div>
-          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1">Database</h3>
-          <p class="text-xs text-[color:var(--muted-foreground)]">PostgreSQL via Neon. UUID-primærnøkler, JSONB for fleksible slide-elementer, og relasjonell struktur for brukere, presentasjoner og sessions.</p>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-1" data-i18n="arch.dbTitle">Database</h3>
+          <p class="text-xs text-[color:var(--muted-foreground)]" data-i18n="arch.dbDesc">PostgreSQL via Neon. UUID-primærnøkler, JSONB for fleksible slide-elementer, og relasjonell struktur for brukere, presentasjoner og sessions.</p>
         </div>
       </div>
       <div class="grid sm:grid-cols-2 gap-6">
         <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
-          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-2">Sanntid & Live Sessions</h3>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-2" data-i18n="arch.rtTitle">Sanntid & Live Sessions</h3>
           <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>WebSocket via Action Cable for live-oppdateringer</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Publikum kobler til via QR-kode, kode eller lenke</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Polls og spørsmål aktiveres i sanntid fra presentatør</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Resultater visualiseres live (stolpediagram via recharts)</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.rt1">WebSocket via Action Cable for live-oppdateringer</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.rt2">Publikum kobler til via QR-kode, kode eller lenke</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.rt3">Polls og spørsmål aktiveres i sanntid fra presentatør</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.rt4">Resultater visualiseres live (stolpediagram via recharts)</li>
           </ul>
         </div>
         <div class="rounded-xl border border-[color:var(--border)] bg-[var(--muted)] p-5">
-          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-2">Sikkerhet & Deploy</h3>
+          <h3 class="font-semibold text-[color:var(--foreground)] text-sm mb-2" data-i18n="arch.secTitle">Sikkerhet & Deploy</h3>
           <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>JWT-tokens med 24t utløp, bcrypt-passord</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>OAuth 2.0 via Google og GitHub</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>CORS-kontroll og SSL i produksjon</li>
-            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span>Containerisert med Docker, deployet via Kamal</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.sec1">JWT-tokens med 24t utløp, bcrypt-passord</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.sec2">OAuth 2.0 via Google og GitHub</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.sec3">CORS-kontroll og SSL i produksjon</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0"></span data-i18n="arch.sec4">Containerisert med Docker, deployet via Kamal</li>
           </ul>
         </div>
       </div>
@@ -474,14 +485,14 @@
               <span class="inline-flex w-8 h-8 rounded-lg items-center justify-center bg-[color:color-mix(in_oklch,var(--primary)_14%,var(--muted))] border border-[color:var(--border)]">
                 <svg class="w-4 h-4 text-[color:var(--primary)]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h12A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6zM3.75 9.75h16.5M9.75 3.75v16.5"/></svg>
               </span>
-              <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Arkitekturutforsker</h3>
+              <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="arch.explorerTitle">Arkitekturutforsker</h3>
             </div>
-            <p class="text-sm text-[color:var(--muted-foreground)] mt-1.5">Klikk på elementer for forklaring. <span class="text-[color:var(--foreground)] font-medium">Dra</span> med musen for å panorere, <span class="text-[color:var(--foreground)] font-medium">scroll</span> eller knappene for å zoome.</p>
+            <p class="text-sm text-[color:var(--muted-foreground)] mt-1.5" data-i18n-html="arch.explorerDesc">Klikk på elementer for forklaring. <span class="text-[color:var(--foreground)] font-medium">Dra</span> med musen for å panorere, <span class="text-[color:var(--foreground)] font-medium">scroll</span> eller knappene for å zoome.</p>
           </div>
           <div class="flex items-center gap-2 shrink-0">
             <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md border border-[color:var(--border)] bg-[var(--card)] hover:bg-[var(--accent)] text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)] transition">
               <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-              Kildekode
+              <span data-i18n="arch.sourceCode">Kildekode</span>
             </a>
           </div>
         </div>
@@ -489,28 +500,28 @@
         <!-- Tabs -->
         <div class="arch-explorer-tabs px-5 sm:px-6 pt-4 pb-4 border-b border-[color:var(--border)]">
           <div class="arch-tab-select-wrap sm:hidden">
-            <label for="arch-tab-select" class="arch-tab-select-label">Visning</label>
-            <select id="arch-tab-select" class="arch-tab-select" data-arch-tab-select aria-label="Velg arkitekturvisning">
-              <option value="journey">Flytdiagram</option>
-              <option value="er">Datamodell</option>
-              <option value="structure">Filstruktur</option>
-              <option value="api">API og ruter</option>
+            <label for="arch-tab-select" class="arch-tab-select-label" data-i18n="arch.tabView">Visning</label>
+            <select id="arch-tab-select" class="arch-tab-select" data-arch-tab-select data-i18n-aria="arch.tabSelect" aria-label="Velg arkitekturvisning">
+              <option value="journey" data-i18n="arch.tabJourney">Flytdiagram</option>
+              <option value="er" data-i18n="arch.tabEr">Datamodell</option>
+              <option value="structure" data-i18n="arch.tabStructure">Filstruktur</option>
+              <option value="api" data-i18n="arch.tabApi">API og ruter</option>
             </select>
           </div>
-          <div class="hidden sm:flex gap-2 w-max sm:w-auto" role="tablist" aria-label="Arkitekturmeny">
-            <button class="arch-tab-btn is-active" id="tab-journey" data-arch-tab="journey" role="tab" aria-selected="true" type="button">
+          <div class="hidden sm:flex gap-2 w-max sm:w-auto" role="tablist" data-i18n-aria="arch.tabMenu" aria-label="Arkitekturmeny">
+            <button class="arch-tab-btn is-active" id="tab-journey" data-arch-tab="journey" data-i18n="arch.tabJourney" role="tab" aria-selected="true" type="button">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934a1.12 1.12 0 01-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689A1.125 1.125 0 003 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934a1.12 1.12 0 011.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
               Flytdiagram
             </button>
-            <button class="arch-tab-btn" id="tab-er" data-arch-tab="er" role="tab" aria-selected="false" type="button">
+            <button class="arch-tab-btn" id="tab-er" data-arch-tab="er" data-i18n="arch.tabEr" role="tab" aria-selected="false" type="button">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 5v6c0 1.7 4 3 9 3s9-1.3 9-3V5 M3 11v6c0 1.7 4 3 9 3s9-1.3 9-3v-6"/></svg>
               Datamodell
             </button>
-            <button class="arch-tab-btn" id="tab-structure" data-arch-tab="structure" role="tab" aria-selected="false" type="button">
+            <button class="arch-tab-btn" id="tab-structure" data-arch-tab="structure" data-i18n="arch.tabStructure" role="tab" aria-selected="false" type="button">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
               Filstruktur
             </button>
-            <button class="arch-tab-btn" id="tab-api" data-arch-tab="api" role="tab" aria-selected="false" type="button">
+            <button class="arch-tab-btn" id="tab-api" data-arch-tab="api" data-i18n="arch.tabApiShort" role="tab" aria-selected="false" type="button">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 7a2 2 0 012-2h10a2 2 0 012 2v4H5V7zM5 13h14v4a2 2 0 01-2 2H7a2 2 0 01-2-2v-4z M8.5 9.5h.01 M8.5 16h.01"/></svg>
               API & Ruter
             </button>
@@ -522,31 +533,31 @@
 
           <!-- Stage -->
           <div class="arch-stage" data-arch-stage>
-            <div class="arch-toolbar" role="group" aria-label="Diagramkontroller">
-              <button type="button" class="arch-tool-btn" data-pan-action="zoom-out" aria-label="Zoom ut" title="Zoom ut">
+            <div class="arch-toolbar" role="group" data-i18n-aria="arch.toolbar" aria-label="Diagramkontroller">
+              <button type="button" class="arch-tool-btn" data-pan-action="zoom-out" data-i18n-aria="arch.zoomOut" data-i18n-title="arch.zoomOut" aria-label="Zoom ut" title="Zoom ut">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14"/></svg>
               </button>
               <span class="arch-zoom-label" data-zoom-label>100%</span>
-              <button type="button" class="arch-tool-btn" data-pan-action="zoom-in" aria-label="Zoom inn" title="Zoom inn">
+              <button type="button" class="arch-tool-btn" data-pan-action="zoom-in" data-i18n-aria="arch.zoomIn" data-i18n-title="arch.zoomIn" aria-label="Zoom inn" title="Zoom inn">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
               </button>
               <span class="arch-toolbar-sep"></span>
-              <button type="button" class="arch-tool-btn" data-pan-action="reset" aria-label="Tilbakestill" title="Tilbakestill">
+              <button type="button" class="arch-tool-btn" data-pan-action="reset" data-i18n-aria="arch.reset" data-i18n-title="arch.reset" aria-label="Tilbakestill" title="Tilbakestill">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12a9 9 0 1015.84-5.84M21 4v5h-5"/></svg>
               </button>
               <span class="arch-toolbar-sep"></span>
-              <button type="button" class="arch-tool-btn" data-pan-action="fit" aria-label="Tilpass til skjerm" title="Tilpass">
+              <button type="button" class="arch-tool-btn" data-pan-action="fit" data-i18n-aria="arch.fit" data-i18n-title="arch.fitShort" aria-label="Tilpass til skjerm" title="Tilpass">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 011-1h4M15 4h4a1 1 0 011 1v4M20 15v4a1 1 0 01-1 1h-4M9 20H5a1 1 0 01-1-1v-4"/></svg>
               </button>
             </div>
 
             <div class="arch-hint" data-arch-hint>
-              <kbd>Dra</kbd><span>panorer</span><span class="opacity-50">·</span><kbd>Klyp</kbd><span>zoom</span><span class="opacity-50">·</span><kbd>Scroll</kbd><span>zoom</span>
+              <kbd data-i18n="arch.hintDrag">Dra</kbd><span data-i18n="arch.hintPan">panorer</span><span class="opacity-50">·</span><kbd data-i18n="arch.hintPinch">Klyp</kbd><span data-i18n="arch.hintZoom">zoom</span><span class="opacity-50">·</span><kbd data-i18n="arch.hintScroll">Scroll</kbd><span data-i18n="arch.hintZoom">zoom</span>
             </div>
 
             <!-- Panel: FLYTDIAGRAM (Mermaid → app-tema) -->
             <div class="arch-panel is-active" data-arch-panel="journey" role="tabpanel" aria-labelledby="tab-journey">
-              <div id="journey-mermaid" class="arch-mermaid-stage" aria-label="Flytdiagram over bruker- og systemflyt"></div>
+              <div id="journey-mermaid" class="arch-mermaid-stage" data-i18n-aria="arch.mermaidAria" aria-label="Flytdiagram over bruker- og systemflyt"></div>
             </div>
 
             <!-- Panel: ER (datamodell) -->
@@ -558,13 +569,13 @@
                 <g class="arch-viewport">
                   <!-- Groups -->
                   <rect class="diagram-group" x="20" y="20" width="1400" height="240" rx="16"/>
-                  <text class="diagram-group-label" x="40" y="48">Brukere &amp; innhold</text>
+                  <text class="diagram-group-label" x="40" y="48" data-i18n="arch.erGroup1">Brukere &amp; innhold</text>
 
                   <rect class="diagram-group" x="20" y="280" width="1400" height="240" rx="16"/>
-                  <text class="diagram-group-label" x="40" y="308">Polls (spørsmål · alternativer · stemmer)</text>
+                  <text class="diagram-group-label" x="40" y="308" data-i18n="arch.erGroup2">Polls (spørsmål · alternativer · stemmer)</text>
 
                   <rect class="diagram-group" x="20" y="540" width="1400" height="220" rx="16"/>
-                  <text class="diagram-group-label" x="40" y="568">Live-sesjoner</text>
+                  <text class="diagram-group-label" x="40" y="568" data-i18n="arch.erGroup3">Live-sesjoner</text>
 
                   <!-- Row 1 -->
                   <g class="diagram-node" data-node-title="users" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/user.rb"
@@ -1598,7 +1609,7 @@
           <!-- Detail panel (shared across tabs) -->
           <aside class="arch-detail-panel border-t border-[color:var(--border)]">
             <div class="arch-detail-ident">
-              <p data-arch-detail-label>Valgt komponent</p>
+              <p data-arch-detail-label data-i18n="arch.detailDefault">Valgt komponent</p>
               <h4 data-arch-detail-title>React SPA</h4>
             </div>
             <p data-arch-detail-desc>Vite + React 18 + TypeScript single-page-app. Komponentbasert struktur med shadcn/ui og Tailwind. Bygges til public/ for produksjon.</p>
@@ -1623,24 +1634,24 @@
   <section id="team" class="site-section px-5 sm:px-6 bg-[var(--background)]">
     <div class="section-inner">
       <header class="section-header">
-        <h2 class="section-title">Teamet</h2>
-        <p class="section-desc">Utviklerteamet bak ProSlides – bachelorprosjekt USN våren 2026, i samarbeid med RubyNor.</p>
+        <h2 class="section-title" data-i18n="team.title">Teamet</h2>
+        <p class="section-desc" data-i18n="team.desc">Utviklerteamet bak ProSlides – bachelorprosjekt USN våren 2026, i samarbeid med RubyNor.</p>
       </header>
       <div class="team-grid">
         <article class="team-card">
           <div class="team-card__profile">
             <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/Baitedr.png?size=460" data-photo="assets/team/martin-hansen.jpg" alt="Martin M. Hansen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Martin M. Hansen</h3>
-            <p class="team-card__badge">Prosjektleder · Utvikler</p>
+            <p class="team-card__badge" data-i18n="team.martin.badge">Prosjektleder · Utvikler</p>
             </div>
           </div>
           <div class="team-card__body">
-            <p class="team-card__spec">Live-funksjonalitet og databasearkitektur</p>
+            <p class="team-card__spec" data-i18n="team.martin.spec">Live-funksjonalitet og databasearkitektur</p>
             <div class="team-card__focus">
-              <p class="team-card__focus-title">Primærfokus</p>
+              <p class="team-card__focus-title" data-i18n="team.primaryFocus">Primærfokus</p>
               <ul class="team-card__list">
-              <li>Sanntidskommunikasjon (Action Cable)</li>
-              <li>Datamodell (PostgreSQL / Neon)</li>
-              <li>Resultattavle (live)</li>
+              <li data-i18n="team.martin.focus0">Sanntidskommunikasjon (Action Cable)</li>
+              <li data-i18n="team.martin.focus1">Datamodell (PostgreSQL / Neon)</li>
+              <li data-i18n="team.martin.focus2">Resultattavle (live)</li>
               </ul>
             </div>
           </div>
@@ -1652,16 +1663,16 @@
         <article class="team-card">
           <div class="team-card__profile">
             <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/MarcusWHE.png?size=460" data-photo="assets/team/marcus-einarsen.jpg" alt="Marcus W. H. Einarsen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Marcus W. H. Einarsen</h3>
-            <p class="team-card__badge">Scrum Master · Utvikler</p>
+            <p class="team-card__badge" data-i18n="team.marcus.badge">Scrum Master · Utvikler</p>
             </div>
           </div>
           <div class="team-card__body">
-            <p class="team-card__spec">Presentasjonseditor, frontend-arkitektur og Scrum</p>
+            <p class="team-card__spec" data-i18n="team.marcus.spec">Presentasjonseditor, frontend-arkitektur og Scrum</p>
             <div class="team-card__focus">
-              <p class="team-card__focus-title">Primærfokus</p>
+              <p class="team-card__focus-title" data-i18n="team.primaryFocus">Primærfokus</p>
               <ul class="team-card__list">
-              <li>WYSIWYG-editor (Fabric.js)</li>
-              <li>Redigeringsflyt</li>
+              <li data-i18n="team.marcus.focus0">WYSIWYG-editor (Fabric.js)</li>
+              <li data-i18n="team.marcus.focus1">Redigeringsflyt</li>
               </ul>
             </div>
           </div>
@@ -1673,17 +1684,17 @@
         <article class="team-card">
           <div class="team-card__profile">
             <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/T3lluz.png?size=460" data-photo="assets/team/fredrik-stalsberg.jpg" alt="Fredrik Stalsberg" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Fredrik Stalsberg</h3>
-            <p class="team-card__badge">Utvikler · UI/UX · Sikkerhet</p>
+            <p class="team-card__badge" data-i18n="team.fredrik.badge">Utvikler · UI/UX · Sikkerhet</p>
             </div>
           </div>
           <div class="team-card__body">
-            <p class="team-card__spec">Autentisering, UI &amp; UX-design og testing (Playwright E2E)</p>
+            <p class="team-card__spec" data-i18n="team.fredrik.spec">Autentisering, UI &amp; UX-design og testing (Playwright E2E)</p>
             <div class="team-card__focus">
-              <p class="team-card__focus-title">Primærfokus</p>
+              <p class="team-card__focus-title" data-i18n="team.primaryFocus">Primærfokus</p>
               <ul class="team-card__list">
-              <li>Brukerautentisering og sikkerhet</li>
-              <li>Designsystem (shadcn/ui)</li>
-              <li>E2E-testrutiner</li>
+              <li data-i18n="team.fredrik.focus0">Brukerautentisering og sikkerhet</li>
+              <li data-i18n="team.fredrik.focus1">Designsystem (shadcn/ui)</li>
+              <li data-i18n="team.fredrik.focus2">E2E-testrutiner</li>
               </ul>
             </div>
           </div>
@@ -1695,16 +1706,16 @@
         <article class="team-card">
           <div class="team-card__profile">
             <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/scmog1.png?size=460" data-photo="assets/team/sondre-mogen.jpg" alt="Sondre C. Mogen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Sondre C. Mogen</h3>
-            <p class="team-card__badge">Utvikler</p>
+            <p class="team-card__badge" data-i18n="team.sondre.badge">Utvikler</p>
             </div>
           </div>
           <div class="team-card__body">
-            <p class="team-card__spec">Backend API og forretningslogikk</p>
+            <p class="team-card__spec" data-i18n="team.sondre.spec">Backend API og forretningslogikk</p>
             <div class="team-card__focus">
-              <p class="team-card__focus-title">Primærfokus</p>
+              <p class="team-card__focus-title" data-i18n="team.primaryFocus">Primærfokus</p>
               <ul class="team-card__list">
-              <li>API-struktur og endepunkter</li>
-              <li>Polls og avstemninger</li>
+              <li data-i18n="team.sondre.focus0">API-struktur og endepunkter</li>
+              <li data-i18n="team.sondre.focus1">Polls og avstemninger</li>
               </ul>
             </div>
           </div>
@@ -1716,15 +1727,15 @@
         <article class="team-card">
           <div class="team-card__profile">
             <div class="team-card__photo-frame"><img class="team-card__photo" src="https://github.com/rikkehlarsen.png?size=460" data-photo="assets/team/rikke-larsen.jpg" alt="Rikke H. Larsen" width="80" height="80" loading="lazy" decoding="async" /></div><div class="team-card__identity"><h3 class="team-card__name">Rikke H. Larsen</h3>
-            <p class="team-card__badge">Utvikler</p>
+            <p class="team-card__badge" data-i18n="team.rikke.badge">Utvikler</p>
             </div>
           </div>
           <div class="team-card__body">
-            <p class="team-card__spec">Interaktive elementer</p>
+            <p class="team-card__spec" data-i18n="team.rikke.spec">Interaktive elementer</p>
             <div class="team-card__focus">
-              <p class="team-card__focus-title">Primærfokus</p>
+              <p class="team-card__focus-title" data-i18n="team.primaryFocus">Primærfokus</p>
               <ul class="team-card__list">
-              <li>Verktøy og interaksjoner i presentasjons-editor</li>
+              <li data-i18n="team.rikke.focus0">Verktøy og interaksjoner i presentasjons-editor</li>
               
               </ul>
             </div>
@@ -1742,8 +1753,8 @@
   <section id="timeline" class="site-section px-5 sm:px-6 bg-[var(--card)] text-[color:var(--card-foreground)]">
     <div class="section-inner">
       <header class="section-header">
-        <h2 class="section-title">Tidslinje</h2>
-        <p class="section-desc">Prosjektet er delt opp i fire sprinter, tilpasset tidsrammen.</p>
+        <h2 class="section-title" data-i18n="timeline.title">Tidslinje</h2>
+        <p class="section-desc" data-i18n="timeline.desc">Prosjektet er delt opp i fire sprinter, tilpasset tidsrammen.</p>
       </header>
 
       <div class="relative">
@@ -1756,16 +1767,16 @@
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
                 <div class="flex items-center gap-3 mb-3 justify-end flex-row-reverse md:flex-row">
-                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Foranalyse</h3>
-                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 5–7</span>
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="timeline.s1.title">Foranalyse</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap" data-i18n="timeline.s1.week">Uke 5–7</span>
                 </div>
-                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Sette i gang med prosjektet. Oppsett av IDE, rammeverk og utviklingsmiljø. Sette seg inn i Ruby og Rails.</p>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4" data-i18n="timeline.s1.desc">Sette i gang med prosjektet. Oppsett av IDE, rammeverk og utviklingsmiljø. Sette seg inn i Ruby og Rails.</p>
                 <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
                   <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5 text-left md:text-right">
-                    <li>Oppsett av Rails 8 API + React/Vite monorepo</li>
-                    <li>PostgreSQL-database med migrasjoner</li>
-                    <li>Git-flyt og prosjektstruktur definert</li>
-                    <li>Læringsperiode for Ruby og Rails</li>
+                    <li data-i18n="timeline.s1.item0">Oppsett av Rails 8 API + React/Vite monorepo</li>
+                    <li data-i18n="timeline.s1.item1">PostgreSQL-database med migrasjoner</li>
+                    <li data-i18n="timeline.s1.item2">Git-flyt og prosjektstruktur definert</li>
+                    <li data-i18n="timeline.s1.item3">Læringsperiode for Ruby og Rails</li>
                   </ul>
                 </div>
               </div>
@@ -1783,16 +1794,16 @@
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
                 <div class="flex items-center gap-3 mb-3">
-                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">UI, UX og datastrukturer</h3>
-                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 8–10</span>
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="timeline.s2.title">UI, UX og datastrukturer</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap" data-i18n="timeline.s2.week">Uke 8–10</span>
                 </div>
-                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Etablere fast UI-struktur. Sikre interaktiv og intuitiv UX med universell utforming. Definere datastrukturer og modeller.</p>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4" data-i18n="timeline.s2.desc">Etablere fast UI-struktur. Sikre interaktiv og intuitiv UX med universell utforming. Definere datastrukturer og modeller.</p>
                 <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
                   <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
-                    <li>Komponentbibliotek med shadcn/ui + Tailwind</li>
-                    <li>Databasemodeller: User, Presentation, Slide, Poll</li>
-                    <li>Ruting og navigasjonsstruktur</li>
-                    <li>Universell utforming (WCAG)</li>
+                    <li data-i18n="timeline.s2.item0">Komponentbibliotek med shadcn/ui + Tailwind</li>
+                    <li data-i18n="timeline.s2.item1">Databasemodeller: User, Presentation, Slide, Poll</li>
+                    <li data-i18n="timeline.s2.item2">Ruting og navigasjonsstruktur</li>
+                    <li data-i18n="timeline.s2.item3">Universell utforming (WCAG)</li>
                   </ul>
                 </div>
               </div>
@@ -1806,18 +1817,18 @@
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
                 <div class="flex items-center gap-3 mb-3 justify-end flex-row-reverse md:flex-row">
-                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Editor, interaktivitet og sanntid</h3>
-                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 11–17</span>
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="timeline.s3.title">Editor, interaktivitet og sanntid</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap" data-i18n="timeline.s3.week">Uke 11–17</span>
                 </div>
-                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Editoren er kjernen i prosjektet. All funksjonalitet på plass: verktøylinje, polls, publikumsspørsmål, slides og sanntidsvisning.</p>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4" data-i18n="timeline.s3.desc">Editoren er kjernen i prosjektet. All funksjonalitet på plass: verktøylinje, polls, publikumsspørsmål, slides og sanntidsvisning.</p>
                 <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
                   <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5 text-left md:text-right">
-                    <li>Visuell slide-editor med Fabric.js-canvas</li>
-                    <li>Drag-and-drop slide-organisering (dnd-kit)</li>
-                    <li>Sanntids polls og publikumsspørsmål via Action Cable</li>
-                    <li>OAuth-innlogging (Google, GitHub)</li>
-                    <li>JWT-autentisering og sessions</li>
-                    <li>Live presentasjonsmodus med deltaker-kobling</li>
+                    <li data-i18n="timeline.s3.item0">Visuell slide-editor med Fabric.js-canvas</li>
+                    <li data-i18n="timeline.s3.item1">Drag-and-drop slide-organisering (dnd-kit)</li>
+                    <li data-i18n="timeline.s3.item2">Sanntids polls og publikumsspørsmål via Action Cable</li>
+                    <li data-i18n="timeline.s3.item3">OAuth-innlogging (Google, GitHub)</li>
+                    <li data-i18n="timeline.s3.item4">JWT-autentisering og sessions</li>
+                    <li data-i18n="timeline.s3.item5">Live presentasjonsmodus med deltaker-kobling</li>
                   </ul>
                 </div>
               </div>
@@ -1835,17 +1846,17 @@
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
                 <div class="flex items-center gap-3 mb-3">
-                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Feilretting og stabilisering</h3>
-                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 18–20</span>
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="timeline.s4.title">Feilretting og stabilisering</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--primary)] bg-[var(--accent)] border border-[color:color-mix(in_oklch,var(--border)_70%,transparent)] px-2.5 py-1 rounded-full whitespace-nowrap" data-i18n="timeline.s4.week">Uke 18–20</span>
                 </div>
-                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4">Brukertesting av nettsiden, brukerhistorier og selvtesting. Feil og mangler fikses fortløpende.</p>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed mb-4" data-i18n="timeline.s4.desc">Brukertesting av nettsiden, brukerhistorier og selvtesting. Feil og mangler fikses fortløpende.</p>
                 <div class="tl-details border-t border-[color:var(--border)] pt-3 mt-1">
                   <ul class="text-xs text-[color:var(--muted-foreground)] space-y-1.5">
-                    <li>E2E-testing med Playwright</li>
-                    <li>Brukertesting med reelle testpersoner</li>
-                    <li>Testing basert på brukerhistorier</li>
-                    <li>Feilretting og ytelsesforbedring</li>
-                    <li>Deploy-testing med Docker + Kamal</li>
+                    <li data-i18n="timeline.s4.item0">E2E-testing med Playwright</li>
+                    <li data-i18n="timeline.s4.item1">Brukertesting med reelle testpersoner</li>
+                    <li data-i18n="timeline.s4.item2">Testing basert på brukerhistorier</li>
+                    <li data-i18n="timeline.s4.item3">Feilretting og ytelsesforbedring</li>
+                    <li data-i18n="timeline.s4.item4">Deploy-testing med Docker + Kamal</li>
                   </ul>
                 </div>
               </div>
@@ -1859,10 +1870,10 @@
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:var(--border)] p-6 md:p-8">
               <div class="tl-inner">
                 <div class="flex items-center gap-3 mb-3 justify-end flex-row-reverse md:flex-row">
-                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Rapportskriving</h3>
-                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--muted-foreground)] bg-[var(--muted)] border border-[color:var(--border)] px-2.5 py-1 rounded-full whitespace-nowrap">Uke 5–21</span>
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="timeline.report.title">Rapportskriving</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-[color:var(--muted-foreground)] bg-[var(--muted)] border border-[color:var(--border)] px-2.5 py-1 rounded-full whitespace-nowrap" data-i18n="timeline.report.week">Uke 5–21</span>
                 </div>
-                <p class="text-sm text-[color:var(--foreground)] leading-relaxed">Gjøres gjennom hele prosjektets levetid, parallelt med utvikling. Dokumenterer prosess, metode, resultater og refleksjon.</p>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed" data-i18n="timeline.report.desc">Gjøres gjennom hele prosjektets levetid, parallelt med utvikling. Dokumenterer prosess, metode, resultater og refleksjon.</p>
               </div>
             </div>
           </div>
@@ -1878,10 +1889,10 @@
             <div class="tl-card bg-[var(--muted)] rounded-2xl border border-[color:color-mix(in_oklch,#22c55e_40%,var(--border))] p-6 md:p-8">
               <div class="tl-inner">
                 <div class="flex items-center gap-3 mb-3">
-                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]">Endelig produkt</h3>
-                  <span class="text-[10px] font-semibold tracking-wide uppercase text-green-800 bg-[color:color-mix(in_oklch,#22c55e_18%,var(--muted))] border border-[color:color-mix(in_oklch,#22c55e_35%,var(--border))] px-2.5 py-1 rounded-full whitespace-nowrap">19. mai</span>
+                  <h3 class="text-lg font-semibold text-[color:var(--foreground)]" data-i18n="timeline.delivery.title">Endelig produkt</h3>
+                  <span class="text-[10px] font-semibold tracking-wide uppercase text-green-800 bg-[color:color-mix(in_oklch,#22c55e_18%,var(--muted))] border border-[color:color-mix(in_oklch,#22c55e_35%,var(--border))] px-2.5 py-1 rounded-full whitespace-nowrap" data-i18n="timeline.delivery.week">19. mai</span>
                 </div>
-                <p class="text-sm text-[color:var(--foreground)] leading-relaxed">Siste optimalisering, feilretting og endringer. Levering av ferdig produkt, rapport og prosjektoversikt.</p>
+                <p class="text-sm text-[color:var(--foreground)] leading-relaxed" data-i18n="timeline.delivery.desc">Siste optimalisering, feilretting og endringer. Levering av ferdig produkt, rapport og prosjektoversikt.</p>
               </div>
             </div>
           </div>
@@ -1895,12 +1906,12 @@
   <section id="docs" class="site-section px-5 sm:px-6 bg-[var(--background)]">
     <div class="section-inner">
       <header class="section-header">
-        <h2 class="section-title">Ressurser</h2>
-        <p class="section-desc">Oversikt over dokumenter, lenker og media knyttet til prosjektet.</p>
-        <p class="text-xs text-[color:var(--muted-foreground)]">Legg til nye poster i <code class="text-[11px] px-1.5 py-0.5 rounded bg-[var(--muted)] font-mono">js/docs.js</code> — støtter filer, eksterne lenker og bilder.</p>
+        <h2 class="section-title" data-i18n="docs.title">Ressurser</h2>
+        <p class="section-desc" data-i18n="docs.desc">Oversikt over dokumenter, lenker og media knyttet til prosjektet.</p>
+        <p class="text-xs text-[color:var(--muted-foreground)]" data-i18n-html="docs.hint">Legg til nye poster i <code class="text-[11px] px-1.5 py-0.5 rounded bg-[var(--muted)] font-mono">js/docs.js</code> — støtter filer, eksterne lenker og bilder.</p>
       </header>
       <div id="docs-catalog"></div>
-      <p id="docs-empty" class="hidden text-sm text-[color:var(--muted-foreground)] italic mt-6">Ingen ressurser lagt til ennå.</p>
+      <p id="docs-empty" data-i18n="docs.empty" class="hidden text-sm text-[color:var(--muted-foreground)] italic mt-6">Ingen ressurser lagt til ennå.</p>
     </div>
   </section>
 
@@ -1912,12 +1923,12 @@
           <svg class="w-4 h-4" style="color: color-mix(in oklch, #f59e0b 78%, var(--foreground));" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
         </div>
         <div class="min-w-0 flex-1">
-          <p id="ai-disclosure-heading" class="text-[0.65rem] font-bold uppercase tracking-[0.12em] mb-1" style="color: color-mix(in oklch, #f59e0b 70%, var(--muted-foreground));">Merknad · Cursor AI</p>
-          <p class="text-sm leading-snug text-[color:var(--foreground)] mb-1">
+          <p id="ai-disclosure-heading" class="text-[0.65rem] font-bold uppercase tracking-[0.12em] mb-1" style="color: color-mix(in oklch, #f59e0b 70%, var(--muted-foreground));" data-i18n="ai.label">Merknad · Cursor AI</p>
+          <p class="text-sm leading-snug text-[color:var(--foreground)] mb-1" data-i18n-html="ai.p1">
             <strong>Denne prosjektoversikten</strong> (denne nettsiden, ikke ProSlides-appen): UI, layout, kode og animasjoner er utviklet med
             <a href="https://cursor.com" target="_blank" rel="noopener" class="font-medium text-[color:var(--primary)] hover:underline">Cursor AI</a>.
           </p>
-          <p class="text-xs sm:text-sm leading-snug text-[color:var(--muted-foreground)]">
+          <p class="text-xs sm:text-sm leading-snug text-[color:var(--muted-foreground)]" data-i18n-html="ai.p2">
             <strong class="text-[color:var(--foreground)]">Innholdet er ikke AI-generert.</strong>
             Tekst, data og prosjektinformasjon er skrevet og verifisert av gruppen.
             Modeller: <span class="font-medium text-[color:var(--foreground)]">Claude Opus 4.6</span>,
@@ -1932,9 +1943,9 @@
 
   <!-- Footer -->
   <footer class="px-5 sm:px-6 text-center text-sm text-[color:var(--muted-foreground)]">
-    <p>ProSlides – Bachelorprosjekt Gruppe 1, USN 2026</p>
+    <p data-i18n="footer.line">ProSlides – Bachelorprosjekt Gruppe 1, USN 2026</p>
     <div class="flex justify-center gap-4 mt-3">
-      <a href="https://slides.rubynor.com/" target="_blank" class="hover:text-[color:var(--foreground)] transition">Live-app</a>
+      <a href="https://slides.rubynor.com/" target="_blank" class="hover:text-[color:var(--foreground)] transition" data-i18n="footer.live">Live-app</a>
       <span class="text-[color:var(--border)]">|</span>
       <a href="https://github.com/Baitedr/Bachelor_Gruppe1" target="_blank" class="hover:text-[color:var(--foreground)] transition">GitHub</a>
       <span class="text-[color:var(--border)]">|</span>
@@ -1942,6 +1953,10 @@
     </div>
   </footer>
 
+  <script src="js/i18n-data.js?v=1"></script>
+  <script src="js/arch-desc-en.js?v=1"></script>
+  <script src="js/journey-meta-en.js?v=1"></script>
+  <script src="js/i18n.js?v=1"></script>
   <script src="js/journey-meta.js?v=1"></script>
   <script src="js/journey-mermaid.js?v=7"></script>
   <script src="js/arch-explorer.js?v=13"></script>

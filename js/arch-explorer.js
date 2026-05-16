@@ -44,14 +44,20 @@
     return explorer.querySelector('.arch-panel.is-active');
   }
 
+  function t(key, fallback) {
+    return window.ProSlidesI18n ? window.ProSlidesI18n.t(key, fallback) : fallback;
+  }
+
   function panelLabelFor(panel) {
-    if (!panel) return 'Valgt komponent';
-    return ({
-      journey:   'Valgt steg',
-      er:        'Valgt entitet',
-      structure: 'Valgt sti',
-      api:       'Valgt endepunkt'
-    })[panel.getAttribute('data-arch-panel')] || 'Valgt komponent';
+    if (!panel) return t('arch.detailDefault', 'Valgt komponent');
+    var map = {
+      journey:   'arch.detailJourney',
+      er:        'arch.detailEr',
+      structure: 'arch.detailStructure',
+      api:       'arch.detailApi'
+    };
+    var key = map[panel.getAttribute('data-arch-panel')] || 'arch.detailDefault';
+    return t(key);
   }
 
   function esc(v) {
@@ -67,7 +73,11 @@
 
     if (detailLabel) detailLabel.textContent = panelLabelFor(panel);
     if (detailTitle) detailTitle.textContent  = node.getAttribute('data-node-title') || '';
-    if (detailDesc)  detailDesc.textContent   = node.getAttribute('data-node-desc')  || '';
+    if (detailDesc) {
+      detailDesc.textContent = window.ProSlidesI18n
+        ? window.ProSlidesI18n.nodeDesc(node)
+        : (node.getAttribute('data-node-desc') || '');
+    }
 
     if (detailMeta) {
       detailMeta.innerHTML = '';
@@ -77,7 +87,8 @@
       if (meta && typeof meta === 'object') {
         Object.keys(meta).forEach(function (key) {
           var row = document.createElement('div');
-          row.innerHTML = '<dt>' + esc(key) + '</dt><dd>' + esc(meta[key]) + '</dd>';
+          var label = window.ProSlidesI18n ? window.ProSlidesI18n.translateMetaKey(key) : key;
+          row.innerHTML = '<dt>' + esc(label) + '</dt><dd>' + esc(meta[key]) + '</dd>';
           detailMeta.appendChild(row);
         });
       }
@@ -443,6 +454,20 @@
       });
     });
   }
+
+  document.addEventListener('proslides:locale', function () {
+    if (window.ProSlidesI18n) {
+      explorer.querySelectorAll('.api-row[data-node-title]').forEach(function (row) {
+        var descEl = row.querySelector('.api-ep-desc');
+        if (descEl) descEl.textContent = window.ProSlidesI18n.nodeDesc(row);
+      });
+    }
+    var panel = activePanel();
+    if (!panel) return;
+    var active = panel.querySelector('.diagram-node.is-active, .tree-row.is-active, .api-row.is-active');
+    if (active) activateNode(active);
+    else activateFirstNode(panel);
+  });
 
   /* Init */
   var initialBtn = explorer.querySelector('.arch-tab-btn.is-active');

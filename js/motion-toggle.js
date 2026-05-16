@@ -7,6 +7,10 @@
   var labelEl;
   var statusEl;
 
+  function i18n(key, fallback) {
+    return window.ProSlidesI18n ? window.ProSlidesI18n.t(key, fallback) : fallback;
+  }
+
   function storedOn() {
     try {
       var s = localStorage.getItem(KEY);
@@ -30,16 +34,14 @@
 
   function syncToggleUI(on) {
     if (!btn) return;
-    var status = on ? 'På' : 'Av';
-    var detail = on ? 'Animasjoner på' : 'Animasjoner av';
     btn.setAttribute('aria-checked', on ? 'true' : 'false');
     btn.classList.toggle('is-on', on);
-    btn.setAttribute('aria-label', on ? 'Slå av animasjoner' : 'Slå på animasjoner');
-    if (statusEl) statusEl.textContent = status;
-    if (labelEl) labelEl.textContent = detail;
+    btn.setAttribute('aria-label', i18n(on ? 'motion.ariaOff' : 'motion.ariaOn'));
+    if (statusEl) statusEl.textContent = i18n(on ? 'motion.on' : 'motion.off');
+    if (labelEl) labelEl.textContent = i18n(on ? 'motion.onDetail' : 'motion.offDetail');
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function init() {
     btn = document.getElementById('animations-toggle');
     labelEl = document.getElementById('animations-toggle-label');
     statusEl = document.getElementById('animations-toggle-status');
@@ -53,5 +55,15 @@
       } catch (_) {}
       location.reload();
     });
-  });
+
+    document.addEventListener('proslides:locale', function () {
+      syncToggleUI(storedOn());
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

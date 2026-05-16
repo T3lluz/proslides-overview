@@ -1131,7 +1131,11 @@
 
     function setOpen(open) {
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      btn.setAttribute('aria-label', open ? 'Lukk meny' : 'Åpne meny');
+      var i18n = window.ProSlidesI18n;
+      btn.setAttribute(
+        'aria-label',
+        i18n ? i18n.t(open ? 'nav.closeMenu' : 'nav.openMenu') : (open ? 'Lukk meny' : 'Åpne meny')
+      );
       panel.hidden = !open;
     }
 

@@ -8,7 +8,7 @@
    independent of the site theme (always light).
    ----------------------------------------------------------------------- */
 (function () {
-  var LABELS        = ['Dashboard', 'Editor', 'Live-presentasjon'];
+  var LABEL_KEYS    = ['showcase.label0', 'showcase.label1', 'showcase.label2'];
   var AUTO_INTERVAL = 9000;  /* ms between auto-advances */
   var TRANS_DUR     = 750;   /* ms — keep ≥ longest CSS transition */
   var STORAGE_KEY   = 'proslides-showcase-images';
@@ -119,7 +119,11 @@
       d.style.borderRadius = on ? '999px' : '';
     });
 
-    if (label) label.textContent = LABELS[current];
+    if (label) {
+      label.textContent = window.ProSlidesI18n
+        ? window.ProSlidesI18n.t(LABEL_KEYS[current])
+        : ['Dashboard', 'Editor', 'Live-presentasjon'][current];
+    }
 
     resetAuto();
   }
@@ -192,7 +196,11 @@
   function syncToggleUI(dark) {
     if (!toggle) return;
     toggle.setAttribute('aria-checked', dark ? 'true' : 'false');
-    toggle.setAttribute('aria-label', dark ? 'Vis lyst skjermbilde' : 'Vis mørkt skjermbilde');
+    var i18n = window.ProSlidesI18n;
+    toggle.setAttribute(
+      'aria-label',
+      i18n ? i18n.t(dark ? 'showcase.ariaLight' : 'showcase.ariaDark') : (dark ? 'Vis lyst skjermbilde' : 'Vis mørkt skjermbilde')
+    );
     toggle.classList.toggle('showcase-toggle--on', dark);
     if (lblLight) lblLight.classList.toggle('showcase-lbl--active', !dark);
     if (lblDark)  lblDark.classList.toggle('showcase-lbl--active',  dark);
@@ -226,7 +234,15 @@
     d.style.height       = i === 0 ? '0.375rem' : '';
     d.style.borderRadius = i === 0 ? '999px' : '';
   });
-  if (label) label.textContent = LABELS[0];
+  if (label) {
+    label.textContent = window.ProSlidesI18n
+      ? window.ProSlidesI18n.t(LABEL_KEYS[0])
+      : 'Dashboard';
+  }
+
+  document.addEventListener('proslides:locale', function () {
+    goTo(current, true);
+  });
 
   resetAuto();
 

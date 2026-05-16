@@ -3,7 +3,9 @@
   var container = document.getElementById('journey-mermaid');
   if (!container) return;
 
-  var META = window.JOURNEY_NODE_META || {};
+  function getMeta() {
+    return window.ProSlidesI18n ? window.ProSlidesI18n.journeyMeta() : (window.JOURNEY_NODE_META || {});
+  }
   var LINE = '#6b6b72';
   var LINE_WS = '#7c5cc4';
   var CLUSTER_FILL = 'rgba(235, 235, 236, 0.45)';
@@ -109,6 +111,7 @@
   }
 
   function decorateNodes(svg) {
+    var META = getMeta();
     Object.keys(META).forEach(function (id) {
       var info = META[id];
       var g = findNodeGroup(svg, id);
@@ -163,12 +166,16 @@
       '<div class="arch-mermaid-fallback">' +
       '<p class="arch-mermaid-fallback-title">Kunne ikke laste flytdiagram</p>' +
       '<p class="arch-mermaid-fallback-desc">' + msg + '</p>' +
-      '<a class="arch-mermaid-fallback-link" href="assets/flytdiagram-proslides.png" target="_blank" rel="noopener">Åpne referansebilde</a>' +
+      '<a class="arch-mermaid-fallback-link" href="assets/flytdiagram-proslides.png" target="_blank" rel="noopener">' + (
+        window.ProSlidesI18n ? window.ProSlidesI18n.t('arch.mermaidFallback') : 'Åpne referansebilde'
+      ) + '</a>' +
       '</div>';
   }
 
   container.setAttribute('aria-busy', 'true');
-  container.innerHTML = '<p class="arch-mermaid-loading">Laster flytdiagram…</p>';
+  container.innerHTML = '<p class="arch-mermaid-loading">' + (
+    window.ProSlidesI18n ? window.ProSlidesI18n.t('arch.mermaidLoading') : 'Laster flytdiagram…'
+  ) + '</p>';
 
   fetch('diagrams/flytdiagram.svg')
     .then(function (r) {
@@ -190,4 +197,9 @@
       showError(err && err.message ? err.message : 'Ukjent feil');
       console.error('[journey-mermaid]', err);
     });
+
+  document.addEventListener('proslides:locale', function () {
+    var svg = container.querySelector('svg');
+    if (svg) decorateNodes(svg);
+  });
 })();

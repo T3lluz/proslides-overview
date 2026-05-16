@@ -13,72 +13,69 @@
  * ============================================================
  */
 (function () {
-  var sections = [
+  var sectionDefs = [
     {
       id: 'documents',
-      label: 'Dokumenter',
-      hint: 'PDF-er, rapporter og kontrakter',
+      labelKey: 'docs.section.documents',
+      hintKey: 'docs.section.documentsHint',
       items: [
-        {
-          type: 'file',
-          title: 'Bacheloroppgave 2026',
-          href: 'docs/bacheloroppgave-2026.pdf',
-          desc: 'Full bacheloroppgave — hovedkilde for prosjektet'
-        },
-        {
-          type: 'file',
-          title: 'BOP 2026',
-          href: 'docs/bop2026.pdf',
-          desc: 'Bacheloroppgave – prosjektbeskrivelse og plan'
-        },
-        {
-          type: 'file',
-          title: 'Samarbeidskontrakt',
-          href: 'docs/samarbeidskontrakt.pdf',
-          desc: 'Avtale om samarbeid og ansvarsfordeling i gruppen'
-        }
+        { type: 'file', titleKey: 'docs.item.thesis.title', descKey: 'docs.item.thesis.desc', href: 'docs/bacheloroppgave-2026.pdf' },
+        { type: 'file', titleKey: 'docs.item.bop.title', descKey: 'docs.item.bop.desc', href: 'docs/bop2026.pdf' },
+        { type: 'file', titleKey: 'docs.item.contract.title', descKey: 'docs.item.contract.desc', href: 'docs/samarbeidskontrakt.pdf' }
       ]
     },
     {
       id: 'links',
-      label: 'Lenker',
-      hint: 'Eksterne ressurser og verktøy',
+      labelKey: 'docs.section.links',
+      hintKey: 'docs.section.linksHint',
       items: [
-        {
-          type: 'link',
-          title: 'GitHub — prosjektrepo',
-          href: 'https://github.com/Baitedr/Bachelor_Gruppe1',
-          desc: 'Kildekode, issues og prosjektstruktur'
-        },
-        {
-          type: 'link',
-          title: 'Live-app',
-          href: 'https://slides.rubynor.com/',
-          desc: 'Deployet demonstrasjon av ProSlides'
-        }
+        { type: 'link', titleKey: 'docs.item.github.title', descKey: 'docs.item.github.desc', href: 'https://github.com/Baitedr/Bachelor_Gruppe1' },
+        { type: 'link', titleKey: 'docs.item.live.title', descKey: 'docs.item.live.desc', href: 'https://slides.rubynor.com/' }
       ]
     },
     {
       id: 'media',
-      label: 'Bilder & media',
-      hint: 'Skjermbilder, diagrammer og illustrasjoner',
+      labelKey: 'docs.section.media',
+      hintKey: 'docs.section.mediaHint',
       items: [
         {
           type: 'image',
           featured: true,
-          title: 'Applikasjonsflyt — kilde',
-          href: 'assets/flytdiagram-proslides.png?v=2',
-          desc: 'Flytdiagram over autentisering, dashboard, live-sesjon og deltakerflyt. Utviklet som referansekilde for implementasjon.'
+          titleKey: 'docs.item.flow.title',
+          descKey: 'docs.item.flow.desc',
+          href: 'assets/flytdiagram-proslides.png?v=2'
         }
       ]
     }
   ];
 
-  var TYPE_META = {
-    file:  { label: 'Fil' },
-    link:  { label: 'Lenke' },
-    image: { label: 'Bilde' }
-  };
+  function t(key, fallback) {
+    return window.ProSlidesI18n ? window.ProSlidesI18n.t(key, fallback) : fallback;
+  }
+
+  function resolveSections() {
+    return sectionDefs.map(function (sec) {
+      return {
+        id: sec.id,
+        label: t(sec.labelKey),
+        hint: t(sec.hintKey),
+        items: sec.items.map(function (item) {
+          return {
+            type: item.type,
+            featured: item.featured,
+            title: t(item.titleKey),
+            desc: item.descKey ? t(item.descKey) : '',
+            href: item.href,
+            thumb: item.thumb
+          };
+        })
+      };
+    });
+  }
+
+  function typeLabel(type) {
+    return t('docs.type.' + type, type);
+  }
 
   var ICONS = {
     file:
@@ -146,16 +143,16 @@
       html +=
         '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer" ' +
         'class="doc-action doc-open-btn ' + BTN +
-        'text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90">Åpne</a>';
+        'text-[color:var(--secondary-foreground)] bg-[var(--secondary)] hover:opacity-90">' + esc(t('docs.open', 'Åpne')) + '</a>';
       html +=
         '<a href="' + esc(url) + '" download="' + esc(filename) + '" ' +
         'class="doc-action doc-download-btn ' + BTN +
-        'text-[color:var(--primary)] bg-[var(--accent)] hover:opacity-90">Last ned</a>';
+        'text-[color:var(--primary)] bg-[var(--accent)] hover:opacity-90">' + esc(t('docs.download', 'Last ned')) + '</a>';
     } else {
       html +=
         '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer" ' +
         'class="doc-action doc-open-btn ' + BTN +
-        'text-[color:var(--primary)] bg-[var(--accent)] hover:opacity-90">Besøk lenke</a>';
+        'text-[color:var(--primary)] bg-[var(--accent)] hover:opacity-90">' + esc(t('docs.visitLink', 'Besøk lenke')) + '</a>';
     }
 
     return html;
@@ -172,24 +169,24 @@
     root.hidden = true;
     root.setAttribute('role', 'dialog');
     root.setAttribute('aria-modal', 'true');
-    root.setAttribute('aria-label', 'Bildevisning');
+    root.setAttribute('aria-label', t('docs.viewer', 'Bildevisning'));
     root.innerHTML =
-      '<button type="button" class="doc-image-viewer__backdrop" data-viewer-close aria-label="Lukk"></button>' +
+      '<button type="button" class="doc-image-viewer__backdrop" data-viewer-close aria-label="' + esc(t('docs.viewerClose', 'Lukk')) + '"></button>' +
       '<div class="doc-image-viewer__panel">' +
         '<header class="doc-image-viewer__bar">' +
           '<p class="doc-image-viewer__title" data-viewer-title></p>' +
           '<div class="doc-image-viewer__tools">' +
-            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="zoom-out" aria-label="Zoom ut" title="Zoom ut">' +
+            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="zoom-out" aria-label="' + esc(t('docs.zoomOut', 'Zoom ut')) + '" title="' + esc(t('docs.zoomOut', 'Zoom ut')) + '">' +
               '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M5 12h14"/></svg>' +
             '</button>' +
             '<span class="doc-image-viewer__zoom" data-viewer-zoom>100%</span>' +
-            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="zoom-in" aria-label="Zoom inn" title="Zoom inn">' +
+            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="zoom-in" aria-label="' + esc(t('docs.zoomIn', 'Zoom inn')) + '" title="' + esc(t('docs.zoomIn', 'Zoom inn')) + '">' +
               '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>' +
             '</button>' +
-            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="reset" aria-label="Tilpass vindu" title="Tilpass vindu">' +
+            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="reset" aria-label="' + esc(t('docs.fit', 'Tilpass vindu')) + '" title="' + esc(t('docs.fit', 'Tilpass vindu')) + '">' +
               '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5M20.25 20.25v-4.5m0 4.5h-4.5M3.75 20.25h4.5m-4.5 0v-4.5M20.25 3.75h-4.5m4.5 0v4.5"/></svg>' +
             '</button>' +
-            '<button type="button" class="doc-image-viewer__btn doc-image-viewer__btn--close" data-viewer-close aria-label="Lukk" title="Lukk (Esc)">' +
+            '<button type="button" class="doc-image-viewer__btn doc-image-viewer__btn--close" data-viewer-close aria-label="' + esc(t('docs.viewerClose', 'Lukk')) + '" title="' + esc(t('docs.viewerClose', 'Lukk')) + ' (Esc)">' +
               '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 18 18 6M6 6l12 12"/></svg>' +
             '</button>' +
           '</div>' +
@@ -197,7 +194,7 @@
         '<div class="doc-image-viewer__viewport" data-viewer-viewport tabindex="-1">' +
           '<img class="doc-image-viewer__img" data-viewer-img alt="" draggable="false" />' +
         '</div>' +
-        '<p class="doc-image-viewer__hint">Scroll for zoom · dra for å panore · Esc for å lukke</p>' +
+        '<p class="doc-image-viewer__hint">' + esc(t('docs.viewerHint', 'Scroll for zoom · dra for å panore · Esc for å lukke')) + '</p>' +
       '</div>';
 
     document.body.appendChild(root);
@@ -326,12 +323,12 @@
   }
 
   function buildCard(item) {
-    var type = TYPE_META[item.type] ? item.type : 'file';
+    var type = item.type === 'link' || item.type === 'image' ? item.type : 'file';
     var url = resolveHref(item.href);
     var uri = uriLabel(item);
     var ext = extensionLabel(item);
     var filename = basename(item.href);
-    var typeLabel = TYPE_META[type].label;
+    var typeLabelText = typeLabel(type);
     var featured = type === 'image' && item.featured;
     var thumbSrc = type === 'image' ? imageThumbSrc(item) : '';
 
@@ -343,17 +340,17 @@
       card.innerHTML =
         '<div class="doc-card-featured-top">' +
           '<div class="doc-card-labels">' +
-            '<span class="doc-type-badge doc-type-badge--source">Kilde</span>' +
-            '<span class="doc-type-badge">' + esc(typeLabel) + '</span>' +
+            '<span class="doc-type-badge doc-type-badge--source">' + esc(t('docs.sourceBadge', 'Kilde')) + '</span>' +
+            '<span class="doc-type-badge">' + esc(typeLabelText) + '</span>' +
             (ext ? '<span class="doc-ext-badge">' + esc(ext) + '</span>' : '') +
           '</div>' +
           '<h3 class="doc-card-title">' + esc(item.title) + '</h3>' +
         '</div>' +
-        '<button type="button" class="doc-card-featured-preview" data-image-open aria-label="Åpne ' + esc(item.title) + ' i fullskjerm">' +
+        '<button type="button" class="doc-card-featured-preview" data-image-open aria-label="' + esc(t('docs.openFullscreen', 'Åpne {title} i fullskjerm').replace('{title}', item.title)) + '">' +
           '<img src="' + esc(thumbSrc) + '" alt="" loading="lazy" class="doc-featured-img" />' +
           '<span class="doc-preview-hint">' +
             '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"/></svg>' +
-            'Fullskjerm' +
+            esc(t('docs.fullscreen', 'Fullskjerm')) +
           '</span>' +
         '</button>' +
         '<div class="doc-card-featured-body">' +
@@ -375,7 +372,7 @@
           '<div class="doc-thumb doc-thumb--' + type + '" aria-hidden="true">' + thumbInner + '</div>' +
           '<div class="doc-card-meta min-w-0 flex-1">' +
             '<div class="doc-card-labels">' +
-              '<span class="doc-type-badge">' + esc(typeLabel) + '</span>' +
+              '<span class="doc-type-badge">' + esc(typeLabelText) + '</span>' +
               (ext ? '<span class="doc-ext-badge">' + esc(ext) + '</span>' : '') +
             '</div>' +
             '<h3 class="doc-card-title">' + esc(item.title) + '</h3>' +
@@ -419,7 +416,10 @@
   var empty   = document.getElementById('docs-empty');
   if (!catalog) return;
 
-  var totalItems = 0;
+  function renderCatalog() {
+    catalog.innerHTML = '';
+    var sections = resolveSections();
+    var totalItems = 0;
 
   sections.forEach(function (section) {
     if (!section.items || !section.items.length) return;
@@ -448,14 +448,18 @@
     catalog.appendChild(block);
   });
 
-  if (totalItems === 0) {
-    if (empty) empty.classList.remove('hidden');
-    return;
+    if (totalItems === 0) {
+      if (empty) empty.classList.remove('hidden');
+      return;
+    }
+
+    if (empty) empty.classList.add('hidden');
+
+    if (window.ProSlides && window.ProSlides.initDocCards) {
+      window.ProSlides.initDocCards();
+    }
   }
 
-  if (empty) empty.classList.add('hidden');
-
-  if (window.ProSlides && window.ProSlides.initDocCards) {
-    window.ProSlides.initDocCards();
-  }
+  renderCatalog();
+  document.addEventListener('proslides:locale', renderCatalog);
 })();

@@ -230,9 +230,8 @@ body {
   }
 }
 
-#site-nav .section-inner > .flex.items-center.gap-2.shrink-0 {
+#site-nav .nav-controls {
   position: relative;
-  padding-right: 2.25rem;
 }
 
 .nav-anim-toggle {
@@ -268,10 +267,6 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.45);
   transition:
     width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 .nav-anim-toggle::after {
@@ -467,7 +462,10 @@ body {
   }
 }
 
-html.animations-off .nav-anim-toggle,
+html.animations-off .nav-anim-toggle {
+  transition: none !important;
+}
+
 html.animations-off .nav-anim-toggle__icon,
 html.animations-off .nav-anim-toggle__compact,
 html.animations-off .nav-anim-toggle__detail,
@@ -475,7 +473,6 @@ html.animations-off .nav-anim-toggle__copy {
   transition: none !important;
   animation: none !important;
   filter: none !important;
-  transform: none !important;
 }
 
 html.animations-off .nav-anim-toggle:hover,
@@ -505,6 +502,48 @@ html.animations-off .nav-anim-toggle__compact,
 html.animations-off .nav-anim-toggle__detail {
   top: 50%;
   transform: translateY(-50%) !important;
+}
+
+/* ---- Nav language toggle ---- */
+.nav-lang-toggle {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  margin: 0;
+  border: 1px solid color-mix(in oklch, var(--border) 65%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--card) 72%, var(--muted));
+  color: var(--foreground);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  outline: none;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-lang-toggle:hover,
+.nav-lang-toggle:focus-visible {
+  background: color-mix(in oklch, var(--accent) 80%, var(--card));
+  color: var(--foreground);
+}
+
+.nav-lang-toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.nav-lang-toggle[aria-pressed="true"] {
+  color: var(--primary);
+  background: color-mix(in oklch, var(--primary) 12%, var(--card));
+  border-color: color-mix(in oklch, var(--primary) 28%, var(--border));
 }
 
 /* ---- Timeline — straight line + dots ---- */
