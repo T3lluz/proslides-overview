@@ -714,7 +714,24 @@ html.animations-off .nav-anim-toggle__detail {
    Architecture Explorer
    ===================================================================== */
 
-.arch-explorer { background: var(--card); }
+.arch-explorer {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+}
+.arch-explorer-header,
+.arch-explorer-tabs {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 4;
+  background: var(--card);
+}
+.arch-explorer-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
 
 .arch-tab-btn {
   display: inline-flex;
@@ -779,6 +796,8 @@ html.animations-off .nav-anim-toggle__detail {
 
 .arch-stage {
   position: relative;
+  z-index: 1;
+  flex: 1;
   min-height: 480px;
   background-color: color-mix(in oklch, var(--muted) 40%, var(--background));
   background-image:
@@ -960,6 +979,194 @@ html.animations-off .nav-anim-toggle__detail {
 .diagram-divider {
   stroke: color-mix(in oklch, var(--border) 80%, transparent);
   stroke-width: 1;
+}
+
+/* Journey flowchart shapes */
+.diagram-node-terminal .diagram-node-bg {
+  stroke-width: 1.4;
+}
+.diagram-node-decision .diagram-node-bg {
+  stroke-width: 1.4;
+}
+.diagram-node-title-center {
+  text-anchor: middle;
+  font-size: 12px;
+}
+.diagram-node-decision .diagram-node-title-center {
+  font-size: 11px;
+}
+.diagram-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  fill: color-mix(in oklch, var(--primary) 50%, var(--muted-foreground));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.diagram-group-solid {
+  stroke-dasharray: none;
+  fill: color-mix(in oklch, var(--primary) 6%, var(--muted));
+  stroke: color-mix(in oklch, var(--primary) 35%, var(--border));
+  stroke-width: 1.4;
+}
+.diagram-edge-ws {
+  stroke-dasharray: 7 5;
+  stroke: color-mix(in oklch, var(--primary) 55%, var(--border));
+  opacity: 0.92;
+}
+.arch-stage:has(.arch-panel[data-arch-panel="journey"].is-active) {
+  min-height: 520px;
+}
+@media (min-width: 640px) {
+  .arch-stage:has(.arch-panel[data-arch-panel="journey"].is-active) {
+    min-height: 580px;
+  }
+}
+.arch-panel[data-arch-panel="journey"] {
+  overflow: hidden;
+}
+.arch-svg-journey .diagram-node-sub {
+  font-size: 10px;
+}
+.arch-svg-journey .diagram-edge-label-end {
+  text-anchor: end;
+}
+.arch-svg-journey .diagram-group-label {
+  font-size: 11.5px;
+}
+
+/* ---- Journey: Mermaid flytdiagram ---- */
+.arch-mermaid-stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  padding: 1.25rem 0.75rem 1rem;
+  overflow: hidden;
+}
+@media (min-width: 640px) {
+  .arch-mermaid-stage {
+    min-height: 540px;
+    padding: 1.5rem 1rem 1.25rem;
+  }
+}
+.arch-mermaid-stage .arch-svg-mermaid {
+  min-height: 0;
+}
+.arch-mermaid-loading,
+.arch-mermaid-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 320px;
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+.arch-mermaid-fallback-title {
+  font-weight: 600;
+  color: var(--foreground);
+}
+.arch-mermaid-fallback-link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.arch-svg-mermaid {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 420px;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.arch-svg-mermaid.is-panning {
+  cursor: grabbing;
+}
+.arch-svg-mermaid .cluster rect {
+  fill: color-mix(in oklch, var(--muted) 30%, transparent) !important;
+  stroke: var(--journey-line-ws, #7c5cc4) !important;
+  stroke-width: 1.4px !important;
+  stroke-dasharray: 7 5 !important;
+  rx: 14px;
+  ry: 14px;
+}
+.arch-svg-mermaid .cluster[id*="PART"] rect {
+  fill: color-mix(in oklch, var(--primary) 6%, var(--muted)) !important;
+}
+.arch-svg-mermaid .cluster-label {
+  text-anchor: start;
+  overflow: visible;
+}
+.arch-svg-mermaid .cluster-label foreignObject {
+  overflow: visible !important;
+}
+.arch-svg-mermaid .cluster-label foreignObject div {
+  text-align: left !important;
+  display: block !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+.arch-svg-mermaid .cluster-label .nodeLabel,
+.arch-svg-mermaid .cluster-label span {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  fill: var(--journey-line-ws, #7c5cc4) !important;
+  color: var(--journey-line-ws, #7c5cc4) !important;
+}
+.arch-svg-mermaid .node .label,
+.arch-svg-mermaid .nodeLabel {
+  font-size: 12.5px !important;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.arch-svg-mermaid .node .label small,
+.arch-svg-mermaid .nodeLabel small {
+  font-size: 10px !important;
+  font-weight: 400;
+  opacity: 0.85;
+}
+.arch-svg-mermaid g.diagram-node.is-active rect,
+.arch-svg-mermaid g.diagram-node.is-active polygon,
+.arch-svg-mermaid g.diagram-node.is-active ellipse,
+.arch-svg-mermaid g.diagram-node.is-active path:not(.flowchart-link):not(.arrowheadPath):not(.arrowMarkerPath) {
+  stroke: color-mix(in oklch, var(--primary) 75%, var(--border)) !important;
+  stroke-width: 2px !important;
+  filter: drop-shadow(0 0 6px color-mix(in oklch, var(--primary) 18%, transparent));
+}
+.arch-svg-mermaid g.diagram-node:hover rect,
+.arch-svg-mermaid g.diagram-node:hover polygon,
+.arch-svg-mermaid g.diagram-node:hover ellipse {
+  stroke: color-mix(in oklch, var(--primary) 50%, var(--border)) !important;
+}
+.arch-svg-mermaid path.flowchart-link {
+  fill: none !important;
+  stroke: var(--journey-line, #6b6b72) !important;
+  stroke-width: 1.6px !important;
+  opacity: 1 !important;
+}
+.arch-svg-mermaid path.flowchart-link.edge-pattern-dotted {
+  stroke: var(--journey-line-ws, #7c5cc4) !important;
+  stroke-dasharray: 7 5 !important;
+  opacity: 0.92 !important;
+}
+.arch-svg-mermaid .edgeLabel,
+.arch-svg-mermaid .edgeLabel span,
+.arch-svg-mermaid .edgeLabel p {
+  font-size: 10px !important;
+  fill: var(--journey-label, var(--muted-foreground)) !important;
+  color: var(--journey-label, var(--muted-foreground)) !important;
+}
+.arch-svg-mermaid .edgeLabel rect {
+  fill: var(--card) !important;
+  opacity: 0.95;
 }
 
 /* ---- About-section cards (scroll focus via .ps-expand-focused) ---- */
@@ -2753,6 +2960,256 @@ html.animations-off .team-card.team-card--lift .team-card__scene {
   text-decoration: none;
 }
 
+/* Same grid cell width as other sources; ~2× their height */
+.doc-card--featured {
+  --doc-card-base-h: 10.5rem;
+  min-height: calc(var(--doc-card-base-h) * 2);
+  gap: 0.6rem;
+  padding: 1.15rem 1.25rem;
+  cursor: default;
+}
+
+.doc-card--featured:hover {
+  cursor: default;
+}
+
+.doc-card-featured-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.doc-card-featured-top .doc-card-labels {
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.doc-card-featured-top .doc-card-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-type-badge--source {
+  color: #15803d;
+  background: color-mix(in oklch, #22c55e 18%, var(--muted));
+  border-color: color-mix(in oklch, #22c55e 35%, var(--border));
+}
+
+.doc-card-featured-preview {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 6.5rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid color-mix(in oklch, var(--border) 85%, transparent);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: color-mix(in oklch, var(--muted) 70%, var(--background));
+  cursor: zoom-in;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.doc-card-featured-preview:hover {
+  border-color: color-mix(in oklch, var(--primary) 35%, var(--border));
+  box-shadow: 0 4px 16px -8px rgba(0, 0, 0, 0.14);
+}
+
+.doc-featured-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.doc-preview-hint {
+  position: absolute;
+  right: 0.45rem;
+  bottom: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--foreground);
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.doc-card-featured-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: auto;
+}
+
+.doc-card-featured-body .doc-card-desc {
+  margin: 0;
+}
+
+.doc-card-featured-body .doc-uri {
+  margin-top: 0;
+}
+
+.doc-card--featured .doc-actions {
+  padding-top: 0.55rem;
+  margin-top: 0;
+}
+
+/* Image lightbox (resources) */
+body.doc-image-viewer-open {
+  overflow: hidden;
+}
+
+.doc-image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.doc-image-viewer[hidden] {
+  display: none !important;
+}
+
+.doc-image-viewer__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: color-mix(in oklch, #000 72%, transparent);
+  cursor: zoom-out;
+}
+
+.doc-image-viewer__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(96vw, 72rem);
+  height: min(92vh, 56rem);
+  margin: auto;
+  border-radius: 0.875rem;
+  border: 1px solid color-mix(in oklch, var(--border) 55%, transparent);
+  background: var(--card);
+  box-shadow: 0 24px 80px -24px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.doc-image-viewer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--border) 80%, transparent);
+  background: color-mix(in oklch, var(--muted) 45%, var(--card));
+}
+
+.doc-image-viewer__title {
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-image-viewer__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.doc-image-viewer__zoom {
+  min-width: 3rem;
+  text-align: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted-foreground);
+}
+
+.doc-image-viewer__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.45rem;
+  border: 1px solid color-mix(in oklch, var(--border) 75%, transparent);
+  background: var(--background);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.doc-image-viewer__btn:hover {
+  background: var(--muted);
+  border-color: color-mix(in oklch, var(--primary) 30%, var(--border));
+}
+
+.doc-image-viewer__btn--close {
+  color: var(--primary);
+}
+
+.doc-image-viewer__viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 1px 1px, color-mix(in oklch, var(--border) 35%, transparent) 1px, transparent 0)
+    0 0 / 18px 18px,
+    color-mix(in oklch, var(--muted) 35%, var(--background));
+  cursor: grab;
+  touch-action: none;
+}
+
+.doc-image-viewer__viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.doc-image-viewer__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  transform-origin: 0 0;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.doc-image-viewer__hint {
+  padding: 0.45rem 0.85rem 0.6rem;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  border-top: 1px solid color-mix(in oklch, var(--border) 75%, transparent);
+}
+
+.doc-image-viewer__btn:focus-visible,
+.doc-card-featured-preview:focus-visible {
+  outline: 2px solid color-mix(in oklch, var(--primary) 70%, var(--ring));
+  outline-offset: 2px;
+}
+
 /* ---- Focus rings ---- */
 .arch-tab-btn:focus-visible,
 .arch-tool-btn:focus-visible,
@@ -2780,6 +3237,8 @@ body > footer {
   width: 100%;
 }
 
+.diagram-node-terminal:focus-visible .diagram-node-bg,
+.diagram-node-decision:focus-visible .diagram-node-bg,
 .diagram-node:focus-visible .diagram-node-bg {
   outline: none;
   stroke: color-mix(in oklch, var(--primary) 80%, var(--border));

@@ -60,7 +60,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css?v=49" />
+  <link rel="stylesheet" href="css/styles.css?v=63" />
   <link rel="stylesheet" href="css/animations.css?v=14" />
   <!-- Preload first-visible showcase images for instant display -->
   <link rel="preload" as="image" href="assets/image-a51f2bef-9624-4586-8928-54ce81f924f8.png" />
@@ -468,7 +468,7 @@
       <div id="architecture-explorer" class="arch-explorer mt-10 rounded-2xl border border-[color:var(--border)] overflow-hidden">
 
         <!-- Header -->
-        <div class="px-5 sm:px-6 py-5 border-b border-[color:var(--border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="arch-explorer-header px-5 sm:px-6 py-5 border-b border-[color:var(--border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div class="min-w-0">
             <div class="flex items-center gap-2.5">
               <span class="inline-flex w-8 h-8 rounded-lg items-center justify-center bg-[color:color-mix(in_oklch,var(--primary)_14%,var(--muted))] border border-[color:var(--border)]">
@@ -487,25 +487,20 @@
         </div>
 
         <!-- Tabs -->
-        <div class="px-5 sm:px-6 pt-4 pb-4 border-b border-[color:var(--border)]">
+        <div class="arch-explorer-tabs px-5 sm:px-6 pt-4 pb-4 border-b border-[color:var(--border)]">
           <div class="arch-tab-select-wrap sm:hidden">
             <label for="arch-tab-select" class="arch-tab-select-label">Visning</label>
             <select id="arch-tab-select" class="arch-tab-select" data-arch-tab-select aria-label="Velg arkitekturvisning">
-              <option value="system">System</option>
-              <option value="flow">Live-flyt</option>
+              <option value="journey">Flytdiagram</option>
               <option value="er">Datamodell</option>
               <option value="structure">Filstruktur</option>
               <option value="api">API og ruter</option>
             </select>
           </div>
           <div class="hidden sm:flex gap-2 w-max sm:w-auto" role="tablist" aria-label="Arkitekturmeny">
-            <button class="arch-tab-btn is-active" id="tab-system" data-arch-tab="system" role="tab" aria-selected="true" type="button">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9-4 9 4-9 4-9-4z M3 12l9 4 9-4 M3 17l9 4 9-4"/></svg>
-              System
-            </button>
-            <button class="arch-tab-btn" id="tab-flow" data-arch-tab="flow" role="tab" aria-selected="false" type="button">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
-              Live-flyt
+            <button class="arch-tab-btn is-active" id="tab-journey" data-arch-tab="journey" role="tab" aria-selected="true" type="button">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934a1.12 1.12 0 01-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689A1.125 1.125 0 003 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934a1.12 1.12 0 011.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
+              Flytdiagram
             </button>
             <button class="arch-tab-btn" id="tab-er" data-arch-tab="er" role="tab" aria-selected="false" type="button">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 5v6c0 1.7 4 3 9 3s9-1.3 9-3V5 M3 11v6c0 1.7 4 3 9 3s9-1.3 9-3v-6"/></svg>
@@ -523,7 +518,7 @@
         </div>
 
         <!-- Stage + Detail panel -->
-        <div>
+        <div class="arch-explorer-body">
 
           <!-- Stage -->
           <div class="arch-stage" data-arch-stage>
@@ -549,362 +544,9 @@
               <kbd>Dra</kbd><span>panorer</span><span class="opacity-50">·</span><kbd>Klyp</kbd><span>zoom</span><span class="opacity-50">·</span><kbd>Scroll</kbd><span>zoom</span>
             </div>
 
-            <!-- Panel: SYSTEM -->
-            <div class="arch-panel is-active" data-arch-panel="system" role="tabpanel" aria-labelledby="tab-system">
-              <svg class="arch-svg" viewBox="0 0 1400 720" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <marker id="arr-sys" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="currentColor"/></marker>
-                </defs>
-                <g class="arch-viewport">
-                  <!-- KLIENT -->
-                  <rect class="diagram-group" x="40" y="60" width="280" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="58" y="92">Klient (nettleser)</text>
-
-                  <g class="diagram-node" data-node-title="React SPA" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend"
-                     data-node-desc="Vite + React 18 + TypeScript single-page-app. Komponentbasert struktur med shadcn/ui og Tailwind. Bygges til public/ for produksjon."
-                     data-node-meta='{"Sti":"frontend/","Entrypoint":"src/main.tsx","App":"src/app/App.tsx","Dev":"localhost:5173"}'>
-                    <rect class="diagram-node-bg" x="64" y="120" width="232" height="80" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="150">React SPA</text>
-                    <text class="diagram-node-sub" x="80" y="172">Vite · React 18 · TypeScript</text>
-                    <text class="diagram-node-sub" x="80" y="188">Tailwind · shadcn/ui</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Slide-editor (Fabric.js)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/editor"
-                     data-node-desc="WYSIWYG-editor med Fabric.js canvas. Drag-and-drop, slide-thumbnails og embeds. Slide-payload normaliseres før lagring."
-                     data-node-meta='{"Hovedfil":"features/editor/PresentationEditor.tsx","Canvas":"lib/fabric*.ts","Thumbnails":"features/editor/SlideThumbnails.tsx","Embed":"features/editor/SyncedHostedEmbed.tsx"}'>
-                    <rect class="diagram-node-bg" x="64" y="220" width="232" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="250">Slide-editor</text>
-                    <text class="diagram-node-sub" x="80" y="272">Fabric.js canvas</text>
-                    <text class="diagram-node-sub" x="80" y="288">dnd-kit · embeds</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Live-presentasjon" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/live"
-                     data-node-desc="Presentatør- og publikumsvisning. Abonnerer på PresentationChannel via @rails/actioncable og synker slides, polls og deltakere i sanntid."
-                     data-node-meta='{"Filer":"features/live/LivePresentation*.tsx · SessionLobby.tsx","Klient":"@rails/actioncable","Hook":"hooks/usePresentation"}'>
-                    <rect class="diagram-node-bg" x="64" y="316" width="232" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="346">Live-presentasjon</text>
-                    <text class="diagram-node-sub" x="80" y="368">ActionCable · WebSocket</text>
-                    <text class="diagram-node-sub" x="80" y="384">usePresentation hook</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Join-side (publikum)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/frontend/src/features/live/JoinPage.tsx"
-                     data-node-desc="Publikum kobler seg til via lenke, LIVE-kode (4 tegn) eller QR-skanning. Ingen innlogging eller app påkrevd."
-                     data-node-meta='{"Fil":"features/live/JoinPage.tsx","Endepunkt":"POST /api/v1/sessions/join_by_code","Mobil":"hooks/useIsMobileDevice"}'>
-                    <rect class="diagram-node-bg" x="64" y="412" width="232" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="442">Join-side</text>
-                    <text class="diagram-node-sub" x="80" y="464">QR · kode · lenke</text>
-                    <text class="diagram-node-sub" x="80" y="480">Responsiv mobil-UX</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Polls-UI" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/polls"
-                     data-node-desc="Lager og administrerer polls. Resultater visualiseres live som stolpediagram (recharts)."
-                     data-node-meta='{"Sti":"features/polls/PollsPage.tsx","Komponenter":"features/polls/components/","Endepunkter":"/polls, /polls/:id/vote, /results"}'>
-                    <rect class="diagram-node-bg" x="64" y="508" width="232" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="538">Polls-UI</text>
-                    <text class="diagram-node-sub" x="80" y="560">Sanntidsresultater</text>
-                    <text class="diagram-node-sub" x="80" y="576">Flervalg · recharts</text>
-                  </g>
-
-                  <!-- RAILS -->
-                  <rect class="diagram-group" x="440" y="60" width="380" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="458" y="92">Rails 8.1 backend</text>
-
-                  <g class="diagram-node" data-node-title="REST API (/api/v1)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/backend/app/controllers/api/v1"
-                     data-node-desc="Versjonert Rails API i API-modus med Puma. Kontrollere for auth, presentations, sessions, polls og health. CORS-kontroll via ALLOWED_ORIGINS."
-                     data-node-meta='{"Sti":"backend/app/controllers/api/v1/","Ruter":"backend/config/routes.rb","Auth":"JWT (Authenticatable concern)","Web-server":"Puma"}'>
-                    <rect class="diagram-node-bg" x="464" y="120" width="332" height="80" rx="12"/>
-                    <text class="diagram-node-title" x="482" y="150">REST API</text>
-                    <text class="diagram-node-sub" x="482" y="172">/api/v1 · Puma · CORS</text>
-                    <text class="diagram-node-sub" x="482" y="188">controllers/api/v1/*</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Action Cable (/cable)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
-                     data-node-desc="WebSocket-kanal for realtime. Broadcaster slide/poll/deltaker-events. Auth via JWT i application_cable/connection.rb."
-                     data-node-meta='{"Fil":"app/channels/presentation_channel.rb","Auth":"application_cable/connection.rb","Param":"presentation_id","Adapter":"async (dev) / redis (prod)"}'>
-                    <rect class="diagram-node-bg" x="464" y="220" width="332" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="482" y="250">Action Cable</text>
-                    <text class="diagram-node-sub" x="482" y="272">PresentationChannel</text>
-                    <text class="diagram-node-sub" x="482" y="288">/cable · WebSocket</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="ReplaceSlidesService" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/services/presentations/replace_slides_service.rb"
-                     data-node-desc="Atomisk erstatning av alle slides for en presentasjon. PUT /api/v1/presentations/:id sender hele slide-lista, og servicen normaliserer payload og bytter atomisk."
-                     data-node-meta='{"Fil":"app/services/presentations/replace_slides_service.rb","Normalizer":"app/models/concerns/slide_payload_normalizer.rb","Brukes av":"PresentationsController#update"}'>
-                    <rect class="diagram-node-bg" x="464" y="316" width="332" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="482" y="346">ReplaceSlidesService</text>
-                    <text class="diagram-node-sub" x="482" y="368">Atomisk slide-bytte</text>
-                    <text class="diagram-node-sub" x="482" y="384">+ SlidePayloadNormalizer</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Autentisering" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/auth_controller.rb"
-                     data-node-desc="JWT-basert auth med 24t utløp. OmniAuth-providers (Google, GitHub) aktiveres når GOOGLE_*/GITHUB_*-env er satt. bcrypt for passord-hashing."
-                     data-node-meta='{"Controllers":"auth_controller.rb","Concern":"app/controllers/concerns/authenticatable.rb","JWT":"app/services/json_web_token.rb","OmniAuth":"config/initializers/omniauth.rb"}'>
-                    <rect class="diagram-node-bg" x="464" y="412" width="332" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="482" y="442">Autentisering</text>
-                    <text class="diagram-node-sub" x="482" y="464">JWT · OmniAuth</text>
-                    <text class="diagram-node-sub" x="482" y="480">Google · GitHub · email/passord</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="spa_controller" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/spa_controller.rb"
-                     data-node-desc="Catch-all-controller som serverer frontend-buildet (public/) i produksjon. Catch-all i routes.rb fanger alt utenom /api, /cable, /up og /rails."
-                     data-node-meta='{"Fil":"app/controllers/spa_controller.rb","Ruter":"catch-all i config/routes.rb","Build":"frontend → backend/public/ via Dockerfile"}'>
-                    <rect class="diagram-node-bg" x="464" y="508" width="332" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="482" y="538">spa_controller</text>
-                    <text class="diagram-node-sub" x="482" y="560">Serverer public/ i prod</text>
-                    <text class="diagram-node-sub" x="482" y="576">PresentationSerializer for JSON</text>
-                  </g>
-
-                  <!-- DATA -->
-                  <rect class="diagram-group" x="940" y="60" width="200" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="958" y="92">Data</text>
-
-                  <g class="diagram-node" data-node-title="PostgreSQL" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/db/schema.rb"
-                     data-node-desc="Primær datastore. Inneholder brukere, presentasjoner, slides (JSONB), sessions og polls. db:prepare kjøres via bin/setup."
-                     data-node-meta='{"Modeller":"User · Presentation · Slide · PresentationSession · SessionParticipant · Poll · PollOption · PollResponse","Schema":"db/schema.rb","Env":"DATABASE_URL"}'>
-                    <rect class="diagram-node-bg" x="960" y="120" width="160" height="120" rx="14"/>
-                    <text class="diagram-node-title" x="978" y="158">PostgreSQL</text>
-                    <text class="diagram-node-sub" x="978" y="180">db/schema.rb</text>
-                    <text class="diagram-node-sub" x="978" y="200">db/migrate/</text>
-                    <text class="diagram-node-sub" x="978" y="220">JSONB · UUID</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Redis (prod)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/config/cable.yml"
-                     data-node-desc="Pub/sub for Action Cable i produksjon. Lokalt brukes async-adapter, så Redis er ikke påkrevd i development."
-                     data-node-meta='{"Konfig":"backend/config/cable.yml","Adapter (prod)":"redis","Adapter (dev)":"async","Env":"REDIS_URL","Accessory":"slides-redis (Kamal)"}'>
-                    <rect class="diagram-node-bg" x="960" y="272" width="160" height="100" rx="14"/>
-                    <text class="diagram-node-title" x="978" y="304">Redis</text>
-                    <text class="diagram-node-sub" x="978" y="326">cable.yml · pub/sub</text>
-                    <text class="diagram-node-sub" x="978" y="346">Kamal accessory</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="OAuth providers" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/config/initializers/omniauth.rb"
-                     data-node-desc="Google og GitHub OAuth2 via OmniAuth. Aktiveres bare når env-variablene er satt; ellers slått av i initializer."
-                     data-node-meta='{"Konfig":"config/initializers/omniauth.rb","Callback":"/api/v1/auth/:provider/callback","Env":"GOOGLE_CLIENT_ID/SECRET · GITHUB_CLIENT_ID/SECRET","Host":"OMNIAUTH_FULL_HOST"}'>
-                    <rect class="diagram-node-bg" x="960" y="404" width="160" height="100" rx="14"/>
-                    <text class="diagram-node-title" x="978" y="436">OAuth-providers</text>
-                    <text class="diagram-node-sub" x="978" y="458">Google · GitHub</text>
-                    <text class="diagram-node-sub" x="978" y="478">OmniAuth callbacks</text>
-                  </g>
-
-                  <!-- DEPLOY -->
-                  <rect class="diagram-group" x="1180" y="60" width="180" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="1198" y="92">Deploy & CI</text>
-
-                  <g class="diagram-node" data-node-title="Docker" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/Dockerfile"
-                     data-node-desc="Container-build. Frontend-buildet kopieres inn i backend/public/ i Docker-stagen, slik at samme image serverer både API og SPA."
-                     data-node-meta='{"Fil":"backend/Dockerfile","Multi-stage":"frontend build → public/","Image":"GitHub Container Registry"}'>
-                    <rect class="diagram-node-bg" x="1200" y="120" width="140" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1218" y="150">Docker</text>
-                    <text class="diagram-node-sub" x="1218" y="172">backend/Dockerfile</text>
-                    <text class="diagram-node-sub" x="1218" y="188">multi-stage</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Kamal 2" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/config/deploy.yml"
-                     data-node-desc="Deploy-verktøyet. Definert i backend/config/deploy.yml. Windows-helper i scripts/kamal.ps1. Aliases: console, shell."
-                     data-node-meta='{"Konfig":"backend/config/deploy.yml","Helper":"scripts/kamal.ps1","Aliases":"console (Rails console) · shell (container bash)","Env":"KAMAL_REGISTRY_PASSWORD"}'>
-                    <rect class="diagram-node-bg" x="1200" y="216" width="140" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1218" y="246">Kamal 2</text>
-                    <text class="diagram-node-sub" x="1218" y="268">deploy.yml</text>
-                    <text class="diagram-node-sub" x="1218" y="284">scripts/kamal.ps1</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Traefik" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/config/deploy.yml"
-                     data-node-desc="Reverse proxy / ingress i Kamal-stacken. TLS-terminering og ruting til app-containeren."
-                     data-node-meta='{"Rolle":"Ingress / TLS","Host":"slides.rubynor.com","Konfig":"Kamal proxy-seksjon"}'>
-                    <rect class="diagram-node-bg" x="1200" y="312" width="140" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1218" y="342">Traefik</text>
-                    <text class="diagram-node-sub" x="1218" y="364">TLS + ingress</text>
-                    <text class="diagram-node-sub" x="1218" y="380">slides.rubynor.com</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Playwright CI" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/tests"
-                     data-node-desc="E2E-tester kjøres automatisk i GitHub Actions ved push/PR. Test-koden ligger i frontend/tests/."
-                     data-node-meta='{"Workflow":"frontend/.github/workflows/playwright.yml","Kommando":"npm run test:e2e","Tester":"frontend/tests/","UI-modus":"npm run test:e2e:ui"}'>
-                    <rect class="diagram-node-bg" x="1200" y="408" width="140" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1218" y="438">Playwright CI</text>
-                    <text class="diagram-node-sub" x="1218" y="460">GitHub Actions</text>
-                    <text class="diagram-node-sub" x="1218" y="476">push / PR</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="RSpec" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/backend/spec"
-                     data-node-desc="Backend-tester med rspec-rails. Specs ligger i backend/spec/."
-                     data-node-meta='{"Gem":"rspec-rails","Sti":"backend/spec/","Kommando":"bin/rspec"}'>
-                    <rect class="diagram-node-bg" x="1200" y="504" width="140" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1218" y="534">RSpec</text>
-                    <text class="diagram-node-sub" x="1218" y="556">backend/spec/</text>
-                    <text class="diagram-node-sub" x="1218" y="572">rspec-rails</text>
-                  </g>
-
-                  <!-- EDGES -->
-                  <g class="diagram-edge" stroke-linecap="round" marker-end="url(#arr-sys)">
-                    <path d="M296 160 L 462 160"/>
-                    <path d="M296 258 L 462 258"/>
-                    <path d="M296 354 L 462 354"/>
-                    <path d="M296 450 L 462 450"/>
-                    <path d="M296 546 L 462 546"/>
-                    <path d="M796 160 L 958 180"/>
-                    <path d="M796 258 L 958 308"/>
-                    <path d="M796 450 L 958 440"/>
-                  </g>
-                  <text class="diagram-edge-label" x="326" y="152">REST + JWT</text>
-                  <text class="diagram-edge-label" x="326" y="250">slide save</text>
-                  <text class="diagram-edge-label" x="326" y="346">WebSocket</text>
-                  <text class="diagram-edge-label" x="326" y="442">guest join</text>
-                  <text class="diagram-edge-label" x="326" y="538">/polls</text>
-                  <text class="diagram-edge-label" x="820" y="166">SQL</text>
-                  <text class="diagram-edge-label" x="820" y="280">pub/sub</text>
-                  <text class="diagram-edge-label" x="820" y="432">OAuth</text>
-                </g>
-              </svg>
-            </div>
-
-            <!-- Panel: FLOW (live presentation flyt) -->
-            <div class="arch-panel" data-arch-panel="flow" role="tabpanel" aria-labelledby="tab-flow">
-              <svg class="arch-svg" viewBox="0 0 1400 720" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <marker id="arr-flow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="currentColor"/></marker>
-                </defs>
-                <g class="arch-viewport">
-                  <!-- Lanes -->
-                  <rect class="diagram-group" x="40" y="60" width="320" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="58" y="92">Presentatør</text>
-
-                  <rect class="diagram-group" x="400" y="60" width="600" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="418" y="92">Backend (Rails + Action Cable)</text>
-
-                  <rect class="diagram-group" x="1040" y="60" width="320" height="600" rx="16"/>
-                  <text class="diagram-group-label" x="1058" y="92">Publikum</text>
-
-                  <!-- Presentator side -->
-                  <g class="diagram-node" data-node-title="1. Slide-bytte"
-                     data-node-desc="Presentatør trykker neste slide eller starter en poll i editor/live-modus. usePresentation-hooken trigger lagring + broadcast."
-                     data-node-meta='{"Komponent":"features/live/LivePresentationHost.tsx","Trigger":"keyboard / button","Hook":"usePresentation"}'>
-                    <rect class="diagram-node-bg" x="64" y="120" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="150">1. Slide-bytte</text>
-                    <text class="diagram-node-sub" x="80" y="172">LivePresentationHost.tsx</text>
-                    <text class="diagram-node-sub" x="80" y="188">usePresentation hook</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="2. Lagre slides" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/presentations_controller.rb"
-                     data-node-desc="Hele slide-payloaden sendes som PUT /api/v1/presentations/:id med JWT i Authorization-header."
-                     data-node-meta='{"Endepunkt":"PUT /api/v1/presentations/:id","Klient":"services/api.ts","Auth":"Bearer JWT"}'>
-                    <rect class="diagram-node-bg" x="64" y="220" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="250">2. Lagre slides</text>
-                    <text class="diagram-node-sub" x="80" y="272">PUT /api/v1/presentations/:id</text>
-                    <text class="diagram-node-sub" x="80" y="288">Bearer JWT</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="3. Subscribe (host)" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
-                     data-node-desc="Presentatør abonnerer på PresentationChannel for samme presentation_id og lytter på slide_change, poll_results, question_activated m.m."
-                     data-node-meta='{"Kanal":"PresentationChannel","Param":"presentation_id","Klient":"@rails/actioncable"}'>
-                    <rect class="diagram-node-bg" x="64" y="320" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="80" y="350">3. Subscribe</text>
-                    <text class="diagram-node-sub" x="80" y="372">@rails/actioncable</text>
-                    <text class="diagram-node-sub" x="80" y="388">PresentationChannel</text>
-                  </g>
-
-                  <!-- Backend pipeline -->
-                  <g class="diagram-node" data-node-title="PresentationsController#update" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/presentations_controller.rb"
-                     data-node-desc="Tar imot PUT-requesten, validerer JWT via Authenticatable concern og kaller ReplaceSlidesService for atomisk bytte."
-                     data-node-meta='{"Fil":"app/controllers/api/v1/presentations_controller.rb","Auth":"Authenticatable concern","Service":"Presentations::ReplaceSlidesService"}'>
-                    <rect class="diagram-node-bg" x="424" y="120" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="440" y="150">PresentationsController</text>
-                    <text class="diagram-node-sub" x="440" y="172">api/v1/presentations#update</text>
-                    <text class="diagram-node-sub" x="440" y="188">JWT-validering</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="ReplaceSlidesService" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/services/presentations/replace_slides_service.rb"
-                     data-node-desc="Normaliserer payload via SlidePayloadNormalizer og bytter alle slides atomisk i én transaksjon."
-                     data-node-meta='{"Fil":"app/services/presentations/replace_slides_service.rb","Transaksjon":"ActiveRecord::Base.transaction","Normalizer":"SlidePayloadNormalizer"}'>
-                    <rect class="diagram-node-bg" x="724" y="120" width="262" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="740" y="150">ReplaceSlidesService</text>
-                    <text class="diagram-node-sub" x="740" y="172">Atomisk slide-bytte</text>
-                    <text class="diagram-node-sub" x="740" y="188">+ SlidePayloadNormalizer</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Broadcast slide_change" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
-                     data-node-desc="Servicen broadcaster slide_change-eventet på PresentationChannel sammen med oppdatert payload."
-                     data-node-meta='{"Kanal":"PresentationChannel","Event":"slide_change","Adapter":"Redis (prod) · async (dev)"}'>
-                    <rect class="diagram-node-bg" x="724" y="220" width="262" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="740" y="250">Broadcast</text>
-                    <text class="diagram-node-sub" x="740" y="272">slide_change event</text>
-                    <text class="diagram-node-sub" x="740" y="288">Redis pub/sub (prod)</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="PresentationChannel" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/channels/presentation_channel.rb"
-                     data-node-desc="Action Cable-kanal som autentiserer abonnenter via JWT og sender events til alle koblede klienter."
-                     data-node-meta='{"Fil":"app/channels/presentation_channel.rb","Auth":"application_cable/connection.rb (JWT)","Stream":"stream_for(presentation)"}'>
-                    <rect class="diagram-node-bg" x="424" y="320" width="562" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="440" y="350">PresentationChannel (Action Cable)</text>
-                    <text class="diagram-node-sub" x="440" y="372">stream_for presentation</text>
-                    <text class="diagram-node-sub" x="440" y="388">JWT auth · async/redis adapter</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="PostgreSQL · slides" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/slide.rb"
-                     data-node-desc="Slide-rekkene erstattes i én transaksjon. Innholdet ligger som JSONB-payload."
-                     data-node-meta='{"Tabell":"slides","Felt":"background (jsonb) · slide_index · notes","FK":"presentation_id","Indeks":"presentation_id"}'>
-                    <rect class="diagram-node-bg" x="724" y="420" width="262" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="740" y="450">PostgreSQL · slides</text>
-                    <text class="diagram-node-sub" x="740" y="472">background (jsonb)</text>
-                    <text class="diagram-node-sub" x="740" y="488">slide_index</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="PollResponse" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/models/poll_response.rb"
-                     data-node-desc="Publikum stemmer i poll, og responsen lagres + broadcastes som poll_results for live-resultater."
-                     data-node-meta='{"Endepunkt":"POST /api/v1/polls/:id/vote","Modell":"PollResponse","Event":"poll_results"}'>
-                    <rect class="diagram-node-bg" x="424" y="420" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="440" y="450">PollResponse</text>
-                    <text class="diagram-node-sub" x="440" y="472">POST /polls/:id/vote</text>
-                    <text class="diagram-node-sub" x="440" y="488">Live-resultat-event</text>
-                  </g>
-
-                  <!-- Audience -->
-                  <g class="diagram-node" data-node-title="Join via kode/QR" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/sessions_controller.rb"
-                     data-node-desc="Publikum kobler seg til via QR-kode eller LIVE-kode (4 tegn, LIVE-XXXX). Ingen innlogging eller app."
-                     data-node-meta='{"Komponent":"features/live/JoinPage.tsx","Endepunkt":"POST /api/v1/sessions/join_by_code","Param":"code (LIVE-XXXX)"}'>
-                    <rect class="diagram-node-bg" x="1064" y="120" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1080" y="150">Join via kode/QR</text>
-                    <text class="diagram-node-sub" x="1080" y="172">JoinPage.tsx</text>
-                    <text class="diagram-node-sub" x="1080" y="188">sessions/join_by_code</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Live-visning" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/tree/main/frontend/src/features/live"
-                     data-node-desc="LivePresentationAudience.tsx mottar slide_change-events og rendrer ny slide umiddelbart."
-                     data-node-meta='{"Komponent":"features/live/LivePresentationAudience.tsx","Klient":"@rails/actioncable","Hook":"usePresentation"}'>
-                    <rect class="diagram-node-bg" x="1064" y="320" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1080" y="350">Live-visning</text>
-                    <text class="diagram-node-sub" x="1080" y="372">LivePresentationAudience</text>
-                    <text class="diagram-node-sub" x="1080" y="388">Mottar slide_change</text>
-                  </g>
-
-                  <g class="diagram-node" data-node-title="Avgi stemme" data-node-href="https://github.com/Baitedr/Bachelor_Gruppe1/blob/main/backend/app/controllers/api/v1/polls_controller.rb"
-                     data-node-desc="Deltakeren stemmer i en aktiv poll og ser oppdaterte live-resultater når serveren broadcaster."
-                     data-node-meta='{"Komponent":"features/polls/AudiencePollView.tsx","Endepunkt":"POST /api/v1/polls/:id/vote","Event":"poll_results"}'>
-                    <rect class="diagram-node-bg" x="1064" y="420" width="280" height="76" rx="12"/>
-                    <text class="diagram-node-title" x="1080" y="450">Avgi stemme</text>
-                    <text class="diagram-node-sub" x="1080" y="472">AudiencePollView.tsx</text>
-                    <text class="diagram-node-sub" x="1080" y="488">Live resultat</text>
-                  </g>
-
-                  <!-- Edges -->
-                  <g class="diagram-edge" stroke-linecap="round" marker-end="url(#arr-flow)">
-                    <path d="M344 258 L 422 158"/>
-                    <path d="M344 358 L 422 358"/>
-                    <path d="M704 158 L 722 158"/>
-                    <path d="M855 196 L 855 218"/>
-                    <path d="M855 296 L 855 318"/>
-                    <path d="M855 396 L 855 418"/>
-                    <path d="M986 358 L 1062 358"/>
-                    <path d="M704 458 L 1062 458"/>
-                    <path d="M1062 158 L 988 322"/>
-                  </g>
-                  <text class="diagram-edge-label" x="362" y="216">PUT slides</text>
-                  <text class="diagram-edge-label" x="362" y="352">WS subscribe</text>
-                  <text class="diagram-edge-label" x="996" y="352">slide_change</text>
-                  <text class="diagram-edge-label" x="996" y="450">vote</text>
-                  <text class="diagram-edge-label" x="996" y="222">join_by_code</text>
-                </g>
-              </svg>
+            <!-- Panel: FLYTDIAGRAM (Mermaid → app-tema) -->
+            <div class="arch-panel is-active" data-arch-panel="journey" role="tabpanel" aria-labelledby="tab-journey">
+              <div id="journey-mermaid" class="arch-mermaid-stage" aria-label="Flytdiagram over bruker- og systemflyt"></div>
             </div>
 
             <!-- Panel: ER (datamodell) -->
@@ -2300,12 +1942,14 @@
     </div>
   </footer>
 
-  <script src="js/arch-explorer.js?v=5"></script>
+  <script src="js/journey-meta.js?v=1"></script>
+  <script src="js/journey-mermaid.js?v=7"></script>
+  <script src="js/arch-explorer.js?v=13"></script>
   <script src="js/motion-toggle.js?v=5"></script>
   <script src="js/showcase.js?v=9"></script>
   <script src="js/animations.js?v=36"></script>
   <script src="js/team-avatars.js?v=2"></script>
-  <script src="js/docs.js?v=5"></script>
+  <script src="js/docs.js?v=9"></script>
 
 </body>
 </html>

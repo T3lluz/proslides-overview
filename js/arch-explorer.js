@@ -47,8 +47,7 @@
   function panelLabelFor(panel) {
     if (!panel) return 'Valgt komponent';
     return ({
-      system:    'Valgt komponent',
-      flow:      'Valgt steg',
+      journey:   'Valgt steg',
       er:        'Valgt entitet',
       structure: 'Valgt sti',
       api:       'Valgt endepunkt'
@@ -126,7 +125,12 @@
     if (hint)    hint.style.display    = hasSvg ? '' : 'none';
     if (hint)    hint.classList.remove('is-dismissed');
 
-    if (panel) applyTransform(panel);
+    if (panel) {
+      applyTransform(panel);
+      if (tabName === 'journey') {
+        requestAnimationFrame(function () { fitPanelToView(panel); });
+      }
+    }
     activateFirstNode(panel);
   }
 
@@ -151,8 +155,11 @@
     });
   }
 
-  /* Wire interactive elements */
-  explorer.querySelectorAll('.diagram-node, .tree-row, .api-row').forEach(function (el) {
+  function wireInteractives(root) {
+    var scope = root || explorer;
+    scope.querySelectorAll('.diagram-node, .tree-row, .api-row').forEach(function (el) {
+    if (el.hasAttribute('data-arch-wired')) return;
+    el.setAttribute('data-arch-wired', 'true');
     if (el.tagName !== 'BUTTON') {
       el.setAttribute('tabindex', '0');
       el.setAttribute('role', 'button');
@@ -187,6 +194,25 @@
       el.setAttribute('aria-expanded', node && node.classList.contains('is-open') ? 'true' : 'false');
     }
   });
+  }
+
+  wireInteractives();
+
+  document.addEventListener('arch-journey-rendered', function (event) {
+    var panel = event.detail && event.detail.panel;
+    if (!panel) return;
+    wireInteractives(panel);
+    if (panel.querySelector('.arch-svg')) setupPanZoom(panel);
+    if (panel.classList.contains('is-active')) {
+      if (toolbar) toolbar.style.display = '';
+      if (hint) hint.style.display = '';
+      applyTransform(panel);
+      if (panel.getAttribute('data-arch-panel') === 'journey') {
+        requestAnimationFrame(function () { fitPanelToView(panel); });
+      }
+      activateFirstNode(panel);
+    }
+  });
 
   /* "Fold ut alt" / "Fold sammen" */
   explorer.querySelectorAll('[data-tree-action]').forEach(function (btn) {
@@ -207,7 +233,8 @@
   /* Pan / zoom for SVG panels */
   function setupPanZoom(panel) {
     var svg = panel.querySelector('.arch-svg');
-    if (!svg) return;
+    if (!svg || svg.hasAttribute('data-panzoom-wired')) return;
+    svg.setAttribute('data-panzoom-wired', 'true');
     var state  = getState(panel);
     var drag   = false;
     var moved  = false;
@@ -376,6 +403,33 @@
     applyTransform(panel);
   }
 
+  function fitPanelToView(panel, pad) {
+    var svg = panel.querySelector('.arch-svg');
+    if (!svg) return;
+    var viewport = svg.querySelector('.arch-viewport');
+    if (!viewport) return;
+    var vb = svg.viewBox.baseVal;
+    if (!vb || !vb.width || !vb.height) return;
+
+    var bbox;
+    try { bbox = viewport.getBBox(); } catch (_) { return; }
+    if (!bbox.width || !bbox.height) return;
+
+    var padding = pad == null ? 56 : pad;
+    var scale = Math.min(
+      (vb.width - padding * 2) / bbox.width,
+      (vb.height - padding * 2) / bbox.height,
+      MAX_SCALE
+    );
+    scale = Math.max(MIN_SCALE, scale);
+
+    var s = getState(panel);
+    s.scale = scale;
+    s.tx = (vb.width - bbox.width * scale) / 2 - bbox.x * scale;
+    s.ty = padding - bbox.y * scale;
+    applyTransform(panel);
+  }
+
   if (toolbar) {
     toolbar.querySelectorAll('[data-pan-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -384,12 +438,13 @@
         var action = btn.getAttribute('data-pan-action');
         if (action === 'zoom-in')           zoomCentered(panel, 1.25);
         else if (action === 'zoom-out')     zoomCentered(panel, 1 / 1.25);
-        else if (action === 'reset' || action === 'fit') resetView(panel);
+        else if (action === 'fit')          fitPanelToView(panel);
+        else if (action === 'reset')        resetView(panel);
       });
     });
   }
 
   /* Init */
   var initialBtn = explorer.querySelector('.arch-tab-btn.is-active');
-  activateTab(initialBtn ? initialBtn.getAttribute('data-arch-tab') : 'system');
+  activateTab(initialBtn ? initialBtn.getAttribute('data-arch-tab') : 'journey');
 })();

@@ -1,0 +1,124 @@
+%% ProSlides — bruker- og systemflyt (kilde for arkitektur-fanen)
+%% Renderes med js/journey-mermaid.js og app-tema fra CSS-variabler
+
+flowchart TB
+  subgraph AUTH["Autentisering"]
+    direction TB
+    visit(["Bruker besøker app"])
+    has{"Har konto?"}
+    register["Registrer<br/><small>POST /auth/register</small>"]
+    valid{"Gyldig input?"}
+    val_err["Vis valideringsfeil"]
+    login_m{"Innloggingsmetode"}
+    post_login["POST /auth/login<br/><small>E-post + passord</small>"]
+    creds{"Credentials OK?"}
+    oauth["GET /auth/:provider/callback<br/><small>OmniAuth</small>"]
+    oauth_ok{"OAuth OK?"}
+    auth_err["Vis feil"]
+    jwt["JWT utstedt<br/><small>Lagret client-side</small>"]
+
+    visit --> has
+    has -->|Nei| register
+    register --> valid
+    valid -->|Nei| val_err
+    val_err --> register
+    valid -->|Ja| jwt
+    has -->|Ja| login_m
+    login_m -->|E-post| post_login
+    post_login --> creds
+    creds -->|Nei| auth_err
+    auth_err --> login_m
+    creds -->|Ja| jwt
+    login_m -->|OAuth| oauth
+    oauth --> oauth_ok
+    oauth_ok -->|Nei| auth_err
+    oauth_ok -->|Ja| jwt
+  end
+
+  subgraph DASH["Dashboard & presentasjoner"]
+    direction TB
+    dashboard["Dashboard<br/><small>Liste presentasjoner</small>"]
+    action{"Handling?"}
+    delete["Slett<br/><small>DELETE …/:id</small>"]
+    create["Opprett<br/><small>POST …/presentations</small>"]
+    editor["Åpne editor<br/><small>GET …/:id</small>"]
+    patch["Rediger slides<br/><small>PATCH …/:id</small>"]
+    profil{"Profil?"}
+    prof_name["Oppdater navn<br/><small>PATCH /auth/profile</small>"]
+    prof_pw["Endre passord<br/><small>PATCH /auth/password</small>"]
+    logout["Logg ut<br/><small>POST /auth/logout</small>"]
+    go_live["Gå live<br/><small>POST …/:id/start</small>"]
+
+    jwt --> dashboard
+    dashboard --> action
+    action -->|Delete| delete
+    action -->|Create| create
+    action -->|Edit| editor
+    delete --> dashboard
+    create --> editor
+    editor --> patch
+    patch --> dashboard
+    dashboard --> profil
+    profil -->|Navn| prof_name
+    profil -->|Passord| prof_pw
+    prof_name --> dashboard
+    prof_pw --> dashboard
+    dashboard --> logout
+    dashboard --> go_live
+  end
+
+  subgraph LIVE["Live-presentasjon (presentatør)"]
+    direction TB
+    start["Start live-økt<br/><small>join-kode</small>"]
+    lobby_p["Sesjonslobby<br/><small>Venter på deltakere</small>"]
+    pres_start["Presentatør starter<br/><small>Gå live</small>"]
+    navigate["Naviger slides<br/><small>slide_change</small>"]
+    poll{"Aktiver poll?"}
+    vote["Deltaker stemmer<br/><small>POST …/vote</small>"]
+    results["Live-resultater<br/><small>GET …/results</small>"]
+    end_sess["Avslutt økt<br/><small>POST …/end_session</small>"]
+    cleanup["Sesjonsopprydding<br/><small>ended_at · is_live=false</small>"]
+    broadcast_end["Broadcast session_ended<br/><small>ActionCable</small>"]
+    term_login(["Tilbake til innlogging"])
+
+    go_live --> start
+    start --> lobby_p
+    lobby_p --> pres_start
+    pres_start --> navigate
+    navigate --> poll
+    poll -->|Ja| vote
+    vote --> results
+    results --> navigate
+    poll -->|Nei| navigate
+    navigate --> end_sess
+    end_sess --> cleanup
+    cleanup --> broadcast_end
+    broadcast_end --> term_login
+  end
+
+  subgraph PART["Deltakerflyt"]
+    direction TB
+    part_open(["Deltaker åpner app"])
+    part_auth{"Auth-status?"}
+    guest["Gjest: join-kode<br/><small>POST guest_join</small>"]
+    user_join["Innlogget: bli med<br/><small>join_by_code</small>"]
+    lobby_a["Sesjonslobby (deltaker)<br/><small>PresentationChannel</small>"]
+    part_joined["Broadcast participant_joined<br/><small>ActionCable</small>"]
+    part_out(["Deltaker frakoblet"])
+
+    part_open --> part_auth
+    part_auth -->|Gjest| guest
+    part_auth -->|Innlogget| user_join
+    guest --> lobby_a
+    user_join --> lobby_a
+    guest --> part_joined
+    user_join --> part_joined
+    lobby_a --> part_out
+  end
+
+  logout --> term_login
+
+  navigate -.->|slide_change| lobby_a
+  results -.->|poll_results| lobby_a
+  broadcast_end -.->|session_ended| part_out
+  part_joined -.->|participant_joined| lobby_p
