@@ -90,7 +90,8 @@
   var zCleanTimer = null;
 
   function setSlide(idx) {
-    var nextIdx = ((idx % LABELS.length) + LABELS.length) % LABELS.length;
+    var count = items.length;
+    var nextIdx = ((idx % count) + count) % count;
     if (nextIdx === current) return;
 
     var prevIdx = current;
@@ -134,7 +135,7 @@
     resetProgress();
     startProgress();
     autoTimer = setInterval(function () {
-      setSlide((current + 1) % LABELS.length);
+      setSlide((current + 1) % items.length);
     }, AUTO_INTERVAL);
   }
 
@@ -241,7 +242,12 @@
   }
 
   document.addEventListener('proslides:locale', function () {
-    goTo(current, true);
+    if (label) {
+      label.textContent = window.ProSlidesI18n
+        ? window.ProSlidesI18n.t(LABEL_KEYS[current])
+        : ['Dashboard', 'Editor', 'Live-presentasjon'][current];
+    }
+    syncToggleUI(darkImages);
   });
 
   resetAuto();
