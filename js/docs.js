@@ -21,6 +21,7 @@
       labelKey: 'docs.section.documents',
       hintKey: 'docs.section.documentsHint',
       items: [
+        { type: 'file', titleKey: 'docs.item.report.title', descKey: 'docs.item.report.desc', href: 'docs/proslides.pdf', preview: 'assets/docs/previews/proslides.png' },
         { type: 'file', titleKey: 'docs.item.thesis.title', descKey: 'docs.item.thesis.desc', href: 'docs/bacheloroppgave-2026.pdf', preview: 'assets/docs/previews/bacheloroppgave-2026.png' },
         { type: 'file', titleKey: 'docs.item.bop.title', descKey: 'docs.item.bop.desc', href: 'docs/bop2026.pdf', preview: 'assets/docs/previews/bop2026.png' },
         { type: 'file', titleKey: 'docs.item.contract.title', descKey: 'docs.item.contract.desc', href: 'docs/samarbeidskontrakt.pdf', preview: 'assets/docs/previews/samarbeidskontrakt.png' }

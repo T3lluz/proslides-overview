@@ -260,6 +260,11 @@ for slug, title_no, title_en, week_no, week_en, desc_no, desc_en, items_no, item
 # Docs catalog (from docs.js)
 STRINGS["docs.section.documents"] = pair("Dokumenter", "Documents")
 STRINGS["docs.section.documentsHint"] = pair("PDF-er, rapporter og kontrakter", "PDFs, reports and contracts")
+STRINGS["docs.item.report.title"] = pair("Prosjektrapport", "Project report")
+STRINGS["docs.item.report.desc"] = pair(
+    "Sluttrapport for bachelorprosjektet — dokumentasjon av utvikling, testing og leveranse",
+    "Final report for the bachelor project — documentation of development, testing and delivery",
+)
 STRINGS["docs.item.thesis.title"] = pair("Oppgavebeskrivelse Rubynor", "RubyNor assignment description")
 STRINGS["docs.item.thesis.desc"] = pair("Full bacheloroppgave — hovedkilde for prosjektet", "Full bachelor thesis — main project source")
 STRINGS["docs.item.bop.title"] = pair("Prosjektskisse", "Project sketch")
