@@ -28,6 +28,7 @@ STRINGS = {
     "nav.architecture": pair("Arkitektur", "Architecture"),
     "nav.team": pair("Teamet", "Team"),
     "nav.timeline": pair("Tidslinje", "Timeline"),
+    "nav.docs": pair("Ressurser", "Resources"),
     "nav.mobileLabel": pair("Sidemeny", "Site menu"),
     "nav.openMenu": pair("Åpne meny", "Open menu"),
     "nav.closeMenu": pair("Lukk meny", "Close menu"),
