@@ -2851,6 +2851,7 @@ html.animations-off .team-card.team-card--lift .team-card__scene {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  align-items: stretch;
 }
 
 @media (min-width: 640px) {
@@ -2878,6 +2879,116 @@ html.animations-off .team-card.team-card--lift .team-card__scene {
     border-color 0.2s ease,
     background 0.2s ease,
     box-shadow 0.2s ease;
+}
+
+.doc-card--has-banner {
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+.doc-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem 1.15rem;
+  min-height: 9.25rem;
+}
+
+.doc-card--has-banner .doc-actions {
+  margin-top: auto;
+  min-height: 2.125rem;
+}
+
+.doc-card-banner {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 9.5rem;
+  overflow: hidden;
+  background: var(--muted);
+  border-bottom: 1px solid color-mix(in oklch, var(--border) 85%, transparent);
+}
+
+.doc-card-banner__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.doc-card-banner__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 35%,
+    color-mix(in oklch, var(--card) 18%, transparent) 72%,
+    color-mix(in oklch, var(--card) 55%, transparent) 100%
+  );
+}
+
+.doc-card-banner__ext {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.3rem;
+  color: var(--foreground);
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.doc-card-banner--github:not(.doc-card-banner--image) {
+  background: linear-gradient(135deg, #24292f 0%, #57606a 100%);
+}
+
+.doc-card-banner--globe:not(.doc-card-banner--image) {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklch, #059669 55%, #0f172a) 0%,
+    color-mix(in oklch, #10b981 35%, #1e3a5f) 100%
+  );
+}
+
+.doc-card-banner--image.doc-card-banner--globe .doc-card-banner__shade {
+  background: linear-gradient(
+    180deg,
+    transparent 20%,
+    color-mix(in oklch, var(--card) 25%, transparent) 65%,
+    color-mix(in oklch, var(--card) 70%, transparent) 100%
+  );
+}
+
+.doc-card-banner__watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.doc-card-banner--github .doc-card-banner__watermark {
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.doc-card-banner__watermark .doc-thumb__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.doc-card-top--banner {
+  margin-top: 0.1rem;
 }
 
 .doc-card.ps-expand-focused {
@@ -2914,9 +3025,27 @@ html.animations-off .team-card.team-card--lift .team-card__scene {
   transform: none !important;
 }
 
+.doc-thumb__icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
 .doc-thumb--link {
   color: color-mix(in oklch, var(--primary) 80%, #2563eb);
   background: color-mix(in oklch, #3b82f6 10%, var(--muted));
+}
+
+.doc-thumb--github {
+  color: color-mix(in oklch, var(--foreground) 88%, transparent);
+  background: color-mix(in oklch, var(--foreground) 7%, var(--muted));
+  border-color: color-mix(in oklch, var(--border) 75%, transparent);
+}
+
+.doc-thumb--globe {
+  color: color-mix(in oklch, #059669 88%, var(--primary));
+  background: color-mix(in oklch, #10b981 14%, var(--muted));
+  border-color: color-mix(in oklch, #10b981 22%, var(--border));
 }
 
 .doc-thumb--image {
