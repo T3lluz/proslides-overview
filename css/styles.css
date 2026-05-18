@@ -898,6 +898,21 @@ html.animations-off .nav-anim-toggle__detail {
   background: color-mix(in oklch, var(--accent) 60%, transparent);
   color: var(--foreground);
 }
+.arch-tool-btn--text {
+  width: auto;
+  min-width: auto;
+  padding: 0 0.55rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  letter-spacing: 0.01em;
+}
+.arch-toolbar--inline {
+  position: static;
+  top: auto;
+  right: auto;
+  flex-shrink: 0;
+}
 .arch-toolbar-sep {
   width: 1px;
   height: 1.2rem;
@@ -1408,6 +1423,11 @@ html.animations-off .nav-anim-toggle__detail {
 
   .arch-tool-btn {
     width: 2rem;
+    height: 2rem;
+  }
+
+  .arch-tool-btn--text {
+    width: auto;
     height: 2rem;
   }
 
@@ -3301,7 +3321,7 @@ body.doc-image-viewer-open {
 .doc-image-viewer__tools {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 

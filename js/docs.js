@@ -203,16 +203,19 @@
         '<header class="doc-image-viewer__bar">' +
           '<p class="doc-image-viewer__title" data-viewer-title></p>' +
           '<div class="doc-image-viewer__tools">' +
-            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="zoom-out" aria-label="' + esc(t('docs.zoomOut', 'Zoom ut')) + '" title="' + esc(t('docs.zoomOut', 'Zoom ut')) + '">' +
-              '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M5 12h14"/></svg>' +
-            '</button>' +
-            '<span class="doc-image-viewer__zoom" data-viewer-zoom>100%</span>' +
-            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="zoom-in" aria-label="' + esc(t('docs.zoomIn', 'Zoom inn')) + '" title="' + esc(t('docs.zoomIn', 'Zoom inn')) + '">' +
-              '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>' +
-            '</button>' +
-            '<button type="button" class="doc-image-viewer__btn" data-viewer-action="reset" aria-label="' + esc(t('docs.fit', 'Tilpass vindu')) + '" title="' + esc(t('docs.fit', 'Tilpass vindu')) + '">' +
-              '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5M20.25 20.25v-4.5m0 4.5h-4.5M3.75 20.25h4.5m-4.5 0v-4.5M20.25 3.75h-4.5m4.5 0v4.5"/></svg>' +
-            '</button>' +
+            '<div class="arch-toolbar arch-toolbar--inline" role="group" aria-label="' + esc(t('arch.toolbar', 'Diagramkontroller')) + '">' +
+              '<button type="button" class="arch-tool-btn" data-viewer-action="zoom-out" aria-label="' + esc(t('docs.zoomOut', 'Zoom ut')) + '" title="' + esc(t('docs.zoomOut', 'Zoom ut')) + '">' +
+                '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M5 12h14"/></svg>' +
+              '</button>' +
+              '<span class="arch-zoom-label" data-viewer-zoom>100%</span>' +
+              '<button type="button" class="arch-tool-btn" data-viewer-action="zoom-in" aria-label="' + esc(t('docs.zoomIn', 'Zoom inn')) + '" title="' + esc(t('docs.zoomIn', 'Zoom inn')) + '">' +
+                '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>' +
+              '</button>' +
+              '<span class="arch-toolbar-sep"></span>' +
+              '<button type="button" class="arch-tool-btn" data-viewer-action="reset" data-i18n-aria="arch.reset" data-i18n-title="arch.reset" aria-label="' + esc(t('arch.reset', 'Tilbakestill')) + '" title="' + esc(t('arch.reset', 'Tilbakestill')) + '">' +
+                '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12a9 9 0 1015.84-5.84M21 4v5h-5"/></svg>' +
+              '</button>' +
+            '</div>' +
             '<button type="button" class="doc-image-viewer__btn doc-image-viewer__btn--close" data-viewer-close aria-label="' + esc(t('docs.viewerClose', 'Lukk')) + '" title="' + esc(t('docs.viewerClose', 'Lukk')) + ' (Esc)">' +
               '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 18 18 6M6 6l12 12"/></svg>' +
             '</button>' +
